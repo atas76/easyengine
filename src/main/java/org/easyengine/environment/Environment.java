@@ -8,6 +8,7 @@ import java.util.Map;
 
 import static org.easyengine.environment.PlayerPosition.PositionX.*;
 import static org.easyengine.environment.PlayerPosition.PositionY.*;
+import static org.easyengine.environment.Tactics.TACTIC_4_4_2;
 
 public class Environment {
 
@@ -23,8 +24,8 @@ public class Environment {
 
     public static void load() {
 
-        Team teamA = new Team("A");
-        Team teamB = new Team("B");
+        Team teamA = new Team("A", TACTIC_4_4_2);
+        Team teamB = new Team("B", TACTIC_4_4_2);
 
         teams.put("A", teamA);
         teams.put("B", teamB);
@@ -58,5 +59,8 @@ public class Environment {
 
         teamB.addPlayer(new Player(10, "Harry K", new PlayerPosition(F, C_R)));
         teamB.addPlayer(new Player(39, "Nmr", new PlayerPosition(F, C_L)));
+
+        teamA.validateFormation();
+        teamB.validateFormation();
     }
 }

@@ -10,8 +10,5 @@ public class Main {
 
         Team homeTeam = Environment.getTeam("A");
         Team awayTeam = Environment.getTeam("B");
-
-        // TODO validate tactics
-
     }
 }
