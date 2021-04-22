@@ -4,7 +4,9 @@ import org.easyengine.environment.PlayerPosition;
 import org.easyengine.environment.Tactics;
 import org.easyengine.environment.TacticsDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.Objects.nonNull;
@@ -31,8 +33,21 @@ public class Team {
         this.formation.put(player.getPosition(), player);
     }
 
-    public Player getPlayersByPosition(PlayerPosition position) {
+    public Player getPlayerByPosition(PlayerPosition position) {
         return formation.get(position);
+    }
+
+    public List<Player> getPlayerByPositionX(PlayerPosition.PositionX x) {
+
+        List<Player> players = new ArrayList<>();
+
+        this.formation.keySet().forEach(position -> {
+            if (position.getX().equals(x)) {
+                players.add(formation.get(position));
+            }
+        });
+
+        return players;
     }
 
     public void validateFormation() {

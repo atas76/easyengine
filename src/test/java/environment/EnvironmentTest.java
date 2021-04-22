@@ -23,11 +23,11 @@ public class EnvironmentTest {
 
         Team teamA = Environment.getTeam("A");
         Team teamB = Environment.getTeam("B");
-        Player GoalkeeperA = teamA.getPlayersByPosition(new PlayerPosition(GK));
-        Player RightForwardA = teamA.getPlayersByPosition(new PlayerPosition(F, C_R));
-        Player LeftForwardA = teamA.getPlayersByPosition(new PlayerPosition(F, C_L));
-        Player GoalkeeperB = teamB.getPlayersByPosition(new PlayerPosition(GK));
-        Player MidfielderB = teamB.getPlayersByPosition(new PlayerPosition(M, C_R));
+        Player GoalkeeperA = teamA.getPlayerByPosition(new PlayerPosition(GK));
+        Player RightForwardA = teamA.getPlayerByPosition(new PlayerPosition(F, C_R));
+        Player LeftForwardA = teamA.getPlayerByPosition(new PlayerPosition(F, C_L));
+        Player GoalkeeperB = teamB.getPlayerByPosition(new PlayerPosition(GK));
+        Player MidfielderB = teamB.getPlayerByPosition(new PlayerPosition(M, C_R));
 
         assertEquals(2, Environment.getTeamCount());
         assertNotNull(teamA);

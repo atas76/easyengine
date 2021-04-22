@@ -24,6 +24,10 @@ public class PlayerPosition {
         this.y = y;
     }
 
+    public PositionX getX() {
+        return x;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
