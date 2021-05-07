@@ -1,4 +1,4 @@
-package org.easyengine.environment;
+package org.easyengine.engine;
 
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
@@ -19,6 +19,12 @@ public class Match {
     private Team possessionTeam;
     private Player possessionPlayer;
 
+    // TODO Simulate time
+    // Using a turn-based approach for now
+    private int currentTime = 0;
+
+    private final int HALF_TIME_DURATION = 100;
+
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -31,6 +37,13 @@ public class Match {
     public void play() {
         coinToss();
         kickOff();
+        while (currentTime < HALF_TIME_DURATION) {
+            /* TODO implement pseudocode
+            Action action = this.possessionPlayer.decideAction();
+            Outcome outcome = executeAction(action);
+            applyOutcome(outcome);
+             */
+        }
     }
 
     private void kickOff() {

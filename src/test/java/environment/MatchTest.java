@@ -1,7 +1,7 @@
 package environment;
 
 import org.easyengine.environment.Environment;
-import org.easyengine.environment.Match;
+import org.easyengine.engine.Match;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
