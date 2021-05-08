@@ -1,17 +1,23 @@
 package org.easyengine.domain;
 
+import org.easyengine.engine.Action;
+import org.easyengine.engine.space.Pitch;
+import org.easyengine.engine.space.Position;
 import org.easyengine.environment.PlayerPosition;
+
+import static org.easyengine.engine.ActionType.PASS;
 
 public class Player {
 
     private Integer shirtNumber;
     private String name;
-    private PlayerPosition position;
+    private PlayerPosition playerPosition;
+    private Position pitchPosition;
 
-    public Player(int shirtNumber, String name, PlayerPosition position) {
+    public Player(int shirtNumber, String name, PlayerPosition playerPosition) {
         this.shirtNumber = shirtNumber;
         this.name = name;
-        this.position = position;
+        this.playerPosition = playerPosition;
     }
 
     public Integer getShirtNumber() {
@@ -22,7 +28,15 @@ public class Player {
         return name;
     }
 
-    public PlayerPosition getPosition() {
-        return position;
+    public PlayerPosition getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public Position getPitchPosition() {
+        return Pitch.mapDefaultPosition(playerPosition);
+    }
+
+    public Action decideAction() {
+        return new Action(PASS, null);
     }
 }

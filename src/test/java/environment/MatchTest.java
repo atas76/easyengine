@@ -1,12 +1,16 @@
 package environment;
 
+import org.easyengine.domain.Player;
+import org.easyengine.engine.space.Position;
 import org.easyengine.environment.Environment;
 import org.easyengine.engine.Match;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static org.easyengine.engine.space.Position.Mw;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MatchTest {
 
@@ -21,7 +25,10 @@ public class MatchTest {
     @Test
     public void testKickOff() {
         match.play();
-        // TODO distinguish between in-play position and nominal position
-        assertEquals(M, match.getPossessionPlayer().getPosition().getX());
+        Player player = match.getPossessionPlayer();
+        Position pitchPosition = player.getPitchPosition();
+
+        assertEquals(M, player.getPlayerPosition().getX());
+        assertTrue(pitchPosition == Position.M || pitchPosition == Mw);
     }
 }

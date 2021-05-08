@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 import static org.easyengine.environment.PlayerPosition.PositionX.F;
-import static org.easyengine.environment.PlayerPosition.PositionX.GK;
+import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
 import static org.easyengine.environment.PlayerPosition.PositionY.C_L;
 import static org.easyengine.environment.PlayerPosition.PositionY.C_R;
 import static org.junit.Assert.assertEquals;
@@ -23,10 +23,10 @@ public class EnvironmentTest {
 
         Team teamA = Environment.getTeam("A");
         Team teamB = Environment.getTeam("B");
-        Player GoalkeeperA = teamA.getPlayerByPosition(new PlayerPosition(GK));
+        Player GoalkeeperA = teamA.getPlayerByPosition(new PlayerPosition(Gk));
         Player RightForwardA = teamA.getPlayerByPosition(new PlayerPosition(F, C_R));
         Player LeftForwardA = teamA.getPlayerByPosition(new PlayerPosition(F, C_L));
-        Player GoalkeeperB = teamB.getPlayerByPosition(new PlayerPosition(GK));
+        Player GoalkeeperB = teamB.getPlayerByPosition(new PlayerPosition(Gk));
         Player MidfielderB = teamB.getPlayerByPosition(new PlayerPosition(M, C_R));
 
         assertEquals(2, Environment.getTeamCount());

@@ -38,10 +38,14 @@ public class Match {
         coinToss();
         kickOff();
         while (currentTime < HALF_TIME_DURATION) {
-            /* TODO implement pseudocode
+
             Action action = this.possessionPlayer.decideAction();
+            ++currentTime;
+
+            /* TODO implement pseudocode
             Outcome outcome = executeAction(action);
             applyOutcome(outcome);
+            recordOutcome(outcome);
              */
         }
     }

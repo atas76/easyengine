@@ -30,7 +30,7 @@ public class Environment {
         teams.put("A", teamA);
         teams.put("B", teamB);
 
-        teamA.addPlayer(new Player(1, "Hugo L", new PlayerPosition(GK)));
+        teamA.addPlayer(new Player(1, "Hugo L", new PlayerPosition(Gk)));
 
         teamA.addPlayer(new Player(2, "Kieran T", new PlayerPosition(D, R)));
         teamA.addPlayer(new Player(21, "Lucas H", new PlayerPosition(D, L)));
@@ -45,7 +45,7 @@ public class Environment {
         teamA.addPlayer(new Player(9, "Robert L", new PlayerPosition(F, C_R)));
         teamA.addPlayer(new Player(29, "Kingsley C", new PlayerPosition(F, C_L)));
 
-        teamB.addPlayer(new Player(1, "Keylor N", new PlayerPosition(GK)));
+        teamB.addPlayer(new Player(1, "Keylor N", new PlayerPosition(Gk)));
 
         teamB.addPlayer(new Player(4, "Thilo K", new PlayerPosition(D, R)));
         teamB.addPlayer(new Player(3, "Ivan S", new PlayerPosition(D, L)));

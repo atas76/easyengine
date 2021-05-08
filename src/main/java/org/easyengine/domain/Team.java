@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Objects.nonNull;
-import static org.easyengine.environment.PlayerPosition.PositionX.GK;
+import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
 
 public class Team {
 
@@ -30,7 +30,7 @@ public class Team {
 
     public void addPlayer(Player player) {
         this.players.put(player.getShirtNumber(), player);
-        this.formation.put(player.getPosition(), player);
+        this.formation.put(player.getPlayerPosition(), player);
     }
 
     public Player getPlayerByPosition(PlayerPosition position) {
@@ -51,7 +51,7 @@ public class Team {
     }
 
     public void validateFormation() {
-        assert(nonNull(formation.get(new PlayerPosition(GK))));
+        assert(nonNull(formation.get(new PlayerPosition(Gk))));
         TacticsDefinition.positionMap.get(tactics).forEach(position -> {
             assert(nonNull(formation.get(position)));
         });

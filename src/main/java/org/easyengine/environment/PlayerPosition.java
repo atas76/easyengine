@@ -5,7 +5,7 @@ import java.util.Objects;
 public class PlayerPosition {
 
     public enum PositionX {
-        GK, D, M, F
+        Gk, D, M, F
     }
 
     public enum PositionY {
