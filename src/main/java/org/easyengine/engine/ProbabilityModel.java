@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import org.easyengine.engine.space.Position;
 
 import static java.util.Map.entry;
+import static java.util.stream.Collectors.toMap;
 import static org.easyengine.engine.space.Position.*;
 
 import java.util.List;
@@ -43,6 +44,15 @@ public class ProbabilityModel {
             entry(new Pair<>(M, Mw), 0.25),
             entry(new Pair<>(M, A), 0.59)
         );
+
+    public static Map<Position, Double> getTargetDistributions(Position source) {
+        Map<Pair<Position, Position>, Double> distributions = actionDistribution.entrySet().stream()
+                .filter(entry -> entry.getKey().getKey() == source)
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return distributions.entrySet().stream()
+                .map(distEntry -> entry(distEntry.getKey().getValue(), distEntry.getValue()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 
     static Map<Pair<Position, Position>, Double> successRate = Map.ofEntries(
             entry(new Pair<>(Gk, Dw), 1.0),
