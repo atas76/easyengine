@@ -44,6 +44,35 @@ public class ProbabilityModel {
             entry(new Pair<>(M, A), 0.59)
         );
 
+    static Map<Pair<Position, Position>, Double> successRate = Map.ofEntries(
+            entry(new Pair<>(Gk, Dw), 1.0),
+            entry(new Pair<>(Gk, D), 1.0),
+            entry(new Pair<>(Gk, Mw), 0.77),
+            entry(new Pair<>(Gk, M), 0.67),
+            entry(new Pair<>(Gk, A), 0.0),
+            entry(new Pair<>(GK, Dw), 1.0),
+            entry(new Pair<>(GK, D), 1.0),
+            entry(new Pair<>(GK, M), 0.33),
+            entry(new Pair<>(Dw, Gk), 0.86),
+            entry(new Pair<>(Dw, D), 0.75),
+            entry(new Pair<>(Dw, Mw), 0.67),
+            entry(new Pair<>(Dw, M), 0.75),
+            entry(new Pair<>(Dw, A), 0.00),
+            entry(new Pair<>(D, Gk), 1.00),
+            entry(new Pair<>(D, Dw), 1.00),
+            entry(new Pair<>(D, Mw), 1.00),
+            entry(new Pair<>(D, M), 0.71),
+            entry(new Pair<>(D, A), 0.00),
+            entry(new Pair<>(Mw, Dw), 1.0),
+            entry(new Pair<>(Mw, D), 1.0),
+            entry(new Pair<>(Mw, M), 0.95),
+            entry(new Pair<>(Mw, A), 0.21),
+            entry(new Pair<>(M, Dw), 1.0),
+            entry(new Pair<>(M, D), 1.0),
+            entry(new Pair<>(M, Mw), 0.87),
+            entry(new Pair<>(M, A), 0.29)
+    );
+
     static Map<Pair<Position, Position>, List<Double>> failDistribution = Map.ofEntries(
             entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
             entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
