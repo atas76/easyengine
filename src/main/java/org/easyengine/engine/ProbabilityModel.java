@@ -9,6 +9,7 @@ import static org.easyengine.engine.space.Position.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.easyengine.engine.space.Position.Gk;
 
@@ -45,13 +46,25 @@ public class ProbabilityModel {
             entry(new Pair<>(M, A), 0.59)
         );
 
-    public static Map<Position, Double> getTargetDistributions(Position source) {
+    public static Map<Position, Double> getTargetsDistribution(Position source) {
         Map<Pair<Position, Position>, Double> distributions = actionDistribution.entrySet().stream()
                 .filter(entry -> entry.getKey().getKey() == source)
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
         return distributions.entrySet().stream()
                 .map(distEntry -> entry(distEntry.getKey().getValue(), distEntry.getValue()))
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public static Position getTargetPosition(Position source, double decisionWeightIndex) {
+        Map<Position, Double> targetsDistribution = getTargetsDistribution(source);
+        AtomicReference<Double> sum = new AtomicReference<>(0.0);
+        for (Map.Entry<Position, Double> targetEntry: targetsDistribution.entrySet()) {
+            sum.updateAndGet(v -> v + targetEntry.getValue());
+            if (decisionWeightIndex < sum.get()) {
+                return targetEntry.getKey();
+            }
+        }
+        return null; // TODO error handling
     }
 
     static Map<Pair<Position, Position>, Double> successRate = Map.ofEntries(

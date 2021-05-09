@@ -1,9 +1,12 @@
 package org.easyengine.domain;
 
 import org.easyengine.engine.Action;
+import org.easyengine.engine.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.Position;
 import org.easyengine.environment.PlayerPosition;
+
+import java.util.Random;
 
 import static org.easyengine.engine.ActionType.PASS;
 
@@ -37,6 +40,6 @@ public class Player {
     }
 
     public Action decideAction() {
-        return new Action(PASS, null);
+        return new Action(PASS, ProbabilityModel.getTargetPosition(this.pitchPosition, new Random().nextDouble()));
     }
 }
