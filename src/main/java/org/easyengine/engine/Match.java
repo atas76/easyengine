@@ -2,6 +2,7 @@ package org.easyengine.engine;
 
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
+import org.easyengine.engine.space.Position;
 
 import java.util.List;
 import java.util.Random;
@@ -40,14 +41,29 @@ public class Match {
         while (currentTime < HALF_TIME_DURATION) {
 
             Action action = this.possessionPlayer.decideAction();
-            ++currentTime;
+
+            Outcome outcome = executeAction(action);
 
             /* TODO implement pseudocode
-            Outcome outcome = executeAction(action);
+
             applyOutcome(outcome);
             recordOutcome(outcome);
              */
+
+            ++currentTime;
         }
+    }
+
+    public Outcome executeAction(Action action) {
+        switch(action.getType()) {
+            case PASS:
+                Position currentPosition = this.possessionPlayer.getPitchPosition();
+                Position targetPosition = action.getTarget();
+                break;
+            default:
+        }
+
+        return new Outcome();
     }
 
     private void kickOff() {

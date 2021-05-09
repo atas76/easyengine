@@ -9,6 +9,7 @@ import static org.easyengine.engine.space.Position.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.easyengine.engine.space.Position.Gk;
@@ -57,14 +58,15 @@ public class ProbabilityModel {
 
     public static Position getTargetPosition(Position source, double decisionWeightIndex) {
         Map<Position, Double> targetsDistribution = getTargetsDistribution(source);
+        TreeMap<Position, Double> sortedTargetsDistribution = new TreeMap<>(targetsDistribution);
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
-        for (Map.Entry<Position, Double> targetEntry: targetsDistribution.entrySet()) {
+        for (Map.Entry<Position, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
             sum.updateAndGet(v -> v + targetEntry.getValue());
             if (decisionWeightIndex < sum.get()) {
                 return targetEntry.getKey();
             }
         }
-        return null; // TODO error handling
+        return null; // This will be handled at the action execution layer
     }
 
     static Map<Pair<Position, Position>, Double> successRate = Map.ofEntries(
@@ -95,6 +97,10 @@ public class ProbabilityModel {
             entry(new Pair<>(M, Mw), 0.87),
             entry(new Pair<>(M, A), 0.29)
     );
+
+    public static Double getSuccessRate(Position sourcePosition, Position targetPosition) {
+        return successRate.get(new Pair<>(sourcePosition, targetPosition));
+    }
 
     static Map<Pair<Position, Position>, List<Double>> failDistribution = Map.ofEntries(
             entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),

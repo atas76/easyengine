@@ -10,9 +10,7 @@ import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
 import static org.easyengine.environment.PlayerPosition.PositionX.D;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 import static org.easyengine.environment.PlayerPosition.PositionX.F;
-import static org.easyengine.environment.PlayerPosition.PositionY.R;
-import static org.easyengine.environment.PlayerPosition.PositionY.L;
-import static org.easyengine.environment.PlayerPosition.PositionY.C;
+import static org.easyengine.environment.PlayerPosition.PositionY.*;
 
 public class Pitch {
 
@@ -20,11 +18,12 @@ public class Pitch {
             entry(new PlayerPosition(Gk), Position.Gk),
             entry(new PlayerPosition(D, R), Dw),
             entry(new PlayerPosition(D, L), Dw),
-            entry(new PlayerPosition(D, C), Position.D),
             entry(new PlayerPosition(M, R), Mw),
             entry(new PlayerPosition(M, L), Mw),
-            entry(new PlayerPosition(M, C), Position.M),
-            entry(new PlayerPosition(F, C), A)
+            entry(new PlayerPosition(M, C_R), Mw),
+            entry(new PlayerPosition(M, C_L), Mw),
+            entry(new PlayerPosition(F, C_R), A),
+            entry(new PlayerPosition(F, C_L), A)
     );
 
     public static Position mapDefaultPosition(PlayerPosition playerPosition) {

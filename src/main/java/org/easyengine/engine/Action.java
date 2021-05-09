@@ -11,4 +11,12 @@ public class Action {
         this.type = type;
         this.target = target;
     }
+
+    public ActionType getType() {
+        return type;
+    }
+
+    public Position getTarget() {
+        return target;
+    }
 }

@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static org.easyengine.engine.space.Position.A;
-import static org.easyengine.engine.space.Position.Mw;
+import static org.easyengine.engine.space.Position.*;
 import static org.junit.Assert.assertEquals;
 
 public class ProbabilityModelTest {
@@ -25,5 +24,13 @@ public class ProbabilityModelTest {
         Position targetPosition = ProbabilityModel.getTargetPosition(Mw, 0.71);
 
         assertEquals(A, targetPosition);
+    }
+
+    @Test
+    public void testGetSuccessRate() {
+
+        Double successRate = ProbabilityModel.getSuccessRate(M, A);
+
+        assertEquals(0.29, successRate, 0.01);
     }
 }
