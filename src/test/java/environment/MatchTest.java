@@ -36,7 +36,7 @@ public class MatchTest {
 
     @Test
     public void testKickOff() {
-        match.playCurrentCycle(new MatchState(0, Environment.getTeam("A"), null, KICK_OFF));
+        match.playCurrentCycle(new MatchState(Environment.getTeam("A"), null, KICK_OFF));
         Player player = match.getPossessionPlayer();
         Position pitchPosition = player.getPitchPosition();
         assertEquals(M, player.getPlayerPosition().getX());
