@@ -16,9 +16,11 @@ public class Match {
     private Team homeTeam;
     private Team awayTeam;
 
-    private boolean homeTeamKicksOff;
+    private boolean homeTeamKickOff;
     private Team possessionTeam;
     private Player possessionPlayer;
+
+    private BallPlayState ballPlayState;
 
     // TODO Simulate time
     // Using a turn-based approach for now
@@ -33,6 +35,25 @@ public class Match {
 
     public Player getPossessionPlayer() {
         return possessionPlayer;
+    }
+
+    // Inject current state externally for testing purposes
+    private void setState(MatchState state) {
+        this.currentTime = state.getTime();
+        this.possessionTeam = state.getPossessionTeam();
+        this.possessionPlayer = state.getPossessionPlayer();
+        this.ballPlayState = state.getBallPlayState();
+    }
+
+    public void playCurrentCycle(MatchState state) {
+        setState(state);
+        switch (ballPlayState) {
+            case KICK_OFF:
+                kickOff();
+                break;
+            case FREE_PLAY:
+            default:
+        }
     }
 
     public void play() {
@@ -73,8 +94,8 @@ public class Match {
     }
 
     private void coinToss() {
-        this.homeTeamKicksOff = rnd.nextBoolean();
-        if (this.homeTeamKicksOff) {
+        this.homeTeamKickOff = rnd.nextBoolean();
+        if (this.homeTeamKickOff) {
             this.possessionTeam = homeTeam;
         } else {
             this.possessionTeam = awayTeam;

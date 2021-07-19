@@ -15,7 +15,7 @@ public class Player {
     private Integer shirtNumber;
     private String name;
     private PlayerPosition playerPosition;
-    private Position pitchPosition;
+    private Position pitchPosition; // TODO currently determined by the default mapping to player tactical position
 
     public Player(int shirtNumber, String name, PlayerPosition playerPosition) {
         this.shirtNumber = shirtNumber;
