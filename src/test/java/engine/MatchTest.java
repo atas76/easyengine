@@ -1,4 +1,4 @@
-package environment;
+package engine;
 
 import org.easyengine.domain.Player;
 import org.easyengine.engine.MatchState;
