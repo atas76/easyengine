@@ -36,7 +36,7 @@ public class Player {
     }
 
     public Position getPitchPosition() {
-        return Pitch.mapDefaultPosition(playerPosition);
+        return Pitch.mapDefaultPitchPosition(playerPosition);
     }
 
     public Action decideAction() {

@@ -2,7 +2,10 @@ package org.easyengine.engine.space;
 
 import org.easyengine.environment.PlayerPosition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static java.util.Map.entry;
 import static org.easyengine.engine.space.Position.*;
@@ -14,7 +17,7 @@ import static org.easyengine.environment.PlayerPosition.PositionY.*;
 
 public class Pitch {
 
-    private static Map<PlayerPosition, Position> defaultPositionMap = Map.ofEntries(
+    private static Map<PlayerPosition, Position> defaultPitchPositionMap = Map.ofEntries(
             entry(new PlayerPosition(Gk), Position.Gk),
             entry(new PlayerPosition(D, R), Dw),
             entry(new PlayerPosition(D, L), Dw),
@@ -28,7 +31,20 @@ public class Pitch {
             entry(new PlayerPosition(F, C_L), A)
     );
 
-    public static Position mapDefaultPosition(PlayerPosition playerPosition) {
-        return defaultPositionMap.get(playerPosition);
+    private static Map<Position, List<PlayerPosition>> defaultTacticalPositionMap = Map.ofEntries(
+            entry(Position.Gk, new ArrayList<>(List.of(new PlayerPosition(Gk)))),
+            entry(Dw, new ArrayList<>(List.of(new PlayerPosition(D, R), new PlayerPosition(D, L)))),
+            entry(org.easyengine.engine.space.Position.D, new ArrayList<>(List.of(new PlayerPosition(D, C_R), new PlayerPosition(D, C_L)))),
+            entry(Mw, new ArrayList<>(List.of(new PlayerPosition(M, R), new PlayerPosition(M, L)))),
+            entry(org.easyengine.engine.space.Position.M, new ArrayList<>(List.of(new PlayerPosition(M, C_R), new PlayerPosition(M, C_L)))),
+            entry(A, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L))))
+    );
+
+    public static Position mapDefaultPitchPosition(PlayerPosition playerPosition) {
+        return defaultPitchPositionMap.get(playerPosition);
+    }
+
+    public static PlayerPosition mapDefaultTacticalPosition(Position pitchPosition) {
+        return defaultTacticalPositionMap.get(pitchPosition).get(new Random().nextInt(2));
     }
 }

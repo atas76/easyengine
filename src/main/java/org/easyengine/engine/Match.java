@@ -2,11 +2,14 @@ package org.easyengine.engine;
 
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
+import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.Position;
 
 import java.util.List;
 import java.util.Random;
 
+import static org.easyengine.engine.Outcome.ActionOutcome.FAIL;
+import static org.easyengine.engine.Outcome.ActionOutcome.SUCCESS;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 
 public class Match {
@@ -37,8 +40,15 @@ public class Match {
         return possessionPlayer;
     }
 
-    // Inject current state externally for testing purposes
-    private void setState(MatchState state) {
+    public Team getHomeTeam() {
+        return homeTeam;
+    }
+
+    public Team getAwayTeam() {
+        return awayTeam;
+    }
+
+    public void setState(MatchState state) {
         this.currentTime = state.getTime();
         this.possessionTeam = state.getPossessionTeam();
         this.possessionPlayer = state.getPossessionPlayer();
@@ -65,9 +75,10 @@ public class Match {
 
             Outcome outcome = executeAction(action);
 
+            applyOutcome(outcome);
+
             /* TODO implement pseudocode
 
-            applyOutcome(outcome);
             recordOutcome(outcome);
              */
 
@@ -75,16 +86,38 @@ public class Match {
         }
     }
 
+    public void applyOutcome(Outcome outcome) {
+        switch(outcome.getActionType()) {
+            case PASS:
+                if (SUCCESS.equals(outcome.getActionOutcome())) {
+                    this.possessionPlayer =
+                            this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcome.getTargetPosition()));
+                }
+                break;
+            default:
+        }
+    }
+
     public Outcome executeAction(Action action) {
+
+        Outcome.ActionOutcome actionOutcome = FAIL;
+        Position initialPosition = this.possessionPlayer.getPitchPosition();
+        Position targetPosition = action.getTarget();
+
         switch(action.getType()) {
             case PASS:
-                Position currentPosition = this.possessionPlayer.getPitchPosition();
-                Position targetPosition = action.getTarget();
+                double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
+                double outcomeIndex = rnd.nextDouble();
+                if (outcomeIndex < successRate) {
+                    actionOutcome = SUCCESS;
+                } else {
+                    actionOutcome = FAIL;
+                }
                 break;
             default:
         }
 
-        return new Outcome();
+        return new Outcome(action.getType(), initialPosition, targetPosition, actionOutcome);
     }
 
     private void kickOff() {
