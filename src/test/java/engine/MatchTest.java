@@ -1,8 +1,9 @@
 package engine;
 
 import org.easyengine.domain.Player;
+import org.easyengine.engine.MatchEvent;
 import org.easyengine.engine.MatchState;
-import org.easyengine.engine.Outcome;
+import org.easyengine.engine.ActionOutcomeDetails;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.environment.Environment;
 import org.easyengine.engine.Match;
@@ -12,8 +13,8 @@ import org.junit.Test;
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.BallPlayState.FREE_PLAY;
 import static org.easyengine.engine.BallPlayState.KICK_OFF;
-import static org.easyengine.engine.Outcome.ActionOutcome.FAIL;
-import static org.easyengine.engine.Outcome.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.ActionOutcomeDetails.ActionOutcome.FAIL;
+import static org.easyengine.engine.ActionOutcomeDetails.ActionOutcome.SUCCESS;
 import static org.easyengine.engine.space.PitchPosition.D;
 import static org.easyengine.engine.space.PitchPosition.Mw;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
@@ -42,18 +43,30 @@ public class MatchTest {
     @Test
     public void testPassSuccess() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
-        match.applyOutcome(new Outcome(PASS, Mw, D, SUCCESS));
+
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(PASS, Mw, D, SUCCESS));
+
         assertEquals(match.getPossessionTeam(), match.getHomeTeam());
         assertTrue(match.getPossessionPlayer().getShirtNumber() == 4
                 || match.getPossessionPlayer().getShirtNumber() == 6);
+        assertEquals(event.getActionType(), PASS);
+        assertEquals(event.getInitialPosition(), Mw);
+        assertEquals(event.getTargetPosition(), D);
+        assertEquals(event.getActionOutcome(), SUCCESS);
     }
 
     @Test
     public void testPassFailure() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
-        match.applyOutcome(new Outcome(PASS, Mw, D, FAIL));
+
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(PASS, Mw, D, FAIL));
+
         assertEquals(match.getPossessionTeam(), match.getAwayTeam());
         assertTrue(match.getPossessionPlayer().getShirtNumber() == 10
             || match.getPossessionPlayer().getShirtNumber() == 39);
+        assertEquals(event.getActionType(), PASS);
+        assertEquals(event.getInitialPosition(), Mw);
+        assertEquals(event.getTargetPosition(), D);
+        assertEquals(event.getActionOutcome(), FAIL);
     }
 }

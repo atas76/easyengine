@@ -5,11 +5,12 @@ import org.easyengine.domain.Team;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.easyengine.engine.Outcome.ActionOutcome.FAIL;
-import static org.easyengine.engine.Outcome.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.ActionOutcomeDetails.ActionOutcome.FAIL;
+import static org.easyengine.engine.ActionOutcomeDetails.ActionOutcome.SUCCESS;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 
 public class Match {
@@ -24,6 +25,8 @@ public class Match {
     private Player possessionPlayer;
 
     private BallPlayState ballPlayState;
+
+    private List<MatchEvent> matchEvents = new ArrayList<>();
 
     // TODO Simulate time
     // Using a turn-based approach for now
@@ -85,40 +88,46 @@ public class Match {
 
             Action action = this.possessionPlayer.decideAction();
 
-            Outcome outcome = executeAction(action);
+            ActionOutcomeDetails actionOutcomeDetails = executeAction(action);
 
-            applyOutcome(outcome);
+            MatchEvent event = applyOutcome(actionOutcomeDetails);
 
-            /* TODO implement pseudocode
-
-            recordOutcome(outcome);
-             */
+            reportEvent(event);
 
             ++currentTime;
         }
     }
 
-    public void applyOutcome(Outcome outcome) {
-        switch(outcome.getActionType()) {
+    public void reportEvent(ActionOutcomeDetails actionOutcomeDetails) {
+        this.matchEvents.add(new MatchEvent(actionOutcomeDetails));
+    }
+
+    public MatchEvent applyOutcome(ActionOutcomeDetails actionOutcomeDetails) {
+
+        MatchEvent event = new MatchEvent(actionOutcomeDetails);
+
+        switch(actionOutcomeDetails.getActionType()) {
             case PASS:
-                if (SUCCESS.equals(outcome.getActionOutcome())) {
+                if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
                     this.possessionPlayer =
-                            this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcome.getTargetPosition()));
+                            this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
                 } else {
                     changePossession();
                     this.possessionPlayer =
                             this.possessionTeam.getPlayerByPosition(
                                     Pitch.mapDefaultTacticalPosition(
-                                            Pitch.mapDefendingPitchPosition(outcome.getTargetPosition())));
+                                            Pitch.mapDefendingPitchPosition(actionOutcomeDetails.getTargetPosition())));
                 }
                 break;
             default:
         }
+
+        return event;
     }
 
-    public Outcome executeAction(Action action) {
+    public ActionOutcomeDetails executeAction(Action action) {
 
-        Outcome.ActionOutcome actionOutcome = FAIL;
+        ActionOutcomeDetails.ActionOutcome actionOutcome = FAIL;
         PitchPosition initialPosition = this.possessionPlayer.getPitchPosition();
         PitchPosition targetPosition = action.getTarget();
 
@@ -135,7 +144,7 @@ public class Match {
             default:
         }
 
-        return new Outcome(action.getType(), initialPosition, targetPosition, actionOutcome);
+        return new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
     }
 
     private void kickOff() {
