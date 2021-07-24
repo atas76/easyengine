@@ -1,22 +1,22 @@
 package org.easyengine.engine;
 
 import javafx.util.Pair;
-import org.easyengine.engine.space.Position;
+import org.easyengine.engine.space.PitchPosition;
 
 import static java.util.Map.entry;
 import static java.util.stream.Collectors.toMap;
-import static org.easyengine.engine.space.Position.*;
+import static org.easyengine.engine.space.PitchPosition.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.easyengine.engine.space.Position.Gk;
+import static org.easyengine.engine.space.PitchPosition.Gk;
 
 public class ProbabilityModel {
 
-    static Map<Pair<Position, Position>, Double> actionDistribution = Map.ofEntries(
+    static Map<Pair<PitchPosition, PitchPosition>, Double> actionDistribution = Map.ofEntries(
             entry(new Pair<>(Gk, Dw), 0.22),
             entry(new Pair<>(Gk, D), 0.16),
             entry(new Pair<>(Gk, Mw), 0.37),
@@ -47,8 +47,8 @@ public class ProbabilityModel {
             entry(new Pair<>(M, A), 0.59)
         );
 
-    public static Map<Position, Double> getTargetsDistribution(Position source) {
-        Map<Pair<Position, Position>, Double> distributions = actionDistribution.entrySet().stream()
+    public static Map<PitchPosition, Double> getTargetsDistribution(PitchPosition source) {
+        Map<Pair<PitchPosition, PitchPosition>, Double> distributions = actionDistribution.entrySet().stream()
                 .filter(entry -> entry.getKey().getKey() == source)
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
         return distributions.entrySet().stream()
@@ -56,11 +56,11 @@ public class ProbabilityModel {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static Position getTargetPosition(Position source, double decisionWeightIndex) {
-        Map<Position, Double> targetsDistribution = getTargetsDistribution(source);
-        TreeMap<Position, Double> sortedTargetsDistribution = new TreeMap<>(targetsDistribution);
+    public static PitchPosition getTargetPosition(PitchPosition source, double decisionWeightIndex) {
+        Map<PitchPosition, Double> targetsDistribution = getTargetsDistribution(source);
+        TreeMap<PitchPosition, Double> sortedTargetsDistribution = new TreeMap<>(targetsDistribution);
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
-        for (Map.Entry<Position, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
+        for (Map.Entry<PitchPosition, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
             sum.updateAndGet(v -> v + targetEntry.getValue());
             if (decisionWeightIndex < sum.get()) {
                 return targetEntry.getKey();
@@ -69,7 +69,7 @@ public class ProbabilityModel {
         return null; // This will be handled at the action execution layer
     }
 
-    static Map<Pair<Position, Position>, Double> successRate = Map.ofEntries(
+    static Map<Pair<PitchPosition, PitchPosition>, Double> successRate = Map.ofEntries(
             entry(new Pair<>(Gk, Dw), 1.0),
             entry(new Pair<>(Gk, D), 1.0),
             entry(new Pair<>(Gk, Mw), 0.77),
@@ -98,11 +98,11 @@ public class ProbabilityModel {
             entry(new Pair<>(M, A), 0.29)
     );
 
-    public static Double getSuccessRate(Position sourcePosition, Position targetPosition) {
+    public static Double getSuccessRate(PitchPosition sourcePosition, PitchPosition targetPosition) {
         return successRate.get(new Pair<>(sourcePosition, targetPosition));
     }
 
-    static Map<Pair<Position, Position>, List<Double>> failDistribution = Map.ofEntries(
+    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> failDistribution = Map.ofEntries(
             entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
             entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
             entry(new Pair<>(Gk, A), List.of(0.67, 0.0, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0)),

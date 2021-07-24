@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 import static java.util.Map.entry;
-import static org.easyengine.engine.space.Position.*;
+import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
 import static org.easyengine.environment.PlayerPosition.PositionX.D;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
@@ -17,34 +17,47 @@ import static org.easyengine.environment.PlayerPosition.PositionY.*;
 
 public class Pitch {
 
-    private static Map<PlayerPosition, Position> defaultPitchPositionMap = Map.ofEntries(
-            entry(new PlayerPosition(Gk), Position.Gk),
+    private static Map<PlayerPosition, PitchPosition> defaultPitchPositionMap = Map.ofEntries(
+            entry(new PlayerPosition(Gk), PitchPosition.Gk),
             entry(new PlayerPosition(D, R), Dw),
             entry(new PlayerPosition(D, L), Dw),
-            entry(new PlayerPosition(D, C_R), org.easyengine.engine.space.Position.D),
-            entry(new PlayerPosition(D, C_L), org.easyengine.engine.space.Position.D),
+            entry(new PlayerPosition(D, C_R), PitchPosition.D),
+            entry(new PlayerPosition(D, C_L), PitchPosition.D),
             entry(new PlayerPosition(M, R), Mw),
             entry(new PlayerPosition(M, L), Mw),
-            entry(new PlayerPosition(M, C_R), org.easyengine.engine.space.Position.M),
-            entry(new PlayerPosition(M, C_L), org.easyengine.engine.space.Position.M),
+            entry(new PlayerPosition(M, C_R), PitchPosition.M),
+            entry(new PlayerPosition(M, C_L), PitchPosition.M),
             entry(new PlayerPosition(F, C_R), A),
             entry(new PlayerPosition(F, C_L), A)
     );
 
-    private static Map<Position, List<PlayerPosition>> defaultTacticalPositionMap = Map.ofEntries(
-            entry(Position.Gk, new ArrayList<>(List.of(new PlayerPosition(Gk)))),
+    private static Map<PitchPosition, PitchPosition> reversePitchPositionMap = Map.ofEntries(
+            entry(PitchPosition.Gk, PitchPosition.A),
+            entry(PitchPosition.Dw, PitchPosition.Aw),
+            entry(PitchPosition.D, PitchPosition.A),
+            entry(PitchPosition.Mw, PitchPosition.Mw),
+            entry(PitchPosition.M, PitchPosition.M),
+            entry(PitchPosition.A, PitchPosition.D)
+    );
+
+    private static Map<PitchPosition, List<PlayerPosition>> defaultTacticalPositionMap = Map.ofEntries(
+            entry(PitchPosition.Gk, new ArrayList<>(List.of(new PlayerPosition(Gk)))),
             entry(Dw, new ArrayList<>(List.of(new PlayerPosition(D, R), new PlayerPosition(D, L)))),
-            entry(org.easyengine.engine.space.Position.D, new ArrayList<>(List.of(new PlayerPosition(D, C_R), new PlayerPosition(D, C_L)))),
+            entry(PitchPosition.D, new ArrayList<>(List.of(new PlayerPosition(D, C_R), new PlayerPosition(D, C_L)))),
             entry(Mw, new ArrayList<>(List.of(new PlayerPosition(M, R), new PlayerPosition(M, L)))),
-            entry(org.easyengine.engine.space.Position.M, new ArrayList<>(List.of(new PlayerPosition(M, C_R), new PlayerPosition(M, C_L)))),
+            entry(PitchPosition.M, new ArrayList<>(List.of(new PlayerPosition(M, C_R), new PlayerPosition(M, C_L)))),
             entry(A, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L))))
     );
 
-    public static Position mapDefaultPitchPosition(PlayerPosition playerPosition) {
+    public static PitchPosition mapDefaultPitchPosition(PlayerPosition playerPosition) {
         return defaultPitchPositionMap.get(playerPosition);
     }
 
-    public static PlayerPosition mapDefaultTacticalPosition(Position pitchPosition) {
+    public static PitchPosition mapDefendingPitchPosition(PitchPosition possessionPosition) {
+        return reversePitchPositionMap.get(possessionPosition);
+    }
+
+    public static PlayerPosition mapDefaultTacticalPosition(PitchPosition pitchPosition) {
         return defaultTacticalPositionMap.get(pitchPosition).get(new Random().nextInt(2));
     }
 }

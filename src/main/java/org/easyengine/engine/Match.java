@@ -3,7 +3,7 @@ package org.easyengine.engine;
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
 import org.easyengine.engine.space.Pitch;
-import org.easyengine.engine.space.Position;
+import org.easyengine.engine.space.PitchPosition;
 
 import java.util.List;
 import java.util.Random;
@@ -46,6 +46,18 @@ public class Match {
 
     public Team getAwayTeam() {
         return awayTeam;
+    }
+
+    public Team getPossessionTeam() {
+        return possessionTeam;
+    }
+
+    private void changePossession() {
+        if (this.homeTeam.equals(possessionTeam)) {
+            this.possessionTeam = this.awayTeam;
+        } else {
+            this.possessionTeam = this.homeTeam;
+        }
     }
 
     public void setState(MatchState state) {
@@ -92,6 +104,12 @@ public class Match {
                 if (SUCCESS.equals(outcome.getActionOutcome())) {
                     this.possessionPlayer =
                             this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcome.getTargetPosition()));
+                } else {
+                    changePossession();
+                    this.possessionPlayer =
+                            this.possessionTeam.getPlayerByPosition(
+                                    Pitch.mapDefaultTacticalPosition(
+                                            Pitch.mapDefendingPitchPosition(outcome.getTargetPosition())));
                 }
                 break;
             default:
@@ -101,8 +119,8 @@ public class Match {
     public Outcome executeAction(Action action) {
 
         Outcome.ActionOutcome actionOutcome = FAIL;
-        Position initialPosition = this.possessionPlayer.getPitchPosition();
-        Position targetPosition = action.getTarget();
+        PitchPosition initialPosition = this.possessionPlayer.getPitchPosition();
+        PitchPosition targetPosition = action.getTarget();
 
         switch(action.getType()) {
             case PASS:

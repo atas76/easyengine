@@ -1,13 +1,13 @@
 package org.easyengine.engine;
 
-import org.easyengine.engine.space.Position;
+import org.easyengine.engine.space.PitchPosition;
 
 public class Action {
 
     private ActionType type;
-    public Position target;
+    public PitchPosition target;
 
-    public Action(ActionType type, Position target) {
+    public Action(ActionType type, PitchPosition target) {
         this.type = type;
         this.target = target;
     }
@@ -16,7 +16,7 @@ public class Action {
         return type;
     }
 
-    public Position getTarget() {
+    public PitchPosition getTarget() {
         return target;
     }
 }

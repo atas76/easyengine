@@ -3,7 +3,7 @@ package org.easyengine.domain;
 import org.easyengine.engine.Action;
 import org.easyengine.engine.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
-import org.easyengine.engine.space.Position;
+import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.environment.PlayerPosition;
 
 import java.util.Random;
@@ -15,7 +15,7 @@ public class Player {
     private Integer shirtNumber;
     private String name;
     private PlayerPosition playerPosition;
-    private Position pitchPosition; // TODO currently determined by the default mapping to player tactical position
+    private PitchPosition pitchPosition; // TODO currently determined by the default mapping to player tactical position
 
     public Player(int shirtNumber, String name, PlayerPosition playerPosition) {
         this.shirtNumber = shirtNumber;
@@ -35,7 +35,7 @@ public class Player {
         return playerPosition;
     }
 
-    public Position getPitchPosition() {
+    public PitchPosition getPitchPosition() {
         return Pitch.mapDefaultPitchPosition(playerPosition);
     }
 

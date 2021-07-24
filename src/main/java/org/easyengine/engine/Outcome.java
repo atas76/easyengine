@@ -1,15 +1,15 @@
 package org.easyengine.engine;
 
-import org.easyengine.engine.space.Position;
+import org.easyengine.engine.space.PitchPosition;
 
 public class Outcome {
 
     private ActionType actionType;
-    private Position initialPosition;
-    private Position targetPosition;
+    private PitchPosition initialPosition;
+    private PitchPosition targetPosition;
     private ActionOutcome actionOutcome;
 
-    public Outcome(ActionType actionType, Position initialPosition, Position targetPosition, ActionOutcome actionOutcome) {
+    public Outcome(ActionType actionType, PitchPosition initialPosition, PitchPosition targetPosition, ActionOutcome actionOutcome) {
         this.actionType = actionType;
         this.initialPosition = initialPosition;
         this.targetPosition = targetPosition;
@@ -24,11 +24,11 @@ public class Outcome {
         return actionType;
     }
 
-    public Position getInitialPosition() {
+    public PitchPosition getInitialPosition() {
         return initialPosition;
     }
 
-    public Position getTargetPosition() {
+    public PitchPosition getTargetPosition() {
         return targetPosition;
     }
 
