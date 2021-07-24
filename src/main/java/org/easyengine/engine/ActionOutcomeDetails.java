@@ -18,10 +18,6 @@ public class ActionOutcomeDetails {
         this.actionOutcome = actionOutcome;
     }
 
-    public enum ActionOutcome {
-        SUCCESS, FAIL;
-    }
-
     public ActionType getActionType() {
         return actionType;
     }

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.easyengine.engine.ActionOutcomeDetails.ActionOutcome.FAIL;
-import static org.easyengine.engine.ActionOutcomeDetails.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.ActionOutcome.FAIL;
+import static org.easyengine.engine.ActionOutcome.SUCCESS;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 
 public class Match {
@@ -127,7 +127,7 @@ public class Match {
 
     public ActionOutcomeDetails executeAction(Action action) {
 
-        ActionOutcomeDetails.ActionOutcome actionOutcome = FAIL;
+        ActionOutcome actionOutcome = FAIL;
         PitchPosition initialPosition = this.possessionPlayer.getPitchPosition();
         PitchPosition targetPosition = action.getTarget();
 
