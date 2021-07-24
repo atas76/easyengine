@@ -24,6 +24,10 @@ public class Team {
         this.tactics = tactics;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getPlayersCount() {
         return players.size();
     }

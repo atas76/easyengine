@@ -15,7 +15,7 @@ public class Player {
     private Integer shirtNumber;
     private String name;
     private PlayerPosition playerPosition;
-    private PitchPosition pitchPosition; // TODO currently determined by the default mapping to player tactical position
+    // private PitchPosition pitchPosition; // TODO currently determined by the default mapping to player tactical position
 
     public Player(int shirtNumber, String name, PlayerPosition playerPosition) {
         this.shirtNumber = shirtNumber;
@@ -40,6 +40,6 @@ public class Player {
     }
 
     public Action decideAction() {
-        return new Action(PASS, ProbabilityModel.getTargetPosition(this.pitchPosition, new Random().nextDouble()));
+        return new Action(PASS, ProbabilityModel.getTargetPosition(this.getPitchPosition(), new Random().nextDouble()));
     }
 }

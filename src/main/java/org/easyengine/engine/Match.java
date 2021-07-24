@@ -55,6 +55,10 @@ public class Match {
         return possessionTeam;
     }
 
+    public int getNumberOfEvents() {
+        return this.matchEvents.size();
+    }
+
     private void changePossession() {
         if (this.homeTeam.equals(possessionTeam)) {
             this.possessionTeam = this.awayTeam;
@@ -85,21 +89,23 @@ public class Match {
         coinToss();
         kickOff();
         while (currentTime < HALF_TIME_DURATION) {
-
             Action action = this.possessionPlayer.decideAction();
-
             ActionOutcomeDetails actionOutcomeDetails = executeAction(action);
-
             MatchEvent event = applyOutcome(actionOutcomeDetails);
+
+            ++currentTime;
 
             reportEvent(event);
 
-            ++currentTime;
+            if (this.possessionPlayer.getPitchPosition() == PitchPosition.A) {
+                System.out.printf("Ball reached attacking player after %d time steps\n", currentTime);
+                break;
+            }
         }
     }
 
-    public void reportEvent(ActionOutcomeDetails actionOutcomeDetails) {
-        this.matchEvents.add(new MatchEvent(actionOutcomeDetails));
+    public void reportEvent(MatchEvent event) {
+        this.matchEvents.add(event);
     }
 
     public MatchEvent applyOutcome(ActionOutcomeDetails actionOutcomeDetails) {
@@ -108,6 +114,7 @@ public class Match {
 
         switch(actionOutcomeDetails.getActionType()) {
             case PASS:
+                event.setActionPlayer(this.possessionPlayer);
                 if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
                     this.possessionPlayer =
                             this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
@@ -118,6 +125,9 @@ public class Match {
                                     Pitch.mapDefaultTacticalPosition(
                                             Pitch.mapDefendingPitchPosition(actionOutcomeDetails.getTargetPosition())));
                 }
+                event.setOutcomePlayer(this.possessionPlayer);
+                event.setTime(currentTime);
+                event.setDuration(1);
                 break;
             default:
         }
@@ -133,13 +143,21 @@ public class Match {
 
         switch(action.getType()) {
             case PASS:
+
+                System.out.println("Possession team: " + this.possessionTeam.getName());
+                System.out.println("Initial position: " + initialPosition);
+                System.out.println("Target position: " + targetPosition);
+
                 double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
                 double outcomeIndex = rnd.nextDouble();
                 if (outcomeIndex < successRate) {
                     actionOutcome = SUCCESS;
+                    System.out.println("SUCCESS");
                 } else {
                     actionOutcome = FAIL;
+                    System.out.println("FAIL");
                 }
+                System.out.println();
                 break;
             default:
         }
