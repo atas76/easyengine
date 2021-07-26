@@ -38,6 +38,7 @@ public class MatchTest {
         PitchPosition pitchPosition = player.getPitchPosition();
         assertEquals(M, player.getPlayerPosition().getX());
         assertTrue(pitchPosition == PitchPosition.M || pitchPosition == Mw);
+        assertEquals(FREE_PLAY, match.getBallPlayState());
     }
 
     @Test

@@ -12,6 +12,7 @@ import java.util.Random;
 
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 
 public class Match {
@@ -25,7 +26,7 @@ public class Match {
     private Team possessionTeam;
     private Player possessionPlayer;
 
-    private BallPlayState ballPlayState;
+    private BallPlayState ballPlayState = KICK_OFF;
 
     private List<MatchEvent> matchEvents = new ArrayList<>();
 
@@ -56,8 +57,8 @@ public class Match {
         return possessionTeam;
     }
 
-    public int getNumberOfEvents() {
-        return this.matchEvents.size();
+    public BallPlayState getBallPlayState() {
+        return ballPlayState;
     }
 
     private void changePossession() {
@@ -98,10 +99,18 @@ public class Match {
 
             reportEvent(event);
 
-            if (this.possessionPlayer.getPitchPosition() == PitchPosition.A) {
-                System.out.printf("Ball reached attacking player after %d time steps\n", currentTime);
-                break;
-            }
+            checkHaltingCondition(PitchPosition.A, null, "Ball reached attacking player");
+            checkHaltingCondition(null, CORNER_KICK, "Corner kick");
+            if (halting) break;
+        }
+    }
+
+    private boolean halting;
+
+    private void checkHaltingCondition(PitchPosition pitchPosition, BallPlayState ballPlayState, String description) {
+        if (this.possessionPlayer.getPitchPosition() == pitchPosition || this.ballPlayState == ballPlayState) {
+            System.out.printf("%s after %d time steps\n", description, currentTime);
+            halting = true;
         }
     }
 
@@ -112,6 +121,14 @@ public class Match {
     public MatchEvent applyOutcome(ActionOutcomeDetails actionOutcomeDetails) {
 
         MatchEvent event = new MatchEvent(actionOutcomeDetails);
+
+        if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
+            this.ballPlayState = CORNER_KICK;
+            event.setCornerKick();
+            event.setTime(currentTime);
+            event.setDuration(1);
+            return event;
+        }
 
         switch(actionOutcomeDetails.getActionType()) {
             case PASS:
@@ -170,6 +187,7 @@ public class Match {
         List<Player> players = possessionTeam.getPlayerByPositionX(M);
         int playerIndex = rnd.nextInt(players.size());
         this.possessionPlayer = players.get(playerIndex);
+        this.ballPlayState = FREE_PLAY;
     }
 
     private void coinToss() {
