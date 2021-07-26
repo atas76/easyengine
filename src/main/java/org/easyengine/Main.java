@@ -14,7 +14,5 @@ public class Main {
 
         Match match = new Match(homeTeam, awayTeam);
         match.play();
-
-        System.out.println("Number of events: " + match.getNumberOfEvents());
     }
 }
