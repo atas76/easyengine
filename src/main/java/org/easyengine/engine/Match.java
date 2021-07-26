@@ -4,6 +4,7 @@ import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
+import org.easyengine.util.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,20 +145,20 @@ public class Match {
         switch(action.getType()) {
             case PASS:
 
-                System.out.println("Possession team: " + this.possessionTeam.getName());
-                System.out.println("Initial position: " + initialPosition);
-                System.out.println("Target position: " + targetPosition);
+                Logger.debug("Possession team: " + this.possessionTeam.getName());
+                Logger.debug("Initial position: " + initialPosition);
+                Logger.debug("Target position: " + targetPosition);
 
                 double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
                 double outcomeIndex = rnd.nextDouble();
                 if (outcomeIndex < successRate) {
                     actionOutcome = SUCCESS;
-                    System.out.println("SUCCESS");
+                    Logger.debug("SUCCESS");
                 } else {
                     actionOutcome = FAIL;
-                    System.out.println("FAIL");
+                    Logger.debug("FAIL");
                 }
-                System.out.println();
+                Logger.debugEnd();
                 break;
             default:
         }
