@@ -10,14 +10,29 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Objects.nonNull;
+import static java.util.stream.Collectors.toList;
 import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
 
 public class Team {
+
+    public static class Instructions {
+
+        private List<Integer> cornerKickTakers = new ArrayList<>();
+
+        public List<Integer> getCornerKickTakers() {
+            return this.cornerKickTakers;
+        }
+
+        public void addCornerKickTaker(Integer shirtNumber) {
+            this.cornerKickTakers.add(shirtNumber);
+        }
+    }
 
     private String name;
     private Map<Integer, Player> players = new HashMap<>();
     private Map<PlayerPosition, Player> formation = new HashMap<>();
     private Tactics tactics;
+    private Instructions teamInstructions = new Instructions();
 
     public Team(String name, Tactics tactics) {
         this.name = name;
@@ -35,6 +50,16 @@ public class Team {
     public void addPlayer(Player player) {
         this.players.put(player.getShirtNumber(), player);
         this.formation.put(player.getPlayerPosition(), player);
+    }
+
+    public void addCornerKickTaker(Integer shirtNumber) {
+        assert(players.containsKey(shirtNumber));
+        teamInstructions.addCornerKickTaker(shirtNumber);
+    }
+
+    public List<Player> getCornerKickTakers() {
+        return teamInstructions.getCornerKickTakers().stream().map(
+                shirtNumber -> this.players.get(shirtNumber)).collect(toList());
     }
 
     public Player getPlayerByPosition(PlayerPosition position) {

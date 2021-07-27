@@ -45,6 +45,10 @@ public class Environment {
         teamA.addPlayer(new Player(9, "Robert L", new PlayerPosition(F, C_R)));
         teamA.addPlayer(new Player(29, "Kingsley C", new PlayerPosition(F, C_L)));
 
+        // Team instructions
+        teamA.addCornerKickTaker(19);
+        teamA.addCornerKickTaker(14);
+
         teamB.addPlayer(new Player(1, "Keylor N", new PlayerPosition(Gk)));
 
         teamB.addPlayer(new Player(4, "Thilo K", new PlayerPosition(D, R)));
@@ -59,6 +63,10 @@ public class Environment {
 
         teamB.addPlayer(new Player(10, "Harry K", new PlayerPosition(F, C_R)));
         teamB.addPlayer(new Player(39, "Nmr", new PlayerPosition(F, C_L)));
+
+        // Team instructions
+        teamB.addCornerKickTaker(23);
+        teamB.addCornerKickTaker(29);
 
         teamA.validateFormation();
         teamB.validateFormation();

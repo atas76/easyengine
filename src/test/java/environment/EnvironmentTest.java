@@ -9,10 +9,8 @@ import org.junit.Test;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 import static org.easyengine.environment.PlayerPosition.PositionX.F;
 import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
-import static org.easyengine.environment.PlayerPosition.PositionY.C_L;
-import static org.easyengine.environment.PlayerPosition.PositionY.C_R;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.easyengine.environment.PlayerPosition.PositionY.*;
+import static org.junit.Assert.*;
 
 public class EnvironmentTest {
 
@@ -41,5 +39,15 @@ public class EnvironmentTest {
         assertEquals(1, GoalkeeperB.getShirtNumber().intValue());
         assertEquals(17, MidfielderB.getShirtNumber().intValue());
         assertEquals("Moussa S", MidfielderB.getName());
+        assertTrue(teamA.getCornerKickTakers().contains(teamA.getPlayerByPosition(new PlayerPosition(M, R))));
+    }
+
+    @Test(expected=java.lang.AssertionError.class)
+    public void testNonExistentPlayerInstructions() {
+
+        Environment.load();
+        Team teamA = Environment.getTeam("A");
+
+        teamA.addCornerKickTaker(15);
     }
 }
