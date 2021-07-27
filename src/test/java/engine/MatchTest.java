@@ -15,8 +15,7 @@ import static org.easyengine.engine.BallPlayState.FREE_PLAY;
 import static org.easyengine.engine.BallPlayState.KICK_OFF;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
-import static org.easyengine.engine.space.PitchPosition.D;
-import static org.easyengine.engine.space.PitchPosition.Mw;
+import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -60,14 +59,14 @@ public class MatchTest {
     public void testPassFailure() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
 
-        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(PASS, Mw, D, FAIL));
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(PASS, Dw, PitchPosition.M, FAIL));
 
         assertEquals(match.getPossessionTeam(), match.getAwayTeam());
-        assertTrue(match.getPossessionPlayer().getShirtNumber() == 10
-            || match.getPossessionPlayer().getShirtNumber() == 39);
+        assertTrue(match.getPossessionPlayer().getShirtNumber() == 8
+            || match.getPossessionPlayer().getShirtNumber() == 17);
         assertEquals(event.getActionType(), PASS);
-        assertEquals(event.getInitialPosition(), Mw);
-        assertEquals(event.getTargetPosition(), D);
+        assertEquals(event.getInitialPosition(), Dw);
+        assertEquals(event.getTargetPosition(), PitchPosition.M);
         assertEquals(event.getActionOutcome(), FAIL);
     }
 }

@@ -9,6 +9,7 @@ import static org.easyengine.engine.space.PitchPosition.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -104,6 +105,7 @@ public class ProbabilityModel {
         return successRate.get(new Pair<>(sourcePosition, targetPosition));
     }
 
+    // order: Gk, GK, D, Dw, M, Mw, A, C
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> failDistribution = Map.ofEntries(
             entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
             entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
@@ -121,4 +123,19 @@ public class ProbabilityModel {
             entry(new Pair<>(M, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
             entry(new Pair<>(M, A), List.of(0.17, 0.17, 0.21, 0.12, 0.29, 0.04, 0.0, 0.0))
     );
+
+    public static PitchPosition getFailedOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions) {
+        List<Double> positionDistribution = failDistribution.get(originalPositions);
+        double outcomeWeightIndex = new Random().nextDouble();
+        double sum = 0.0;
+        int index = 0;
+        for (Double positionProbability: positionDistribution) {
+            sum += positionProbability;
+            if (outcomeWeightIndex < sum) {
+                break;
+            }
+            ++index;
+        }
+        return PitchPosition.values()[index];
+    }
 }

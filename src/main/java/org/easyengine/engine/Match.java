@@ -1,5 +1,6 @@
 package org.easyengine.engine;
 
+import javafx.util.Pair;
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
 import org.easyengine.engine.space.Pitch;
@@ -141,7 +142,9 @@ public class Match {
                     this.possessionPlayer =
                             this.possessionTeam.getPlayerByPosition(
                                     Pitch.mapDefaultTacticalPosition(
-                                            Pitch.mapDefendingPitchPosition(actionOutcomeDetails.getTargetPosition())));
+                                            ProbabilityModel.getFailedOutcomePosition(
+                                                    new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
+                                            )));
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
                 event.setTime(currentTime);

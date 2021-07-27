@@ -33,7 +33,7 @@ public class Pitch {
 
     private static Map<PitchPosition, PitchPosition> reversePitchPositionMap = Map.ofEntries(
             entry(PitchPosition.Gk, PitchPosition.A),
-            entry(PitchPosition.Dw, PitchPosition.Aw),
+            // entry(PitchPosition.Dw, PitchPosition.Aw),
             entry(PitchPosition.D, PitchPosition.A),
             entry(PitchPosition.Mw, PitchPosition.Mw),
             entry(PitchPosition.M, PitchPosition.M),
