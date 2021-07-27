@@ -20,9 +20,10 @@ public class MatchEvent extends ActionOutcomeDetails {
         this.actionOutcome = actionOutcomeDetails.actionOutcome;
     }
 
-    public void setCornerKick() {
-        this.ballPlayState = CORNER_KICK;
+    public void setBallPlayState(BallPlayState ballPlayState) {
+        this.ballPlayState = ballPlayState;
     }
+
 
     public int getTime() {
         return time;

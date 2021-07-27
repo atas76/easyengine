@@ -102,6 +102,7 @@ public class Match {
 
             checkHaltingCondition(PitchPosition.A, null, "Ball reached attacking player");
             checkHaltingCondition(null, CORNER_KICK, "Corner kick");
+            checkHaltingCondition(null, GOAL_KICK, "Goal kick");
             if (halting) break;
         }
     }
@@ -125,7 +126,7 @@ public class Match {
 
         if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
             this.ballPlayState = CORNER_KICK;
-            event.setCornerKick();
+            event.setBallPlayState(CORNER_KICK);
             event.setTime(currentTime);
             event.setDuration(1);
             return event;
@@ -138,13 +139,24 @@ public class Match {
                     this.possessionPlayer =
                             this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
                 } else {
+
                     changePossession();
+
+                    PitchPosition outcomePosition =
+                            ProbabilityModel.getFailedOutcomePosition(
+                                new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
+                            );
+
+                    if (PitchPosition.GK == outcomePosition) {
+                        this.ballPlayState = GOAL_KICK;
+                        event.setBallPlayState(GOAL_KICK);
+                        event.setTime(currentTime);
+                        event.setDuration(1);
+                        return event;
+                    }
+
                     this.possessionPlayer =
-                            this.possessionTeam.getPlayerByPosition(
-                                    Pitch.mapDefaultTacticalPosition(
-                                            ProbabilityModel.getFailedOutcomePosition(
-                                                    new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
-                                            )));
+                            this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition));
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
                 event.setTime(currentTime);
