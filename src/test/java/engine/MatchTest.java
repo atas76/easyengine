@@ -1,24 +1,19 @@
 package engine;
 
 import org.easyengine.domain.Player;
-import org.easyengine.engine.MatchEvent;
-import org.easyengine.engine.MatchState;
-import org.easyengine.engine.ActionOutcomeDetails;
+import org.easyengine.engine.*;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.environment.Environment;
-import org.easyengine.engine.Match;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.easyengine.engine.ActionType.PASS;
-import static org.easyengine.engine.BallPlayState.FREE_PLAY;
-import static org.easyengine.engine.BallPlayState.KICK_OFF;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MatchTest {
 
@@ -38,6 +33,28 @@ public class MatchTest {
         assertEquals(M, player.getPlayerPosition().getX());
         assertTrue(pitchPosition == PitchPosition.M || pitchPosition == Mw);
         assertEquals(FREE_PLAY, match.getBallPlayState());
+    }
+
+    @Test
+    public void testCornerKickOutcome() {
+        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+
+        match.applyOutcome(new ActionOutcomeDetails(PASS, Mw, C, SUCCESS));
+
+        assertEquals(CORNER_KICK, match.getBallPlayState());
+        assertTrue(match.getPossessionPlayer().getShirtNumber() == 19 ||
+                match.getPossessionPlayer().getShirtNumber() == 14);
+    }
+
+    @Test
+    public void testCornerKickExecution() {
+        Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
+        match.setState(new MatchState(match.getHomeTeam(), taker, CORNER_KICK));
+
+        match.applyOutcome(match.executeAction(new Action(PASS, A)));
+
+        assertNotSame(CORNER_KICK, match.getBallPlayState());
+        assertNotSame(taker, match.getPossessionPlayer());
     }
 
     @Test

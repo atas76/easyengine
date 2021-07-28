@@ -4,10 +4,7 @@ import org.easyengine.environment.PlayerPosition;
 import org.easyengine.environment.Tactics;
 import org.easyengine.environment.TacticsDefinition;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
@@ -60,6 +57,10 @@ public class Team {
     public List<Player> getCornerKickTakers() {
         return teamInstructions.getCornerKickTakers().stream().map(
                 shirtNumber -> this.players.get(shirtNumber)).collect(toList());
+    }
+
+    public Player getRandomTaker(List<Player> takers) {
+        return takers.get(new Random().nextInt(takers.size()));
     }
 
     public Player getPlayerByPosition(PlayerPosition position) {

@@ -45,7 +45,10 @@ public class ProbabilityModel {
             entry(new Pair<>(M, Dw), 0.09),
             entry(new Pair<>(M, D), 0.07),
             entry(new Pair<>(M, Mw), 0.25),
-            entry(new Pair<>(M, A), 0.59)
+            entry(new Pair<>(M, A), 0.59),
+            entry(new Pair<>(C, Gk), 0.1),
+            entry(new Pair<>(C, M), 0.2),
+            entry(new Pair<>(C, A), 0.7)
         );
 
     public static Map<PitchPosition, Double> getTargetsDistribution(PitchPosition source) {
@@ -98,7 +101,10 @@ public class ProbabilityModel {
             entry(new Pair<>(M, Dw), 1.0),
             entry(new Pair<>(M, D), 1.0),
             entry(new Pair<>(M, Mw), 0.87),
-            entry(new Pair<>(M, A), 0.29)
+            entry(new Pair<>(M, A), 0.29),
+            entry(new Pair<>(C, Gk), 1.0),
+            entry(new Pair<>(C, M), 1.0),
+            entry(new Pair<>(C, A), 0.86)
     );
 
     public static Double getSuccessRate(PitchPosition sourcePosition, PitchPosition targetPosition) {
@@ -121,7 +127,8 @@ public class ProbabilityModel {
             entry(new Pair<>(Mw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
             entry(new Pair<>(Mw, A), List.of(0.36, 0.1, 0.18, 0.36, 0.0, 0.0, 0.0, 0.0)),
             entry(new Pair<>(M, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
-            entry(new Pair<>(M, A), List.of(0.17, 0.17, 0.21, 0.12, 0.29, 0.04, 0.0, 0.0))
+            entry(new Pair<>(M, A), List.of(0.17, 0.17, 0.21, 0.12, 0.29, 0.04, 0.0, 0.0)),
+            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 
     public static PitchPosition getFailedOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions) {
