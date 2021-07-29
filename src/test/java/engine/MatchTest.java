@@ -4,6 +4,7 @@ import org.easyengine.domain.Player;
 import org.easyengine.engine.*;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.environment.Environment;
+import org.easyengine.environment.PlayerPosition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -44,6 +45,18 @@ public class MatchTest {
         assertEquals(CORNER_KICK, match.getBallPlayState());
         assertTrue(match.getPossessionPlayer().getShirtNumber() == 19 ||
                 match.getPossessionPlayer().getShirtNumber() == 14);
+    }
+
+    @Test
+    public void testGoalKickExecution() {
+        Player taker = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.Gk));
+        match.setState(new MatchState(match.getHomeTeam(), taker, GOAL_KICK));
+
+        match.applyOutcome(match.executeAction(new Action(PASS, PitchPosition.M)));
+
+        assertNotSame(GOAL_KICK, match.getBallPlayState());
+        assertNotSame(taker, match.getPossessionPlayer());
+        assertNotSame(PitchPosition.GK, match.getPossessionPlayer().getPitchPosition());
     }
 
     @Test

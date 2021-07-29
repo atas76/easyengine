@@ -8,6 +8,7 @@ import org.easyengine.environment.PlayerPosition;
 
 import java.util.Random;
 
+import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionType.PASS;
 
 public class Player {
@@ -15,12 +16,16 @@ public class Player {
     private Integer shirtNumber;
     private String name;
     private PlayerPosition playerPosition;
-    // private PitchPosition pitchPosition; // TODO currently determined by the default mapping to player tactical position
+    private PitchPosition pitchPosition; // in free play, determined by the default mapping to player tactical position
 
     public Player(int shirtNumber, String name, PlayerPosition playerPosition) {
         this.shirtNumber = shirtNumber;
         this.name = name;
         this.playerPosition = playerPosition;
+    }
+
+    public void setPitchPosition(PitchPosition pitchPosition) {
+        this.pitchPosition = pitchPosition;
     }
 
     public Integer getShirtNumber() {
@@ -36,7 +41,7 @@ public class Player {
     }
 
     public PitchPosition getPitchPosition() {
-        return Pitch.mapDefaultPitchPosition(playerPosition);
+        return nonNull(this.pitchPosition) ? this.pitchPosition : Pitch.mapDefaultPitchPosition(playerPosition);
     }
 
     public Action decideAction() {

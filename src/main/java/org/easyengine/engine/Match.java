@@ -101,7 +101,6 @@ public class Match {
             reportEvent(event);
 
             checkHaltingCondition(PitchPosition.A, null, "Ball reached attacking player");
-            checkHaltingCondition(null, GOAL_KICK, "Goal kick");
             if (halting) break;
         }
     }
@@ -134,6 +133,7 @@ public class Match {
                 if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
                     if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
                         this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+                        this.possessionPlayer.setPitchPosition(PitchPosition.C);
                     } else {
                         this.possessionPlayer =
                                 this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
@@ -147,16 +147,15 @@ public class Match {
                                 new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
                     );
 
-                    if (PitchPosition.GK == outcomePosition) {
-                        this.ballPlayState = GOAL_KICK;
-                        event.setBallPlayState(GOAL_KICK);
-                        event.setTime(currentTime);
-                        event.setDuration(1);
-                        return event;
-                    }
-
                     if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
                         this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+                        this.possessionPlayer.setPitchPosition(PitchPosition.C);
+                    } else if (PitchPosition.GK == outcomePosition) {
+                        this.ballPlayState = GOAL_KICK;
+                        event.setBallPlayState(GOAL_KICK);
+                        this.possessionPlayer =
+                                this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition));
+                        this.possessionPlayer.setPitchPosition(PitchPosition.GK);
                     } else {
                         this.possessionPlayer =
                                 this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition));
@@ -173,19 +172,26 @@ public class Match {
     }
 
     private PitchPosition getSetPiecePosition() {
+
+        PitchPosition setPiecePosition = this.possessionPlayer.getPitchPosition();
+
         if (CORNER_KICK == this.ballPlayState) {
-            this.ballPlayState = FREE_PLAY;
-            return PitchPosition.C;
+            setPiecePosition = PitchPosition.C;
+        } if (GOAL_KICK == this.ballPlayState) {
+            setPiecePosition = PitchPosition.GK;
         }
-        Logger.debug("ERROR: Unknown set piece");
-        return this.possessionPlayer.getPitchPosition();
+        else {
+            Logger.debug("ERROR: Unknown set piece");
+        }
+        this.ballPlayState = FREE_PLAY;
+        return setPiecePosition;
     }
 
     public ActionOutcomeDetails executeAction(Action action) {
 
         ActionOutcome actionOutcome = FAIL;
         PitchPosition initialPosition =
-                FREE_PLAY == this.ballPlayState ? this.possessionPlayer.getPitchPosition() : getSetPiecePosition() ;
+                FREE_PLAY == this.ballPlayState ? this.possessionPlayer.getPitchPosition() : getSetPiecePosition();
         PitchPosition targetPosition = action.getTarget();
 
         switch(action.getType()) {
@@ -208,6 +214,7 @@ public class Match {
                 break;
             default:
         }
+        this.possessionPlayer.setPitchPosition(null); // Reset to default
 
         return new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
     }

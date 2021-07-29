@@ -58,7 +58,7 @@ public class Pitch {
     }
 
     public static PlayerPosition mapDefaultTacticalPosition(PitchPosition pitchPosition) {
-        if (PitchPosition.Gk == pitchPosition) {
+        if (PitchPosition.Gk == pitchPosition || PitchPosition.GK == pitchPosition) {
             return new PlayerPosition(Gk);
         }
         return defaultTacticalPositionMap.get(pitchPosition).get(new Random().nextInt(2));
