@@ -2,7 +2,6 @@ package org.easyengine.engine;
 
 import org.easyengine.domain.Player;
 
-import static org.easyengine.engine.BallPlayState.CORNER_KICK;
 import static org.easyengine.engine.BallPlayState.FREE_PLAY;
 
 public class MatchEvent extends ActionOutcomeDetails {

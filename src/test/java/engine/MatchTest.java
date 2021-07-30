@@ -11,7 +11,9 @@ import org.junit.Test;
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.ActionType.SHOT;
 import static org.easyengine.engine.BallPlayState.*;
+import static org.easyengine.engine.ShotOutcome.GOAL;
 import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 import static org.junit.Assert.*;
@@ -68,6 +70,25 @@ public class MatchTest {
 
         assertNotSame(CORNER_KICK, match.getBallPlayState());
         assertNotSame(taker, match.getPossessionPlayer());
+    }
+
+    @Test
+    public void testGoalScored() {
+        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(SHOT, A, GOAL));
+
+        assertEquals(1, match.getPossessionTeam().getGoalsScored());
+    }
+
+    @Test
+    public void testShotDecision() {
+        Player player = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.F, PlayerPosition.PositionY.C_R));
+        match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));
+
+        Action action = player.decideAction();
+
+        assertEquals(SHOT, action.getType());
     }
 
     @Test

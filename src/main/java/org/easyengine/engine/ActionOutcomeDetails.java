@@ -8,6 +8,7 @@ public class ActionOutcomeDetails {
     protected PitchPosition initialPosition;
     protected PitchPosition targetPosition;
     protected ActionOutcome actionOutcome;
+    protected ShotOutcome shotOutcome;
 
     public ActionOutcomeDetails() {}
 
@@ -16,6 +17,12 @@ public class ActionOutcomeDetails {
         this.initialPosition = initialPosition;
         this.targetPosition = targetPosition;
         this.actionOutcome = actionOutcome;
+    }
+
+    public ActionOutcomeDetails(ActionType actionType, PitchPosition initialPosition, ShotOutcome shotOutcome) {
+        this.actionType = actionType;
+        this.initialPosition = initialPosition;
+        this.shotOutcome = shotOutcome;
     }
 
     public ActionType getActionType() {
@@ -32,5 +39,9 @@ public class ActionOutcomeDetails {
 
     public ActionOutcome getActionOutcome() {
         return actionOutcome;
+    }
+
+    public ShotOutcome getShotOutcome() {
+        return shotOutcome;
     }
 }

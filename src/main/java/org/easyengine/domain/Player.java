@@ -10,6 +10,8 @@ import java.util.Random;
 
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionType.PASS;
+import static org.easyengine.engine.ActionType.SHOT;
+import static org.easyengine.engine.space.PitchPosition.A;
 
 public class Player {
 
@@ -45,6 +47,11 @@ public class Player {
     }
 
     public Action decideAction() {
+
+        if (A == this.getPitchPosition()) {
+            return new Action(SHOT);
+        }
+
         return new Action(PASS, ProbabilityModel.getTargetPosition(this.getPitchPosition(), new Random().nextDouble()));
     }
 }

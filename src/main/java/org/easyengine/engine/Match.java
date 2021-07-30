@@ -165,6 +165,12 @@ public class Match {
                 event.setTime(currentTime);
                 event.setDuration(1);
                 break;
+            case SHOT:
+                switch(actionOutcomeDetails.getShotOutcome()) {
+                    case GOAL:
+                        this.possessionTeam.score(); // Good for now.
+                        break;
+                }
             default:
         }
 
@@ -194,11 +200,14 @@ public class Match {
                 FREE_PLAY == this.ballPlayState ? this.possessionPlayer.getPitchPosition() : getSetPiecePosition();
         PitchPosition targetPosition = action.getTarget();
 
+        Logger.debug("Possession team: " + this.possessionTeam.getName());
+        Logger.debug("Initial position: " + initialPosition);
+
+        ActionOutcomeDetails outcomeDetails = null;
+
         switch(action.getType()) {
             case PASS:
 
-                Logger.debug("Possession team: " + this.possessionTeam.getName());
-                Logger.debug("Initial position: " + initialPosition);
                 Logger.debug("Target position: " + targetPosition);
 
                 double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
@@ -211,12 +220,17 @@ public class Match {
                     Logger.debug("FAIL");
                 }
                 Logger.debugEnd();
+                outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
                 break;
+            case SHOT:
+                Logger.debug("Shot at goal");
+                ShotOutcome shotOutcome = ProbabilityModel.getShotOutcome(new Random().nextDouble());
+                outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, shotOutcome);
             default:
         }
         this.possessionPlayer.setPitchPosition(null); // Reset to default
 
-        return new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
+        return outcomeDetails;
     }
 
     private void kickOff() {

@@ -7,6 +7,10 @@ public class Action {
     private ActionType type;
     public PitchPosition target;
 
+    public Action(ActionType type) {
+        this.type = type;
+    }
+
     public Action(ActionType type, PitchPosition target) {
         this.type = type;
         this.target = target;

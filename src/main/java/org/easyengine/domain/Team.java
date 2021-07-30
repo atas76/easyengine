@@ -30,10 +30,15 @@ public class Team {
     private Map<PlayerPosition, Player> formation = new HashMap<>();
     private Tactics tactics;
     private Instructions teamInstructions = new Instructions();
+    private int goalsScored = 0;
 
     public Team(String name, Tactics tactics) {
         this.name = name;
         this.tactics = tactics;
+    }
+
+    public int getGoalsScored() {
+        return this.goalsScored;
     }
 
     public String getName() {
@@ -52,6 +57,10 @@ public class Team {
     public void addCornerKickTaker(Integer shirtNumber) {
         assert(players.containsKey(shirtNumber));
         teamInstructions.addCornerKickTaker(shirtNumber);
+    }
+
+    public void score() {
+        ++this.goalsScored;
     }
 
     public List<Player> getCornerKickTakers() {
