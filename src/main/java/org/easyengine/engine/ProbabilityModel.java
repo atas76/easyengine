@@ -5,14 +5,13 @@ import org.easyengine.engine.space.PitchPosition;
 
 import static java.util.Map.entry;
 import static java.util.stream.Collectors.toMap;
+import static org.easyengine.engine.ShotOutcome.*;
 import static org.easyengine.engine.space.PitchPosition.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.easyengine.engine.space.PitchPosition.GK;
 import static org.easyengine.engine.space.PitchPosition.Gk;
 
 public class ProbabilityModel {
@@ -144,5 +143,30 @@ public class ProbabilityModel {
             ++index;
         }
         return PitchPosition.values()[index];
+    }
+
+    static Map<ShotOutcome, Double> shotOutcomesDistribution = Map.ofEntries(
+            entry(GOAL, 0.09),
+            entry(ShotOutcome.GK, 0.26),
+            entry(BLK_C, 0.13),
+            entry(SAVE_C, 0.13),
+            entry(BLK_R_A, 0.1),
+            entry(BLK_Gkr, 0.04),
+            entry(BLK_R_Mw, 0.04),
+            entry(SAVE_R_A, 0.04),
+            entry(SAVE_Gkr, 0.17)
+    );
+
+    public static ShotOutcome getShotOutcome(Double outcomeWeightIndex) {
+
+        double sum = 0.0;
+
+        for (ShotOutcome shotOutcome: ShotOutcome.values()) {
+            sum += shotOutcomesDistribution.get(shotOutcome);
+            if (outcomeWeightIndex < sum) {
+                return shotOutcome;
+            }
+        }
+        return null;
     }
 }
