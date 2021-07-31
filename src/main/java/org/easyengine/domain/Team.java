@@ -76,7 +76,7 @@ public class Team {
         return formation.get(position);
     }
 
-    public List<Player> getPlayerByPositionX(PlayerPosition.PositionX x) {
+    public List<Player> getPlayersByPositionX(PlayerPosition.PositionX x) {
 
         List<Player> players = new ArrayList<>();
 

@@ -14,6 +14,7 @@ import java.util.Random;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
 import static org.easyengine.engine.BallPlayState.*;
+import static org.easyengine.environment.PlayerPosition.PositionX.F;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
 
 public class Match {
@@ -187,6 +188,10 @@ public class Match {
                     case SAVE_C: // Future differentiation on stats
                         this.ballPlayState = CORNER_KICK;
                         break;
+                    case BLK_R_A:
+                        List<Player> possibleRebounders = this.possessionTeam.getPlayersByPositionX(F);
+                        this.possessionPlayer = possibleRebounders.get(new Random().nextInt(possibleRebounders.size()));
+                        break;
                 }
             default:
         }
@@ -251,7 +256,7 @@ public class Match {
     }
 
     private void kickOff() {
-        List<Player> players = possessionTeam.getPlayerByPositionX(M);
+        List<Player> players = possessionTeam.getPlayersByPositionX(M);
         int playerIndex = rnd.nextInt(players.size());
         this.possessionPlayer = players.get(playerIndex);
         this.ballPlayState = FREE_PLAY;
