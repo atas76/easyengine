@@ -176,6 +176,10 @@ public class Match {
                         changePossession();
                         this.ballPlayState = KICK_OFF;
                         break;
+                    case GK:
+                        changePossession();
+                        this.ballPlayState = GOAL_KICK;
+                        break;
                 }
             default:
         }
