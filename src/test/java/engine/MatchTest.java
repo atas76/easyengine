@@ -76,9 +76,11 @@ public class MatchTest {
     public void testGoalScored() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
 
-        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(SHOT, A, GOAL));
+        match.applyOutcome(new ActionOutcomeDetails(SHOT, A, GOAL));
 
-        assertEquals(1, match.getPossessionTeam().getGoalsScored());
+        assertEquals(1, match.getHomeTeam().getGoalsScored());
+        assertNotSame(match.getHomeTeam(), match.getPossessionTeam());
+        assertEquals(KICK_OFF, match.getBallPlayState());
     }
 
     @Test

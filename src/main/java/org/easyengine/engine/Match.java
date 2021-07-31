@@ -92,6 +92,10 @@ public class Match {
         coinToss();
         kickOff();
         while (currentTime < HALF_TIME_DURATION) {
+            if (KICK_OFF == this.ballPlayState) {
+                kickOff();
+                continue;
+            }
             Action action = this.possessionPlayer.decideAction();
             ActionOutcomeDetails actionOutcomeDetails = executeAction(action);
             MatchEvent event = applyOutcome(actionOutcomeDetails);
@@ -168,7 +172,9 @@ public class Match {
             case SHOT:
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
-                        this.possessionTeam.score(); // Good for now.
+                        this.possessionTeam.score();
+                        changePossession();
+                        this.ballPlayState = KICK_OFF;
                         break;
                 }
             default:
@@ -195,7 +201,7 @@ public class Match {
 
     public ActionOutcomeDetails executeAction(Action action) {
 
-        ActionOutcome actionOutcome = FAIL;
+        ActionOutcome actionOutcome;
         PitchPosition initialPosition =
                 FREE_PLAY == this.ballPlayState ? this.possessionPlayer.getPitchPosition() : getSetPiecePosition();
         PitchPosition targetPosition = action.getTarget();
