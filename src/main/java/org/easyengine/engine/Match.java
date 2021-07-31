@@ -192,6 +192,10 @@ public class Match {
                         List<Player> possibleRebounders = this.possessionTeam.getPlayersByPositionX(F);
                         this.possessionPlayer = possibleRebounders.get(new Random().nextInt(possibleRebounders.size()));
                         break;
+                    case BLK_Gkr:
+                        changePossession();
+                        this.possessionPlayer = this.getPossessionTeam().getGoalkeeper();
+                        break;
                 }
             default:
         }

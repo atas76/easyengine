@@ -126,6 +126,17 @@ public class MatchTest {
     }
 
     @Test
+    public void testGoalkeeperPossessionAfterShotBlock() {
+        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+
+        match.applyOutcome(new ActionOutcomeDetails(SHOT, A, ShotOutcome.BLK_Gkr));
+
+        assertNotSame(match.getHomeTeam(), match.getPossessionTeam());
+        assertEquals(FREE_PLAY, match.getBallPlayState());
+        assertEquals(1, match.getPossessionPlayer().getShirtNumber().intValue());
+    }
+
+    @Test
     public void testShotDecision() {
         Player player = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.F, PlayerPosition.PositionY.C_R));
         match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));

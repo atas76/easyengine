@@ -76,6 +76,10 @@ public class Team {
         return formation.get(position);
     }
 
+    public Player getGoalkeeper() {
+        return getPlayerByPosition(new PlayerPosition(Gk));
+    }
+
     public List<Player> getPlayersByPositionX(PlayerPosition.PositionX x) {
 
         List<Player> players = new ArrayList<>();
