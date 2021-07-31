@@ -5,6 +5,7 @@ import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
+import org.easyengine.environment.PlayerPosition;
 import org.easyengine.util.Logger;
 
 import java.util.ArrayList;
@@ -189,22 +190,28 @@ public class Match {
                         this.ballPlayState = CORNER_KICK;
                         break;
                     case BLK_R_A:
-                        List<Player> possibleRebounders = this.possessionTeam.getPlayersByPositionX(F);
-                        this.possessionPlayer = possibleRebounders.get(new Random().nextInt(possibleRebounders.size()));
+                        applyRebound(F);
                         break;
                     case BLK_Gkr:
                         changePossession();
                         this.possessionPlayer = this.getPossessionTeam().getGoalkeeper();
                         break;
                     case BLK_R_M:
-                        List<Player> possibleDistantRebounders = this.possessionTeam.getPlayersByPositionX(M);
-                        this.possessionPlayer = possibleDistantRebounders.get(new Random().nextInt(possibleDistantRebounders.size()));
+                        applyRebound(M);
+                        break;
+                    case SAVE_R_A:
+                        applyRebound(F);
                         break;
                 }
             default:
         }
 
         return event;
+    }
+
+    private void applyRebound(PlayerPosition.PositionX positionX) {
+        List<Player> possibleRebounders = this.possessionTeam.getPlayersByPositionX(positionX);
+        this.possessionPlayer = possibleRebounders.get(new Random().nextInt(possibleRebounders.size()));
     }
 
     private PitchPosition getSetPiecePosition() {

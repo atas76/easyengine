@@ -128,6 +128,18 @@ public class MatchTest {
     }
 
     @Test
+    public void testOffensiveReboundAfterSave() {
+        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+
+        match.applyOutcome(new ActionOutcomeDetails(SHOT, A, ShotOutcome.SAVE_R_A));
+
+        assertEquals(match.getHomeTeam(), match.getPossessionTeam());
+        assertEquals(FREE_PLAY, match.getBallPlayState());
+        assertTrue(match.getPossessionPlayer().getShirtNumber() == 9 ||
+                match.getPossessionPlayer().getShirtNumber() == 29);
+    }
+
+    @Test
     public void testDistantOffensiveReboundAfterShotBlock() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
 
