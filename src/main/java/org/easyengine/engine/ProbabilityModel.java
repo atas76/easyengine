@@ -152,7 +152,7 @@ public class ProbabilityModel {
             entry(SAVE_C, 0.13),
             entry(BLK_R_A, 0.1),
             entry(BLK_Gkr, 0.04),
-            entry(BLK_R_Mw, 0.04),
+            entry(BLK_R_M, 0.04),
             entry(SAVE_R_A, 0.04),
             entry(SAVE_Gkr, 0.17)
     );

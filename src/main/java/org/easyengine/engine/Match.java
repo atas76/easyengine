@@ -171,7 +171,7 @@ public class Match {
                 event.setDuration(1);
                 break;
             case SHOT:
-                // GOAL, GK, BLK_C, SAVE_C, BLK_R_A, BLK_Gkr, BLK_R_Mw, SAVE_R_A, SAVE_Gkr
+                // GOAL, GK, BLK_C, SAVE_C, BLK_R_A, BLK_Gkr, BLK_R_M, SAVE_R_A, SAVE_Gkr
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
                         this.possessionTeam.score();
@@ -195,6 +195,10 @@ public class Match {
                     case BLK_Gkr:
                         changePossession();
                         this.possessionPlayer = this.getPossessionTeam().getGoalkeeper();
+                        break;
+                    case BLK_R_M:
+                        List<Player> possibleDistantRebounders = this.possessionTeam.getPlayersByPositionX(M);
+                        this.possessionPlayer = possibleDistantRebounders.get(new Random().nextInt(possibleDistantRebounders.size()));
                         break;
                 }
             default:

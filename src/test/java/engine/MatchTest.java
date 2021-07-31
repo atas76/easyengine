@@ -8,6 +8,8 @@ import org.easyengine.environment.PlayerPosition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
@@ -123,6 +125,17 @@ public class MatchTest {
         assertEquals(FREE_PLAY, match.getBallPlayState());
         assertTrue(match.getPossessionPlayer().getShirtNumber() == 9 ||
                 match.getPossessionPlayer().getShirtNumber() == 29);
+    }
+
+    @Test
+    public void testDistantOffensiveReboundAfterShotBlock() {
+        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+
+        match.applyOutcome(new ActionOutcomeDetails(SHOT, A, ShotOutcome.BLK_R_M));
+
+        assertEquals(match.getHomeTeam(), match.getPossessionTeam());
+        assertEquals(FREE_PLAY, match.getBallPlayState());
+        assertTrue(Arrays.asList(13, 12, 19, 14).contains(match.getPossessionPlayer().getShirtNumber()));
     }
 
     @Test
