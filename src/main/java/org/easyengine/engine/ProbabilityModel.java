@@ -154,7 +154,7 @@ public class ProbabilityModel {
             entry(BLK_Gkr, 0.04),
             entry(BLK_R_M, 0.04),
             entry(SAVE_R_A, 0.04),
-            entry(SAVE_Gkr, 0.17)
+            entry(SAVE, 0.17)
     );
 
     public static ShotOutcome getShotOutcome(Double outcomeWeightIndex) {

@@ -172,7 +172,7 @@ public class Match {
                 event.setDuration(1);
                 break;
             case SHOT:
-                // GOAL, GK, BLK_C, SAVE_C, BLK_R_A, BLK_Gkr, BLK_R_M, SAVE_R_A, SAVE_Gkr
+                // GOAL, GK, BLK_C, SAVE_C, BLK_R_A, BLK_Gkr, BLK_R_M, SAVE_R_A, SAVE
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
                         this.possessionTeam.score();
@@ -193,8 +193,7 @@ public class Match {
                         applyRebound(F);
                         break;
                     case BLK_Gkr:
-                        changePossession();
-                        this.possessionPlayer = this.getPossessionTeam().getGoalkeeper();
+                        applyGoalkeeperPossession();
                         break;
                     case BLK_R_M:
                         applyRebound(M);
@@ -202,11 +201,19 @@ public class Match {
                     case SAVE_R_A:
                         applyRebound(F);
                         break;
+                    case SAVE:
+                        applyGoalkeeperPossession();
+                        break;
                 }
             default:
         }
 
         return event;
+    }
+
+    private void applyGoalkeeperPossession() {
+        changePossession();
+        this.possessionPlayer = this.getPossessionTeam().getGoalkeeper();
     }
 
     private void applyRebound(PlayerPosition.PositionX positionX) {
