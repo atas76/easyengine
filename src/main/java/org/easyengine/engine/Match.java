@@ -170,6 +170,7 @@ public class Match {
                 event.setDuration(1);
                 break;
             case SHOT:
+                // GOAL, GK, BLK_C, SAVE_C, BLK_R_A, BLK_Gkr, BLK_R_Mw, SAVE_R_A, SAVE_Gkr
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
                         this.possessionTeam.score();
@@ -181,6 +182,9 @@ public class Match {
                         this.ballPlayState = GOAL_KICK;
                         break;
                     case BLK_C:
+                        this.ballPlayState = CORNER_KICK;
+                        break;
+                    case SAVE_C: // Future differentiation on stats
                         this.ballPlayState = CORNER_KICK;
                         break;
                 }
