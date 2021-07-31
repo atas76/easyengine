@@ -180,6 +180,9 @@ public class Match {
                         changePossession();
                         this.ballPlayState = GOAL_KICK;
                         break;
+                    case BLK_C:
+                        this.ballPlayState = CORNER_KICK;
+                        break;
                 }
             default:
         }
