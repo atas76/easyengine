@@ -24,8 +24,8 @@ public class Environment {
 
     public static void load() {
 
-        Team teamA = new Team("A", TACTIC_4_4_2);
-        Team teamB = new Team("B", TACTIC_4_4_2);
+        Team teamA = new Team("Red", TACTIC_4_4_2);
+        Team teamB = new Team("Blue", TACTIC_4_4_2);
 
         teams.put("A", teamA);
         teams.put("B", teamB);
