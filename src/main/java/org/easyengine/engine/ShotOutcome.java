@@ -1,5 +1,8 @@
 package org.easyengine.engine;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum ShotOutcome {
 
     GOAL("Goal"),
@@ -21,5 +24,9 @@ public enum ShotOutcome {
     @Override
     public String toString() {
         return this.description;
+    }
+
+    public static List<ShotOutcome> getCornerKickOutcomes() {
+        return Arrays.asList(BLK_C, SAVE_C);
     }
 }
