@@ -106,9 +106,10 @@ public class Match {
 
             reportEvent(event);
 
-            checkHaltingCondition(PitchPosition.A, null, "Ball reached attacking player");
             if (halting) break;
         }
+        Logger.debug("HT completed");
+        Logger.debugEnd();
     }
 
     private boolean halting;
@@ -153,7 +154,7 @@ public class Match {
                                 new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
                     );
 
-                    if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
+                    if (PitchPosition.C == outcomePosition) {
                         this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
                         this.possessionPlayer.setPitchPosition(PitchPosition.C);
                     } else if (PitchPosition.GK == outcomePosition) {
@@ -172,7 +173,6 @@ public class Match {
                 event.setDuration(1);
                 break;
             case SHOT:
-                // GOAL, GK, BLK_C, SAVE_C, BLK_R_A, BLK_Gkr, BLK_R_M, SAVE_R_A, SAVE
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
                         this.possessionTeam.score();
@@ -227,7 +227,7 @@ public class Match {
 
         if (CORNER_KICK == this.ballPlayState) {
             setPiecePosition = PitchPosition.C;
-        } if (GOAL_KICK == this.ballPlayState) {
+        } else if (GOAL_KICK == this.ballPlayState) {
             setPiecePosition = PitchPosition.GK;
         }
         else {
@@ -269,6 +269,8 @@ public class Match {
             case SHOT:
                 Logger.debug("Shot at goal");
                 ShotOutcome shotOutcome = ProbabilityModel.getShotOutcome(new Random().nextDouble());
+                Logger.debug("Shot outcome: " + shotOutcome);
+                Logger.debugEnd();
                 outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, shotOutcome);
             default:
         }
