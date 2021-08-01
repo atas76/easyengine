@@ -184,6 +184,7 @@ public class Match {
                         this.ballPlayState = GOAL_KICK;
                         this.possessionPlayer =
                                 this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(PitchPosition.GK));
+                        this.possessionPlayer.setPitchPosition(PitchPosition.GK);
                         break;
                     case BLK_C:
                         applyCornerKick();

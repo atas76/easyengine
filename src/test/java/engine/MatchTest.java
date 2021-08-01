@@ -61,6 +61,8 @@ public class MatchTest {
         assertNotSame(GOAL_KICK, match.getBallPlayState());
         assertNotSame(taker, match.getPossessionPlayer());
         assertNotSame(PitchPosition.GK, match.getPossessionPlayer().getPitchPosition());
+        assertNotSame(taker, match.getPossessionPlayer());
+        assertNotSame(PitchPosition.GK, taker.getPitchPosition());
     }
 
     @Test
@@ -94,6 +96,7 @@ public class MatchTest {
         assertNotSame(match.getHomeTeam(), match.getPossessionTeam());
         assertEquals(GOAL_KICK, match.getBallPlayState());
         assertEquals(1, match.getPossessionPlayer().getShirtNumber().intValue());
+        assertEquals(PitchPosition.GK, match.getPossessionPlayer().getPitchPosition());
     }
 
     @Test
