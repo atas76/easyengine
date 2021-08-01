@@ -93,6 +93,7 @@ public class MatchTest {
 
         assertNotSame(match.getHomeTeam(), match.getPossessionTeam());
         assertEquals(GOAL_KICK, match.getBallPlayState());
+        assertEquals(1, match.getPossessionPlayer().getShirtNumber().intValue());
     }
 
     @Test

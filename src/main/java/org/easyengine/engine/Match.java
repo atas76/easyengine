@@ -182,12 +182,14 @@ public class Match {
                     case GK:
                         changePossession();
                         this.ballPlayState = GOAL_KICK;
+                        this.possessionPlayer =
+                                this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(PitchPosition.GK));
                         break;
                     case BLK_C:
-                        this.ballPlayState = CORNER_KICK;
+                        applyCornerKick();
                         break;
                     case SAVE_C: // Future differentiation on stats
-                        this.ballPlayState = CORNER_KICK;
+                        applyCornerKick();
                         break;
                     case BLK_R_A:
                         applyRebound(F);
@@ -209,6 +211,12 @@ public class Match {
         }
 
         return event;
+    }
+
+    private void applyCornerKick() {
+        this.ballPlayState = CORNER_KICK;
+        this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+        this.possessionPlayer.setPitchPosition(PitchPosition.C);
     }
 
     private void applyGoalkeeperPossession() {
