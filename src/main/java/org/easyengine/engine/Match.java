@@ -100,7 +100,19 @@ public class Match {
     public void play() {
         coinToss();
         kickOff();
-        while (currentTime < HALF_TIME_DURATION) {
+        playHalfTime(HALF_TIME_DURATION);
+        Logger.debug("Half time");
+        Logger.debugEnd();
+
+        setSecondHalfKickOffTeam();
+        kickOff();
+        playHalfTime(2 * HALF_TIME_DURATION);
+        Logger.debug("Full time");
+        Logger.debugEnd();
+    }
+
+    private void playHalfTime(int finalTime) {
+        while (currentTime < finalTime) {
             if (KICK_OFF == this.ballPlayState) {
                 kickOff();
                 continue;
@@ -115,8 +127,6 @@ public class Match {
 
             if (halting) break;
         }
-        Logger.debug("HT completed");
-        Logger.debugEnd();
     }
 
     private boolean halting;
@@ -308,6 +318,14 @@ public class Match {
             this.possessionTeam = homeTeam;
         } else {
             this.possessionTeam = awayTeam;
+        }
+    }
+
+    private void setSecondHalfKickOffTeam() {
+        if (this.homeTeamKickOff) {
+            this.possessionTeam = awayTeam;
+        } else {
+            this.possessionTeam = homeTeam;
         }
     }
 }
