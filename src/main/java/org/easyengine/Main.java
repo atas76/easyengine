@@ -19,5 +19,6 @@ public class Main {
 
         Match match = new Match(homeTeam, awayTeam);
         match.play();
+        match.displayScore();
     }
 }

@@ -90,6 +90,13 @@ public class Match {
         }
     }
 
+    public void displayScore() {
+        System.out.println(
+                this.homeTeam.getName() + " - " + this.awayTeam.getName() + " " +
+                this.homeTeam.getGoalsScored() + " - " + this.awayTeam.getGoalsScored()
+        );
+    }
+
     public void play() {
         coinToss();
         kickOff();
