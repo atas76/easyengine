@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum ShotOutcome {
 
-    GOAL("Goal"),
+    GOAL("Goal scored"),
     GK("Goal kick"),
     BLK_C("Corner kick after shot block"),
     SAVE_C("Corner kick after save"),
