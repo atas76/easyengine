@@ -1,5 +1,5 @@
 package org.easyengine.engine;
 
 public enum ActionOutcome {
-    SUCCESS, FAIL;
+    SUCCESS, FAIL, CORNER_KICK;
 }
