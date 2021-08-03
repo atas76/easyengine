@@ -70,6 +70,15 @@ public class ProbabilityModel {
         return null; // This will be handled at the action execution layer
     }
 
+    static Map<PitchPosition, Double> cornerKickRate = Map.ofEntries(
+            entry(D, 0.04),
+            entry(Mw, 0.02)
+    );
+
+    public static Double getCornerKickRate(PitchPosition pitchPosition) {
+        return cornerKickRate.get(pitchPosition);
+    }
+
     static Map<Pair<PitchPosition, PitchPosition>, Double> successRate = Map.ofEntries(
             entry(new Pair<>(Gk, Dw), 1.0),
             entry(new Pair<>(Gk, D), 1.0),

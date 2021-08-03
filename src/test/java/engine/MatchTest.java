@@ -41,17 +41,6 @@ public class MatchTest {
     }
 
     @Test
-    public void testCornerKickOutcome() {
-        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
-
-        match.applyOutcome(new ActionOutcomeDetails(PASS, Mw, C, SUCCESS));
-
-        assertEquals(CORNER_KICK, match.getBallPlayState());
-        assertTrue(match.getPossessionPlayer().getShirtNumber() == 19 ||
-                match.getPossessionPlayer().getShirtNumber() == 14);
-    }
-
-    @Test
     public void testGoalKickExecution() {
         Player taker = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.Gk));
         match.setState(new MatchState(match.getHomeTeam(), taker, GOAL_KICK));
@@ -107,6 +96,18 @@ public class MatchTest {
 
         assertEquals(match.getHomeTeam(), match.getPossessionTeam());
         assertEquals(CORNER_KICK, match.getBallPlayState());
+    }
+
+    @Test
+    public void testCornerKickAfterPass() {
+        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+
+        match.applyOutcome(new ActionOutcomeDetails(PASS, D, null, ActionOutcome.CORNER_KICK));
+
+        assertEquals(match.getHomeTeam(), match.getPossessionTeam());
+        assertEquals(CORNER_KICK, match.getBallPlayState());
+        assertTrue(match.getPossessionPlayer().getShirtNumber() == 19 ||
+                match.getPossessionPlayer().getShirtNumber() == 14);
     }
 
     @Test

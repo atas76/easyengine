@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
 import static org.easyengine.engine.BallPlayState.*;
@@ -146,22 +147,17 @@ public class Match {
 
         MatchEvent event = new MatchEvent(actionOutcomeDetails);
 
-        if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
-            this.ballPlayState = CORNER_KICK;
-            event.setBallPlayState(CORNER_KICK);
-        }
-
         switch(actionOutcomeDetails.getActionType()) {
             case PASS:
                 event.setActionPlayer(this.possessionPlayer);
-                if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
-                    if (PitchPosition.C == actionOutcomeDetails.getTargetPosition()) {
-                        this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
-                        this.possessionPlayer.setPitchPosition(PitchPosition.C);
-                    } else {
-                        this.possessionPlayer =
-                                this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
-                    }
+                if (ActionOutcome.CORNER_KICK.equals(actionOutcomeDetails.getActionOutcome())) {
+                    this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+                    this.possessionPlayer.setPitchPosition(PitchPosition.C);
+                    this.ballPlayState = CORNER_KICK;
+                    event.setBallPlayState(CORNER_KICK);
+                } else if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
+                    this.possessionPlayer =
+                            this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
                 } else {
 
                     changePossession();
@@ -279,10 +275,12 @@ public class Match {
             case PASS:
 
                 Logger.debug("Target position: " + targetPosition);
-
-                double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
-                double outcomeIndex = rnd.nextDouble();
-                if (outcomeIndex < successRate) {
+                Double cornerKickRate = ProbabilityModel.getCornerKickRate(initialPosition);
+                Double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
+                if (nonNull(cornerKickRate) && rnd.nextDouble() < cornerKickRate) {
+                    actionOutcome = ActionOutcome.CORNER_KICK;
+                    Logger.debug("Corner kick won");
+                } else if (rnd.nextDouble() < successRate) {
                     actionOutcome = SUCCESS;
                     Logger.debug("SUCCESS");
                 } else {
