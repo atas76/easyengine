@@ -38,7 +38,7 @@ public class Match {
     // Using a turn-based approach for now
     private int currentTime = 0;
 
-    private final int HALF_TIME_DURATION = 100;
+    public static final int HALF_TIME_DURATION = 100;
 
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
@@ -63,6 +63,10 @@ public class Match {
 
     public BallPlayState getBallPlayState() {
         return ballPlayState;
+    }
+
+    public List<MatchEvent> getMatchEvents() {
+        return this.matchEvents;
     }
 
     private void changePossession() {
@@ -101,18 +105,18 @@ public class Match {
     public void play() {
         coinToss();
         kickOff();
-        playHalfTime(HALF_TIME_DURATION);
+        playTimePeriod(HALF_TIME_DURATION);
         Logger.debug("Half time");
         Logger.debugEnd();
 
         setSecondHalfKickOffTeam();
         kickOff();
-        playHalfTime(2 * HALF_TIME_DURATION);
+        playTimePeriod(2 * HALF_TIME_DURATION);
         Logger.debug("Full time");
         Logger.debugEnd();
     }
 
-    private void playHalfTime(int finalTime) {
+    public void playTimePeriod(int finalTime) {
         while (currentTime < finalTime) {
             if (KICK_OFF == this.ballPlayState) {
                 kickOff();

@@ -15,6 +15,7 @@ import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
 import static org.easyengine.engine.ActionType.SHOT;
 import static org.easyengine.engine.BallPlayState.*;
+import static org.easyengine.engine.Match.HALF_TIME_DURATION;
 import static org.easyengine.engine.ShotOutcome.GOAL;
 import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
@@ -32,12 +33,23 @@ public class MatchTest {
 
     @Test
     public void testKickOff() {
+
         match.playCurrentCycle(new MatchState(Environment.getTeam("A"), null, KICK_OFF));
         Player player = match.getPossessionPlayer();
         PitchPosition pitchPosition = player.getPitchPosition();
+
         assertEquals(M, player.getPlayerPosition().getX());
         assertTrue(pitchPosition == PitchPosition.M || pitchPosition == Mw);
         assertEquals(FREE_PLAY, match.getBallPlayState());
+    }
+
+    @Test
+    public void testEventReporting() {
+        match.setState(new MatchState(match.getHomeTeam(), null, KICK_OFF));
+
+        match.playTimePeriod(HALF_TIME_DURATION);
+
+        assertEquals(HALF_TIME_DURATION, match.getMatchEvents().size());
     }
 
     @Test
