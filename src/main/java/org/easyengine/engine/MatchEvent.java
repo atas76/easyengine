@@ -2,6 +2,7 @@ package org.easyengine.engine;
 
 import org.easyengine.domain.Player;
 
+import static java.util.Objects.nonNull;
 import static org.easyengine.engine.BallPlayState.FREE_PLAY;
 
 public class MatchEvent extends ActionOutcomeDetails {
@@ -17,6 +18,17 @@ public class MatchEvent extends ActionOutcomeDetails {
         this.initialPosition = actionOutcomeDetails.initialPosition;
         this.targetPosition = actionOutcomeDetails.targetPosition;
         this.actionOutcome = actionOutcomeDetails.actionOutcome;
+        this.shotOutcome = actionOutcomeDetails.shotOutcome;
+    }
+
+    @Override
+    public String toString() {
+        return "{ " +
+                    this.actionType + ", " +
+                    this.initialPosition + ", " +
+                    this.targetPosition + ", " +
+                    (nonNull(this.actionOutcome) ? this.actionOutcome : this.shotOutcome) +
+                " }";
     }
 
     public void setBallPlayState(BallPlayState ballPlayState) {
