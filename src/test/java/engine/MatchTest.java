@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ActionOutcome.FAIL;
@@ -29,6 +30,24 @@ public class MatchTest {
     public static void setUp() {
         Environment.load();
         match = new Match(Environment.getTeam("A"), Environment.getTeam("B"));
+    }
+
+    @Test
+    public void testSuccessfulMatchEvents() {
+        Environment.load();
+        Match match = new Match(Environment.getTeam("A"), Environment.getTeam("B"));
+
+        match.play();
+        List<MatchEvent> matchEvents = match.getMatchEvents();
+
+        for (int i = 0; i < matchEvents.size() - 1; i++) {
+            MatchEvent currentEvent = matchEvents.get(i);
+            MatchEvent nextEvent = matchEvents.get(i + 1);
+
+            if (SUCCESS == currentEvent.getActionOutcome() && KICK_OFF != nextEvent.getBallPlayState()) {
+                assertEquals(currentEvent.getTargetPosition(), nextEvent.getInitialPosition());
+            }
+        }
     }
 
     @Test

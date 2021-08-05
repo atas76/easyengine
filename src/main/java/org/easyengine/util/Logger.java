@@ -29,6 +29,10 @@ public class Logger {
         }
     }
 
+    public static void debugReport(List<MatchEvent> events) {
+        events.forEach(System.out::println);
+    }
+
     public static void debugEnd() {
         if (debug) {
             System.out.println();

@@ -21,6 +21,10 @@ public class MatchEvent extends ActionOutcomeDetails {
         this.shotOutcome = actionOutcomeDetails.shotOutcome;
     }
 
+    public MatchEvent(BallPlayState ballPlayState) {
+        this.ballPlayState = ballPlayState;
+    }
+
     @Override
     public String toString() {
         return "{ " +
@@ -35,6 +39,9 @@ public class MatchEvent extends ActionOutcomeDetails {
         this.ballPlayState = ballPlayState;
     }
 
+    public BallPlayState getBallPlayState() {
+        return ballPlayState;
+    }
 
     public int getTime() {
         return time;
