@@ -1,6 +1,7 @@
 package org.easyengine.util;
 
 import org.easyengine.engine.MatchEvent;
+import org.easyengine.engine.MatchInfo;
 
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class Logger {
 
     private static boolean debug;
     private static boolean events;
+    private static boolean info;
 
     public static void setDebug() {
         debug = true;
@@ -15,6 +17,10 @@ public class Logger {
 
     public static void setEvents() {
         events = true;
+    }
+
+    public static void setInfo() {
+        info = true;
     }
 
     public static void debug(String log) {
@@ -29,6 +35,14 @@ public class Logger {
         }
     }
 
+    public static void info(String teamName, MatchInfo matchInfo) {
+        if (info) {
+            System.out.println(teamName);
+            System.out.println();
+            System.out.println(matchInfo);
+        }
+    }
+
     public static void debugReport(List<MatchEvent> events) {
         events.forEach(System.out::println);
     }
@@ -38,4 +52,10 @@ public class Logger {
             System.out.println();
         }
     }
-}
+
+    public static void infoEnd() {
+        if (info) {
+            System.out.println();
+        }
+    }
+ }

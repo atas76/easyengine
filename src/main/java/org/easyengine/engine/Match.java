@@ -32,7 +32,7 @@ public class Match {
 
     private BallPlayState ballPlayState = KICK_OFF;
 
-    private List<MatchEvent> matchEvents = new ArrayList<>();
+    private final List<MatchEvent> matchEvents = new ArrayList<>();
 
     // TODO Simulate time
     // Using a turn-based approach for now
@@ -190,7 +190,7 @@ public class Match {
             case SHOT:
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
-                        this.possessionTeam.score();
+                        this.possessionTeam.score(this.currentTime, this.possessionPlayer);
                         changePossession();
                         this.ballPlayState = KICK_OFF;
                         break;

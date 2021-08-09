@@ -1,5 +1,6 @@
 package org.easyengine.domain;
 
+import org.easyengine.engine.MatchInfo;
 import org.easyengine.environment.PlayerPosition;
 import org.easyengine.environment.Tactics;
 import org.easyengine.environment.TacticsDefinition;
@@ -32,9 +33,15 @@ public class Team {
     private Instructions teamInstructions = new Instructions();
     private int goalsScored = 0;
 
+    private final MatchInfo matchInfo = new MatchInfo();
+
     public Team(String name, Tactics tactics) {
         this.name = name;
         this.tactics = tactics;
+    }
+
+    public MatchInfo getMatchInfo() {
+        return matchInfo;
     }
 
     public int getGoalsScored() {
@@ -59,8 +66,9 @@ public class Team {
         teamInstructions.addCornerKickTaker(shirtNumber);
     }
 
-    public void score() {
+    public void score(int time, Player scorer) {
         ++this.goalsScored;
+        this.matchInfo.addGoalInfo(time, scorer);
     }
 
     public List<Player> getCornerKickTakers() {

@@ -20,6 +20,9 @@ public class Main {
             if (argsList.contains("--events")) {
                 Logger.setEvents();
             }
+            if (argsList.contains("--info")) {
+                Logger.setInfo();
+            }
         }
 
         Environment.load();
@@ -31,6 +34,12 @@ public class Main {
         match.play();
         match.displayScore();
         Logger.debugEnd();
+
+        Logger.info(homeTeam.getName(), homeTeam.getMatchInfo());
+        Logger.infoEnd();
+        Logger.info(awayTeam.getName(), awayTeam.getMatchInfo());
+        Logger.infoEnd();
+
         Logger.report(match.getMatchEvents());
     }
 }

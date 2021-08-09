@@ -19,7 +19,9 @@ import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.Match.HALF_TIME_DURATION;
 import static org.easyengine.engine.ShotOutcome.GOAL;
 import static org.easyengine.engine.space.PitchPosition.*;
+import static org.easyengine.environment.PlayerPosition.PositionX.F;
 import static org.easyengine.environment.PlayerPosition.PositionX.M;
+import static org.easyengine.environment.PlayerPosition.PositionY.C_R;
 import static org.junit.Assert.*;
 
 public class MatchTest {
@@ -98,13 +100,18 @@ public class MatchTest {
 
     @Test
     public void testGoalScored() {
-        match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
+        match.setState(new MatchState(10, match.getHomeTeam(),
+                new Player(9, "Robert L", new PlayerPosition(F, C_R)), FREE_PLAY));
 
         match.applyOutcome(new ActionOutcomeDetails(SHOT, A, GOAL));
 
         assertEquals(1, match.getHomeTeam().getGoalsScored());
         assertNotSame(match.getHomeTeam(), match.getPossessionTeam());
         assertEquals(KICK_OFF, match.getBallPlayState());
+        assertEquals(1, match.getHomeTeam().getMatchInfo().getGoalsScored().size());
+        assertEquals(10, match.getHomeTeam().getMatchInfo().getGoalsScored().get(0).getTime());
+        assertEquals(9,
+                match.getHomeTeam().getMatchInfo().getGoalsScored().get(0).getScorer().getShirtNumber().intValue());
     }
 
     @Test
