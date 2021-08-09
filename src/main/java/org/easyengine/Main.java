@@ -17,8 +17,8 @@ public class Main {
             if (argsList.contains("--debug")) {
                 Logger.setDebug();
             }
-            if (argsList.contains("--report")) {
-                Logger.setReport();
+            if (argsList.contains("--events")) {
+                Logger.setEvents();
             }
         }
 

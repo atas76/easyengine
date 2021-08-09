@@ -7,14 +7,14 @@ import java.util.List;
 public class Logger {
 
     private static boolean debug;
-    private static boolean report;
+    private static boolean events;
 
     public static void setDebug() {
         debug = true;
     }
 
-    public static void setReport() {
-        report = true;
+    public static void setEvents() {
+        events = true;
     }
 
     public static void debug(String log) {
@@ -24,7 +24,7 @@ public class Logger {
     }
 
     public static void report(List<MatchEvent> events) {
-        if (report) {
+        if (Logger.events) {
             events.forEach(System.out::println);
         }
     }
