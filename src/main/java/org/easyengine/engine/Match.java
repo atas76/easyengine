@@ -106,7 +106,6 @@ public class Match {
         coinToss();
         kickOff();
         playTimePeriod(HALF_TIME_DURATION);
-        this.matchEvents.add(new MatchEvent(KICK_OFF));
         Logger.debug("Half time");
         Logger.debugEnd();
 
@@ -187,8 +186,6 @@ public class Match {
                     }
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
-                event.setTime(currentTime);
-                event.setDuration(1);
                 break;
             case SHOT:
                 switch(actionOutcomeDetails.getShotOutcome()) {
@@ -228,6 +225,8 @@ public class Match {
                 }
             default:
         }
+        event.setTime(currentTime);
+        event.setDuration(1);
 
         return event;
     }

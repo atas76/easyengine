@@ -28,6 +28,7 @@ public class MatchEvent extends ActionOutcomeDetails {
     @Override
     public String toString() {
         return "{ " +
+                    this.time + ", " +
                     this.actionType + ", " +
                     this.initialPosition + ", " +
                     this.targetPosition + ", " +
