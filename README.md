@@ -1,8 +1,3 @@
 # easyengine
 
-## Match engine dimensions
-
-* Input - Output
-* Environment - Agents
-* Time - Space
-* Rules
+MVP football match engine. More details and documentation will be added in the wiki. 
