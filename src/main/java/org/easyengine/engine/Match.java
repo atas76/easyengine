@@ -12,6 +12,7 @@ import org.easyengine.util.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
@@ -68,6 +69,10 @@ public class Match {
 
     public List<MatchEvent> getMatchEvents() {
         return this.matchEvents;
+    }
+
+    public List<String> getEventReport() {
+        return this.matchEvents.stream().map(MatchEvent::toString).collect(Collectors.toList());
     }
 
     private void changePossession() {

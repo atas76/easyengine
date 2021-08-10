@@ -35,11 +35,11 @@ public class Main {
         match.displayScore();
         Logger.debugEnd();
 
-        Logger.info(homeTeam.getName(), homeTeam.getMatchInfo());
+        Logger.info(homeTeam.getName(), homeTeam.getMatchInfo().toString());
         Logger.infoEnd();
-        Logger.info(awayTeam.getName(), awayTeam.getMatchInfo());
+        Logger.info(awayTeam.getName(), awayTeam.getMatchInfo().toString());
         Logger.infoEnd();
 
-        Logger.report(match.getMatchEvents());
+        Logger.report(match.getEventReport());
     }
 }

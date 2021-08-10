@@ -1,8 +1,5 @@
 package org.easyengine.util;
 
-import org.easyengine.engine.MatchEvent;
-import org.easyengine.engine.MatchInfo;
-
 import java.util.List;
 
 public class Logger {
@@ -29,22 +26,18 @@ public class Logger {
         }
     }
 
-    public static void report(List<MatchEvent> events) {
+    public static void report(List<String> events) {
         if (Logger.events) {
             events.forEach(System.out::println);
         }
     }
 
-    public static void info(String teamName, MatchInfo matchInfo) {
+    public static void info(String teamName, String matchInfo) {
         if (info) {
             System.out.println(teamName);
             System.out.println();
             System.out.println(matchInfo);
         }
-    }
-
-    public static void debugReport(List<MatchEvent> events) {
-        events.forEach(System.out::println);
     }
 
     public static void debugEnd() {
