@@ -4,7 +4,7 @@ import org.easyengine.engine.Action;
 import org.easyengine.engine.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
-import org.easyengine.environment.PlayerPosition;
+import org.easyengine.context.PlayerPosition;
 
 import java.util.Random;
 

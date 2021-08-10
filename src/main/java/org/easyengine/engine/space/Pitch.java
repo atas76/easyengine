@@ -1,6 +1,6 @@
 package org.easyengine.engine.space;
 
-import org.easyengine.environment.PlayerPosition;
+import org.easyengine.context.PlayerPosition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.Random;
 
 import static java.util.Map.entry;
 import static org.easyengine.engine.space.PitchPosition.*;
-import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
-import static org.easyengine.environment.PlayerPosition.PositionX.D;
-import static org.easyengine.environment.PlayerPosition.PositionX.M;
-import static org.easyengine.environment.PlayerPosition.PositionX.F;
-import static org.easyengine.environment.PlayerPosition.PositionY.*;
+import static org.easyengine.context.PlayerPosition.PositionX.Gk;
+import static org.easyengine.context.PlayerPosition.PositionX.D;
+import static org.easyengine.context.PlayerPosition.PositionX.M;
+import static org.easyengine.context.PlayerPosition.PositionX.F;
+import static org.easyengine.context.PlayerPosition.PositionY.*;
 
 public class Pitch {
 

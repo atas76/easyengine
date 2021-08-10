@@ -5,7 +5,7 @@ import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
-import org.easyengine.environment.PlayerPosition;
+import org.easyengine.context.PlayerPosition;
 import org.easyengine.util.Logger;
 
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
 import static org.easyengine.engine.BallPlayState.*;
-import static org.easyengine.environment.PlayerPosition.PositionX.F;
-import static org.easyengine.environment.PlayerPosition.PositionX.M;
+import static org.easyengine.context.PlayerPosition.PositionX.F;
+import static org.easyengine.context.PlayerPosition.PositionX.M;
 
 public class Match {
 
@@ -308,6 +308,7 @@ public class Match {
     }
 
     private void kickOff() {
+        this.matchEvents.add(new OutOfPlayEvent(KICK_OFF));
         List<Player> players = possessionTeam.getPlayersByPositionX(M);
         int playerIndex = rnd.nextInt(players.size());
         this.possessionPlayer = players.get(playerIndex);

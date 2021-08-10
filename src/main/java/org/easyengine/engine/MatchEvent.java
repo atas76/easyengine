@@ -11,7 +11,8 @@ public class MatchEvent extends ActionOutcomeDetails {
     private int duration;
     private Player actionPlayer;
     private Player outcomePlayer;
-    private BallPlayState ballPlayState = FREE_PLAY;
+    protected BallPlayState ballPlayState = FREE_PLAY;
+    protected boolean outOfPlay = false;
 
     public MatchEvent(ActionOutcomeDetails actionOutcomeDetails) {
         this.actionType = actionOutcomeDetails.actionType;
@@ -22,7 +23,12 @@ public class MatchEvent extends ActionOutcomeDetails {
     }
 
     public MatchEvent(BallPlayState ballPlayState) {
+        this.outOfPlay = true;
         this.ballPlayState = ballPlayState;
+    }
+
+    public boolean isOutOfPlay() {
+        return this.outOfPlay;
     }
 
     @Override

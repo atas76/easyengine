@@ -1,4 +1,4 @@
-package org.easyengine.environment;
+package org.easyengine.context;
 
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
@@ -6,11 +6,11 @@ import org.easyengine.domain.Team;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.easyengine.environment.PlayerPosition.PositionX.*;
-import static org.easyengine.environment.PlayerPosition.PositionY.*;
-import static org.easyengine.environment.Tactics.TACTIC_4_4_2;
+import static org.easyengine.context.PlayerPosition.PositionX.*;
+import static org.easyengine.context.PlayerPosition.PositionY.*;
+import static org.easyengine.context.Tactics.TACTIC_4_4_2;
 
-public class Environment {
+public class Context {
 
     public static Map<String, Team> teams = new HashMap<>();
 

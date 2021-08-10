@@ -2,12 +2,12 @@ package domain;
 
 import org.easyengine.domain.Player;
 import org.easyengine.engine.Action;
-import org.easyengine.environment.PlayerPosition;
+import org.easyengine.context.PlayerPosition;
 import org.junit.Test;
 
 import static org.easyengine.engine.ActionType.PASS;
-import static org.easyengine.environment.PlayerPosition.PositionX.M;
-import static org.easyengine.environment.PlayerPosition.PositionY.R;
+import static org.easyengine.context.PlayerPosition.PositionX.M;
+import static org.easyengine.context.PlayerPosition.PositionY.R;
 import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {

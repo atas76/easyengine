@@ -1,4 +1,4 @@
-package org.easyengine.environment;
+package org.easyengine.context;
 
 import java.util.Objects;
 

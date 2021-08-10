@@ -2,7 +2,7 @@ package org.easyengine;
 
 import org.easyengine.domain.Team;
 import org.easyengine.engine.Match;
-import org.easyengine.environment.Environment;
+import org.easyengine.context.Context;
 import org.easyengine.util.Logger;
 
 import java.util.Arrays;
@@ -25,10 +25,10 @@ public class Main {
             }
         }
 
-        Environment.load();
+        Context.load();
 
-        Team homeTeam = Environment.getTeam("A");
-        Team awayTeam = Environment.getTeam("B");
+        Team homeTeam = Context.getTeam("A");
+        Team awayTeam = Context.getTeam("B");
 
         Match match = new Match(homeTeam, awayTeam);
         match.play();

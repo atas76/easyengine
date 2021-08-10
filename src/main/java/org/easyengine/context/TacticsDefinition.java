@@ -1,12 +1,12 @@
-package org.easyengine.environment;
+package org.easyengine.context;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.easyengine.environment.PlayerPosition.PositionX.*;
-import static org.easyengine.environment.PlayerPosition.PositionY.*;
+import static org.easyengine.context.PlayerPosition.PositionX.*;
+import static org.easyengine.context.PlayerPosition.PositionY.*;
 
 public class TacticsDefinition {
 

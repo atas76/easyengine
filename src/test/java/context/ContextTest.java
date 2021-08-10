@@ -1,33 +1,33 @@
-package environment;
+package context;
 
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
-import org.easyengine.environment.Environment;
-import org.easyengine.environment.PlayerPosition;
+import org.easyengine.context.Context;
+import org.easyengine.context.PlayerPosition;
 import org.junit.Test;
 
-import static org.easyengine.environment.PlayerPosition.PositionX.M;
-import static org.easyengine.environment.PlayerPosition.PositionX.F;
-import static org.easyengine.environment.PlayerPosition.PositionX.Gk;
-import static org.easyengine.environment.PlayerPosition.PositionY.*;
+import static org.easyengine.context.PlayerPosition.PositionX.M;
+import static org.easyengine.context.PlayerPosition.PositionX.F;
+import static org.easyengine.context.PlayerPosition.PositionX.Gk;
+import static org.easyengine.context.PlayerPosition.PositionY.*;
 import static org.junit.Assert.*;
 
-public class EnvironmentTest {
+public class ContextTest {
 
     @Test
     public void testLoad() {
 
-        Environment.load();
+        Context.load();
 
-        Team teamA = Environment.getTeam("A");
-        Team teamB = Environment.getTeam("B");
+        Team teamA = Context.getTeam("A");
+        Team teamB = Context.getTeam("B");
         Player GoalkeeperA = teamA.getPlayerByPosition(new PlayerPosition(Gk));
         Player RightForwardA = teamA.getPlayerByPosition(new PlayerPosition(F, C_R));
         Player LeftForwardA = teamA.getPlayerByPosition(new PlayerPosition(F, C_L));
         Player GoalkeeperB = teamB.getPlayerByPosition(new PlayerPosition(Gk));
         Player MidfielderB = teamB.getPlayerByPosition(new PlayerPosition(M, C_R));
 
-        assertEquals(2, Environment.getTeamCount());
+        assertEquals(2, Context.getTeamCount());
         assertNotNull(teamA);
         assertNotNull(teamB);
         assertEquals(11, teamA.getPlayersCount());
@@ -45,8 +45,8 @@ public class EnvironmentTest {
     @Test(expected=java.lang.AssertionError.class)
     public void testNonExistentPlayerInstructions() {
 
-        Environment.load();
-        Team teamA = Environment.getTeam("A");
+        Context.load();
+        Team teamA = Context.getTeam("A");
 
         teamA.addCornerKickTaker(15);
     }

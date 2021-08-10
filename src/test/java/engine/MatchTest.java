@@ -3,8 +3,8 @@ package engine;
 import org.easyengine.domain.Player;
 import org.easyengine.engine.*;
 import org.easyengine.engine.space.PitchPosition;
-import org.easyengine.environment.Environment;
-import org.easyengine.environment.PlayerPosition;
+import org.easyengine.context.Context;
+import org.easyengine.context.PlayerPosition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -19,9 +19,9 @@ import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.Match.HALF_TIME_DURATION;
 import static org.easyengine.engine.ShotOutcome.GOAL;
 import static org.easyengine.engine.space.PitchPosition.*;
-import static org.easyengine.environment.PlayerPosition.PositionX.F;
-import static org.easyengine.environment.PlayerPosition.PositionX.M;
-import static org.easyengine.environment.PlayerPosition.PositionY.C_R;
+import static org.easyengine.context.PlayerPosition.PositionX.F;
+import static org.easyengine.context.PlayerPosition.PositionX.M;
+import static org.easyengine.context.PlayerPosition.PositionY.C_R;
 import static org.junit.Assert.*;
 
 public class MatchTest {
@@ -30,14 +30,14 @@ public class MatchTest {
 
     @BeforeClass
     public static void setUp() {
-        Environment.load();
-        match = new Match(Environment.getTeam("A"), Environment.getTeam("B"));
+        Context.load();
+        match = new Match(Context.getTeam("A"), Context.getTeam("B"));
     }
 
     @Test
     public void testSuccessfulMatchEvents() {
-        Environment.load();
-        Match match = new Match(Environment.getTeam("A"), Environment.getTeam("B"));
+        Context.load();
+        Match match = new Match(Context.getTeam("A"), Context.getTeam("B"));
 
         match.play();
         List<MatchEvent> matchEvents = match.getMatchEvents();
@@ -46,7 +46,7 @@ public class MatchTest {
             MatchEvent currentEvent = matchEvents.get(i);
             MatchEvent nextEvent = matchEvents.get(i + 1);
 
-            if (SUCCESS == currentEvent.getActionOutcome() && KICK_OFF != nextEvent.getBallPlayState()) {
+            if (SUCCESS == currentEvent.getActionOutcome() && !nextEvent.isOutOfPlay()) {
                 assertEquals(currentEvent.getTargetPosition(), nextEvent.getInitialPosition());
             }
         }
@@ -55,7 +55,7 @@ public class MatchTest {
     @Test
     public void testKickOff() {
 
-        match.playCurrentCycle(new MatchState(Environment.getTeam("A"), null, KICK_OFF));
+        match.playCurrentCycle(new MatchState(Context.getTeam("A"), null, KICK_OFF));
         Player player = match.getPossessionPlayer();
         PitchPosition pitchPosition = player.getPitchPosition();
 
@@ -70,7 +70,9 @@ public class MatchTest {
 
         match.playTimePeriod(HALF_TIME_DURATION);
 
-        assertEquals(HALF_TIME_DURATION, match.getMatchEvents().size());
+        assertEquals(HALF_TIME_DURATION,
+                match.getMatchEvents().size() -
+                        match.getHomeTeam().getGoalsScored() - match.getAwayTeam().getGoalsScored() - 1);
     }
 
     @Test
