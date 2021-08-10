@@ -1,6 +1,6 @@
 package engine;
 
-import org.easyengine.domain.Player;
+import org.easyengine.input.domain.Player;
 import org.easyengine.engine.*;
 import org.easyengine.engine.ActionOutcomeDetails;
 import org.easyengine.engine.MatchEvent;

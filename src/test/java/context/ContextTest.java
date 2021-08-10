@@ -1,7 +1,7 @@
 package context;
 
-import org.easyengine.domain.Player;
-import org.easyengine.domain.Team;
+import org.easyengine.input.domain.Player;
+import org.easyengine.input.domain.Team;
 import org.easyengine.context.Context;
 import org.easyengine.context.PlayerPosition;
 import org.junit.Test;

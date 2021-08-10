@@ -1,6 +1,6 @@
 package domain;
 
-import org.easyengine.domain.Player;
+import org.easyengine.input.domain.Player;
 import org.easyengine.engine.Action;
 import org.easyengine.context.PlayerPosition;
 import org.junit.Test;

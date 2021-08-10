@@ -1,7 +1,7 @@
 package org.easyengine.context;
 
-import org.easyengine.domain.Player;
-import org.easyengine.domain.Team;
+import org.easyengine.input.domain.Player;
+import org.easyengine.input.domain.Team;
 
 import java.util.HashMap;
 import java.util.Map;

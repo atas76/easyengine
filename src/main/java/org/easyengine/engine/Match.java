@@ -1,8 +1,8 @@
 package org.easyengine.engine;
 
 import javafx.util.Pair;
-import org.easyengine.domain.Player;
-import org.easyengine.domain.Team;
+import org.easyengine.input.domain.Player;
+import org.easyengine.input.domain.Team;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;

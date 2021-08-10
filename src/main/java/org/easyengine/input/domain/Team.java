@@ -1,4 +1,4 @@
-package org.easyengine.domain;
+package org.easyengine.input.domain;
 
 import org.easyengine.engine.MatchInfo;
 import org.easyengine.context.PlayerPosition;

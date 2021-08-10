@@ -1,6 +1,6 @@
 package org.easyengine;
 
-import org.easyengine.domain.Team;
+import org.easyengine.input.domain.Team;
 import org.easyengine.engine.Match;
 import org.easyengine.context.Context;
 import org.easyengine.util.Logger;

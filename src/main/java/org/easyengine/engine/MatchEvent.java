@@ -1,6 +1,6 @@
 package org.easyengine.engine;
 
-import org.easyengine.domain.Player;
+import org.easyengine.input.domain.Player;
 
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.BallPlayState.FREE_PLAY;
