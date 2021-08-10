@@ -1,6 +1,7 @@
-package org.easyengine.engine;
+package org.easyengine.engine.environment;
 
 import javafx.util.Pair;
+import org.easyengine.engine.ShotOutcome;
 import org.easyengine.engine.space.PitchPosition;
 
 import static java.util.Map.entry;

@@ -2,6 +2,8 @@ package engine;
 
 import org.easyengine.domain.Player;
 import org.easyengine.engine.*;
+import org.easyengine.engine.ActionOutcomeDetails;
+import org.easyengine.engine.MatchEvent;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.Context;
 import org.easyengine.context.PlayerPosition;

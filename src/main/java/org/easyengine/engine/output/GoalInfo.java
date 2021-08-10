@@ -1,4 +1,4 @@
-package org.easyengine.engine;
+package org.easyengine.engine.output;
 
 import org.easyengine.domain.Player;
 

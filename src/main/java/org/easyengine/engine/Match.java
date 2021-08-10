@@ -3,6 +3,7 @@ package org.easyengine.engine;
 import javafx.util.Pair;
 import org.easyengine.domain.Player;
 import org.easyengine.domain.Team;
+import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.PlayerPosition;

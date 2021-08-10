@@ -1,7 +1,7 @@
 package org.easyengine.domain;
 
 import org.easyengine.engine.Action;
-import org.easyengine.engine.ProbabilityModel;
+import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.PlayerPosition;

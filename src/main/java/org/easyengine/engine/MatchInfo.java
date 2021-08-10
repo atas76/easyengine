@@ -1,6 +1,7 @@
 package org.easyengine.engine;
 
 import org.easyengine.domain.Player;
+import org.easyengine.engine.output.GoalInfo;
 
 import java.util.ArrayList;
 import java.util.List;

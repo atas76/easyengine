@@ -1,6 +1,6 @@
 package engine;
 
-import org.easyengine.engine.ProbabilityModel;
+import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.ShotOutcome;
 import org.easyengine.engine.space.PitchPosition;
 import org.junit.Test;
