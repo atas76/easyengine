@@ -1,15 +1,15 @@
 package context;
 
-import org.easyengine.input.domain.Player;
-import org.easyengine.input.domain.Team;
+import org.easyengine.engine.input.domain.Player;
+import org.easyengine.engine.input.domain.Team;
 import org.easyengine.context.Context;
-import org.easyengine.input.PlayerPosition;
+import org.easyengine.engine.input.PlayerPosition;
 import org.junit.Test;
 
-import static org.easyengine.input.PlayerPosition.PositionX.M;
-import static org.easyengine.input.PlayerPosition.PositionX.F;
-import static org.easyengine.input.PlayerPosition.PositionX.Gk;
-import static org.easyengine.input.PlayerPosition.PositionY.*;
+import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
+import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
+import static org.easyengine.engine.input.PlayerPosition.PositionX.Gk;
+import static org.easyengine.engine.input.PlayerPosition.PositionY.*;
 import static org.junit.Assert.*;
 
 public class ContextTest {

@@ -1,6 +1,6 @@
 package org.easyengine.engine.output;
 
-import org.easyengine.input.domain.Player;
+import org.easyengine.engine.input.domain.Player;
 
 public class GoalInfo {
 

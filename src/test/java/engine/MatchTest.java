@@ -1,12 +1,12 @@
 package engine;
 
-import org.easyengine.input.domain.Player;
+import org.easyengine.engine.input.domain.Player;
 import org.easyengine.engine.*;
 import org.easyengine.engine.ActionOutcomeDetails;
 import org.easyengine.engine.MatchEvent;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.Context;
-import org.easyengine.input.PlayerPosition;
+import org.easyengine.engine.input.PlayerPosition;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,9 +21,9 @@ import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.Match.HALF_TIME_DURATION;
 import static org.easyengine.engine.ShotOutcome.GOAL;
 import static org.easyengine.engine.space.PitchPosition.*;
-import static org.easyengine.input.PlayerPosition.PositionX.F;
-import static org.easyengine.input.PlayerPosition.PositionX.M;
-import static org.easyengine.input.PlayerPosition.PositionY.C_R;
+import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
+import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
+import static org.easyengine.engine.input.PlayerPosition.PositionY.C_R;
 import static org.junit.Assert.*;
 
 public class MatchTest {

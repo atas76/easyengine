@@ -1,7 +1,7 @@
 package org.easyengine.engine;
 
-import org.easyengine.input.domain.Player;
-import org.easyengine.input.domain.Team;
+import org.easyengine.engine.input.domain.Player;
+import org.easyengine.engine.input.domain.Team;
 
 public class MatchState {
 

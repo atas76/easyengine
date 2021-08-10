@@ -1,10 +1,10 @@
-package org.easyengine.input.domain;
+package org.easyengine.engine.input.domain;
 
 import org.easyengine.engine.Action;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
-import org.easyengine.input.PlayerPosition;
+import org.easyengine.engine.input.PlayerPosition;
 
 import java.util.Random;
 
