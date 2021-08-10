@@ -1,14 +1,15 @@
 package org.easyengine.context;
 
 import org.easyengine.input.domain.Player;
+import org.easyengine.input.PlayerPosition;
 import org.easyengine.input.domain.Team;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.easyengine.context.PlayerPosition.PositionX.*;
-import static org.easyengine.context.PlayerPosition.PositionY.*;
-import static org.easyengine.context.Tactics.TACTIC_4_4_2;
+import static org.easyengine.input.PlayerPosition.PositionX.*;
+import static org.easyengine.input.PlayerPosition.PositionY.*;
+import static org.easyengine.input.Tactics.TACTIC_4_4_2;
 
 public class Context {
 

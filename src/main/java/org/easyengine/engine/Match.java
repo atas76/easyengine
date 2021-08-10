@@ -6,7 +6,7 @@ import org.easyengine.input.domain.Team;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
-import org.easyengine.context.PlayerPosition;
+import org.easyengine.input.PlayerPosition;
 import org.easyengine.util.Logger;
 
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
 import static org.easyengine.engine.BallPlayState.*;
-import static org.easyengine.context.PlayerPosition.PositionX.F;
-import static org.easyengine.context.PlayerPosition.PositionX.M;
+import static org.easyengine.input.PlayerPosition.PositionX.F;
+import static org.easyengine.input.PlayerPosition.PositionX.M;
 
 public class Match {
 

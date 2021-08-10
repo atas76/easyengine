@@ -1,15 +1,15 @@
 package org.easyengine.input.domain;
 
 import org.easyengine.engine.MatchInfo;
-import org.easyengine.context.PlayerPosition;
-import org.easyengine.context.Tactics;
-import org.easyengine.context.TacticsDefinition;
+import org.easyengine.input.PlayerPosition;
+import org.easyengine.input.Tactics;
+import org.easyengine.input.TacticsDefinition;
 
 import java.util.*;
 
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
-import static org.easyengine.context.PlayerPosition.PositionX.Gk;
+import static org.easyengine.input.PlayerPosition.PositionX.Gk;
 
 public class Team {
 
