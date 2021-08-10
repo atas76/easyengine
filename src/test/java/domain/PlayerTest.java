@@ -1,7 +1,7 @@
 package domain;
 
-import org.easyengine.engine.input.domain.Player;
 import org.easyengine.engine.Action;
+import org.easyengine.engine.agent.Player;
 import org.easyengine.engine.input.PlayerPosition;
 import org.junit.Test;
 

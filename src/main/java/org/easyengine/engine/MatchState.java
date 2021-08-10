@@ -1,6 +1,6 @@
 package org.easyengine.engine;
 
-import org.easyengine.engine.input.domain.Player;
+import org.easyengine.engine.agent.Player;
 import org.easyengine.engine.input.domain.Team;
 
 public class MatchState {

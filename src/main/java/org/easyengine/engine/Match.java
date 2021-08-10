@@ -1,7 +1,7 @@
 package org.easyengine.engine;
 
 import javafx.util.Pair;
-import org.easyengine.engine.input.domain.Player;
+import org.easyengine.engine.agent.Player;
 import org.easyengine.engine.input.domain.Team;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.space.Pitch;
@@ -161,13 +161,14 @@ public class Match {
             case PASS:
                 event.setActionPlayer(this.possessionPlayer);
                 if (ActionOutcome.CORNER_KICK.equals(actionOutcomeDetails.getActionOutcome())) {
-                    this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+                    this.possessionPlayer = new Player(this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers()));
                     this.possessionPlayer.setPitchPosition(PitchPosition.C);
                     this.ballPlayState = CORNER_KICK;
                     event.setBallPlayState(CORNER_KICK);
                 } else if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
                     this.possessionPlayer =
-                            this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition()));
+                            new Player(this.possessionTeam.getPlayerByPosition(
+                                    Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition())));
                 } else {
 
                     changePossession();
@@ -178,17 +179,17 @@ public class Match {
                     );
 
                     if (PitchPosition.C == outcomePosition) {
-                        this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+                        this.possessionPlayer = new Player(this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers()));
                         this.possessionPlayer.setPitchPosition(PitchPosition.C);
                     } else if (PitchPosition.GK == outcomePosition) {
                         this.ballPlayState = GOAL_KICK;
                         event.setBallPlayState(GOAL_KICK);
                         this.possessionPlayer =
-                                this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition));
+                                new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition)));
                         this.possessionPlayer.setPitchPosition(PitchPosition.GK);
                     } else {
                         this.possessionPlayer =
-                                this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition));
+                                new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition)));
                     }
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
@@ -204,7 +205,7 @@ public class Match {
                         changePossession();
                         this.ballPlayState = GOAL_KICK;
                         this.possessionPlayer =
-                                this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(PitchPosition.GK));
+                                new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(PitchPosition.GK)));
                         this.possessionPlayer.setPitchPosition(PitchPosition.GK);
                         break;
                     case BLK_C:
@@ -239,18 +240,18 @@ public class Match {
 
     private void applyCornerKick() {
         this.ballPlayState = CORNER_KICK;
-        this.possessionPlayer = this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers());
+        this.possessionPlayer = new Player(this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers()));
         this.possessionPlayer.setPitchPosition(PitchPosition.C);
     }
 
     private void applyGoalkeeperPossession() {
         changePossession();
-        this.possessionPlayer = this.getPossessionTeam().getGoalkeeper();
+        this.possessionPlayer = new Player(this.getPossessionTeam().getGoalkeeper());
     }
 
     private void applyRebound(PlayerPosition.PositionX positionX) {
-        List<Player> possibleRebounders = this.possessionTeam.getPlayersByPositionX(positionX);
-        this.possessionPlayer = possibleRebounders.get(new Random().nextInt(possibleRebounders.size()));
+        List<org.easyengine.engine.input.domain.Player> possibleRebounders = this.possessionTeam.getPlayersByPositionX(positionX);
+        this.possessionPlayer = new Player(possibleRebounders.get(new Random().nextInt(possibleRebounders.size())));
     }
 
     private PitchPosition getSetPiecePosition() {
@@ -315,9 +316,9 @@ public class Match {
 
     private void kickOff() {
         this.matchEvents.add(new OutOfPlayEvent(KICK_OFF));
-        List<Player> players = possessionTeam.getPlayersByPositionX(M);
+        List<org.easyengine.engine.input.domain.Player> players = possessionTeam.getPlayersByPositionX(M);
         int playerIndex = rnd.nextInt(players.size());
-        this.possessionPlayer = players.get(playerIndex);
+        this.possessionPlayer = new Player(players.get(playerIndex));
         this.ballPlayState = FREE_PLAY;
     }
 

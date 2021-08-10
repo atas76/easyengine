@@ -1,9 +1,9 @@
 package engine;
 
-import org.easyengine.engine.input.domain.Player;
 import org.easyengine.engine.*;
 import org.easyengine.engine.ActionOutcomeDetails;
 import org.easyengine.engine.MatchEvent;
+import org.easyengine.engine.agent.Player;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.Context;
 import org.easyengine.engine.input.PlayerPosition;
@@ -79,8 +79,9 @@ public class MatchTest {
 
     @Test
     public void testGoalKickExecution() {
-        Player taker = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.Gk));
-        match.setState(new MatchState(match.getHomeTeam(), taker, GOAL_KICK));
+
+        org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.Gk));
+        match.setState(new MatchState(match.getHomeTeam(), new Player(taker), GOAL_KICK));
 
         match.applyOutcome(match.executeAction(new Action(PASS, PitchPosition.M)));
 
@@ -88,13 +89,13 @@ public class MatchTest {
         assertNotSame(taker, match.getPossessionPlayer());
         assertNotSame(PitchPosition.GK, match.getPossessionPlayer().getPitchPosition());
         assertNotSame(taker, match.getPossessionPlayer());
-        assertNotSame(PitchPosition.GK, taker.getPitchPosition());
     }
 
     @Test
     public void testCornerKickExecution() {
-        Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
-        match.setState(new MatchState(match.getHomeTeam(), taker, CORNER_KICK));
+
+        org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
+        match.setState(new MatchState(match.getHomeTeam(), new Player(taker), CORNER_KICK));
 
         match.applyOutcome(match.executeAction(new Action(PASS, A)));
 
@@ -221,10 +222,12 @@ public class MatchTest {
 
     @Test
     public void testShotDecision() {
-        Player player = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.F, PlayerPosition.PositionY.C_R));
-        match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));
 
-        Action action = player.decideAction();
+        org.easyengine.engine.input.domain.Player player = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.F, PlayerPosition.PositionY.C_R));
+        Player agent = new Player(player);
+        match.setState(new MatchState(match.getHomeTeam(), agent, FREE_PLAY));
+
+        Action action = agent.decideAction();
 
         assertEquals(SHOT, action.getType());
     }
