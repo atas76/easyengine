@@ -117,6 +117,12 @@ public class ProbabilityModel {
         return successRate.get(new Pair<>(sourcePosition, targetPosition));
     }
 
+    public static Map<PitchPosition, Double> getSuccessRates(PitchPosition initialPosition) {
+        return successRate.entrySet().stream().filter(successRateEntry -> successRateEntry.getKey().getKey() == initialPosition)
+                .map(successRateEntry -> entry(successRateEntry.getKey().getValue(), successRateEntry.getValue()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
     public static Double getExpectedChance(PitchPosition pitchPosition) {
 
         if (A == pitchPosition) {

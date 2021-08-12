@@ -38,6 +38,15 @@ public class ProbabilityModelTest {
     }
 
     @Test
+    public void testGetSuccessRates() {
+
+        Map<PitchPosition, Double> successRates = ProbabilityModel.getSuccessRates(Mw);
+
+        assertEquals(4, successRates.size());
+        assertEquals(0.95, successRates.get(M), 0.01);
+    }
+
+    @Test
     public void testExpectedChance() {
         assertEquals(1.0, ProbabilityModel.getExpectedChance(A), 0.01);
         assertEquals(0.29, ProbabilityModel.getExpectedChance(M), 0.01);

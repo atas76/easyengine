@@ -3,6 +3,7 @@ package org.easyengine;
 import org.easyengine.engine.input.domain.Team;
 import org.easyengine.engine.Match;
 import org.easyengine.context.Context;
+import org.easyengine.util.Config;
 import org.easyengine.util.Logger;
 
 import java.util.Arrays;
@@ -22,6 +23,9 @@ public class Main {
             }
             if (argsList.contains("--info")) {
                 Logger.setInfo();
+            }
+            if (argsList.contains("--ai")) {
+                Config.setAI();
             }
         }
 

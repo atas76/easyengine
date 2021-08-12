@@ -1,8 +1,10 @@
-package domain;
+package agent;
 
 import org.easyengine.engine.Action;
 import org.easyengine.engine.agent.Player;
 import org.easyengine.engine.input.PlayerPosition;
+import org.easyengine.engine.space.PitchPosition;
+import org.easyengine.util.Config;
 import org.junit.Test;
 
 import static org.easyengine.engine.ActionType.PASS;
@@ -14,11 +16,21 @@ public class PlayerTest {
 
     @Test
     public void testNextActionDecision() {
-
         Player player = new Player(19, "Luka M", new PlayerPosition(M, R));
 
         Action action = player.decideAction();
 
         assertEquals(action.getType(), PASS);
+    }
+
+    @Test
+    public void testNextActionDecisionAgentDriven() {
+        Config.setAI();
+        Player player = new Player(19, "Luka M", new PlayerPosition(M, R));
+
+        Action action = player.decideAction();
+
+        assertEquals(action.getType(), PASS);
+        assertEquals(PitchPosition.M, action.getTarget());
     }
 }
