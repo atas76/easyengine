@@ -11,6 +11,7 @@ import static org.easyengine.engine.space.PitchPosition.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import static org.easyengine.engine.space.PitchPosition.GK;
 import static org.easyengine.engine.space.PitchPosition.Gk;
@@ -114,6 +115,43 @@ public class ProbabilityModel {
 
     public static Double getSuccessRate(PitchPosition sourcePosition, PitchPosition targetPosition) {
         return successRate.get(new Pair<>(sourcePosition, targetPosition));
+    }
+
+    public static Double getExpectedChance(PitchPosition pitchPosition) {
+
+        if (A == pitchPosition) {
+            return 1.0;
+        }
+
+        final var targetPositionsStream = successRate.keySet().stream()
+                .filter(passVector -> passVector.getKey() == pitchPosition);
+        final var targetPositions = targetPositionsStream.collect(Collectors.toList());
+
+        List<Pair<PitchPosition, PitchPosition>> targetPassVector =
+                targetPositions.stream()
+                        .filter(targetPosition -> targetPosition.getValue() == A).collect(Collectors.toList());
+
+        if (!targetPassVector.isEmpty()) {
+            return successRate.get(targetPassVector.get(0));
+        }
+
+        return 0.0;
+
+        /*
+        List<Pair<PitchPosition, Double>> expectedChancesPerPosition = targetPositionsStream
+                .map(passVector -> new Pair<>(passVector.getValue(),
+                        successRate.get(passVector) * getExpectedChance(passVector.getValue())))
+                .collect(Collectors.toList());
+
+        Optional<Pair<PitchPosition, Double>> maxExpectedChancePosition =
+                expectedChancesPerPosition.stream().max(Comparator.comparing(Pair::getValue));
+
+        if (maxExpectedChancePosition.isPresent()) {
+            return maxExpectedChancePosition.get().getValue();
+        } else {
+            return 0.0;
+        }
+         */
     }
 
     // order: Gk, GK, D, Dw, M, Mw, A, C

@@ -38,6 +38,15 @@ public class ProbabilityModelTest {
     }
 
     @Test
+    public void testExpectedChance() {
+        assertEquals(1.0, ProbabilityModel.getExpectedChance(A), 0.01);
+        assertEquals(0.29, ProbabilityModel.getExpectedChance(M), 0.01);
+        assertEquals(0.21, ProbabilityModel.getExpectedChance(Mw), 0.01);
+        assertEquals(0.0, ProbabilityModel.getExpectedChance(D), 0.01);
+        assertEquals(0.0, ProbabilityModel.getExpectedChance(Dw), 0.01);
+    }
+
+    @Test
     public void testShotOutcomes() {
 
         Double goalOutcomeIndex = 0.05;
