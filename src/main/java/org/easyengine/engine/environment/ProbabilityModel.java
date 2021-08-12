@@ -136,22 +136,6 @@ public class ProbabilityModel {
         }
 
         return 0.0;
-
-        /*
-        List<Pair<PitchPosition, Double>> expectedChancesPerPosition = targetPositionsStream
-                .map(passVector -> new Pair<>(passVector.getValue(),
-                        successRate.get(passVector) * getExpectedChance(passVector.getValue())))
-                .collect(Collectors.toList());
-
-        Optional<Pair<PitchPosition, Double>> maxExpectedChancePosition =
-                expectedChancesPerPosition.stream().max(Comparator.comparing(Pair::getValue));
-
-        if (maxExpectedChancePosition.isPresent()) {
-            return maxExpectedChancePosition.get().getValue();
-        } else {
-            return 0.0;
-        }
-         */
     }
 
     // order: Gk, GK, D, Dw, M, Mw, A, C
