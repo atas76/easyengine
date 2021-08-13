@@ -7,6 +7,7 @@ import org.easyengine.engine.agent.Player;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.Context;
 import org.easyengine.engine.input.PlayerPosition;
+import org.easyengine.util.Config;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -52,6 +53,28 @@ public class MatchTest {
                 assertEquals(currentEvent.getTargetPosition(), nextEvent.getInitialPosition());
             }
         }
+    }
+
+    @Test
+    public void testAIOutcomes() {
+        Context.load();
+        final int REPETITIONS = 30;
+
+        int dataGoals = 0;
+        for (int i = 0; i < REPETITIONS; i++) {
+            Match dataMatch = new Match(Context.getTeam("A"), Context.getTeam("B"));
+            dataMatch.play();
+            dataGoals += dataMatch.getHomeTeam().getGoalsScored() + dataMatch.getAwayTeam().getGoalsScored();
+        }
+        Config.setAI();
+        int aiGoals = 0;
+        for (int i = 0; i < REPETITIONS; i++) {
+            Match aiMatch = new Match(Context.getTeam("A"), Context.getTeam("B"));
+            aiMatch.play();
+            aiGoals += aiMatch.getHomeTeam().getGoalsScored() + aiMatch.getAwayTeam().getGoalsScored();
+        }
+
+        assertTrue(aiGoals > dataGoals);
     }
 
     @Test
