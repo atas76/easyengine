@@ -6,6 +6,7 @@ import org.easyengine.engine.space.PitchPosition;
 
 import static java.util.Map.entry;
 import static java.util.stream.Collectors.toMap;
+import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ShotOutcome.*;
 import static org.easyengine.engine.space.PitchPosition.*;
 
@@ -18,52 +19,52 @@ import static org.easyengine.engine.space.PitchPosition.Gk;
 
 public class ProbabilityModel {
 
-    static Map<Pair<PitchPosition, PitchPosition>, Double> actionDistribution = Map.ofEntries(
-            entry(new Pair<>(Gk, Dw), 0.22),
-            entry(new Pair<>(Gk, D), 0.16),
-            entry(new Pair<>(Gk, Mw), 0.37),
-            entry(new Pair<>(Gk, M), 0.16),
-            entry(new Pair<>(Gk, A), 0.09),
-            entry(new Pair<>(GK, Dw), 0.125),
-            entry(new Pair<>(GK, D), 0.5),
-            entry(new Pair<>(GK, M), 0.375),
-            entry(new Pair<>(Dw, Gk), 0.21),
-            entry(new Pair<>(Dw, D), 0.12),
-            entry(new Pair<>(Dw, Mw), 0.26),
-            entry(new Pair<>(Dw, M), 0.35),
-            entry(new Pair<>(Dw, A), 0.06),
-            entry(new Pair<>(D, Gk), 0.2),
-            entry(new Pair<>(D, Dw), 0.24),
-            entry(new Pair<>(D, Mw), 0.24),
-            entry(new Pair<>(D, M), 0.28),
-            entry(new Pair<>(D, A), 0.04),
-            entry(new Pair<>(Mw, Dw), 0.025),
-            entry(new Pair<>(Mw, D), 0.075),
-            entry(new Pair<>(Mw, M), 0.55),
-            entry(new Pair<>(Mw, A), 0.35),
-            entry(new Pair<>(M, Dw), 0.09),
-            entry(new Pair<>(M, D), 0.07),
-            entry(new Pair<>(M, Mw), 0.25),
-            entry(new Pair<>(M, A), 0.59),
-            entry(new Pair<>(C, Gk), 0.1),
-            entry(new Pair<>(C, M), 0.2),
-            entry(new Pair<>(C, A), 0.7)
-        );
+    static Map<Action, Double> actionDistribution = Map.ofEntries(
+            entry(new Action(PASS, Gk, Dw), 0.22),
+            entry(new Action(PASS, Gk, D), 0.16),
+            entry(new Action(PASS, Gk, Mw), 0.37),
+            entry(new Action(PASS, Gk, M), 0.16),
+            entry(new Action(PASS, Gk, A), 0.09),
+            entry(new Action(PASS, GK, Dw), 0.125),
+            entry(new Action(PASS, GK, D), 0.5),
+            entry(new Action(PASS, GK, M), 0.375),
+            entry(new Action(PASS, Dw, Gk), 0.21),
+            entry(new Action(PASS, Dw, D), 0.12),
+            entry(new Action(PASS, Dw, Mw), 0.26),
+            entry(new Action(PASS, Dw, M), 0.35),
+            entry(new Action(PASS, Dw, A), 0.06),
+            entry(new Action(PASS, D, Gk), 0.2),
+            entry(new Action(PASS, D, Dw), 0.24),
+            entry(new Action(PASS, D, Mw), 0.24),
+            entry(new Action(PASS, D, M), 0.28),
+            entry(new Action(PASS, D, A), 0.04),
+            entry(new Action(PASS, Mw, Dw), 0.025),
+            entry(new Action(PASS, Mw, D), 0.075),
+            entry(new Action(PASS, Mw, M), 0.55),
+            entry(new Action(PASS, Mw, A), 0.35),
+            entry(new Action(PASS, M, Dw), 0.09),
+            entry(new Action(PASS, M, D), 0.07),
+            entry(new Action(PASS, M, Mw), 0.25),
+            entry(new Action(PASS, M, A), 0.59),
+            entry(new Action(PASS, C, Gk), 0.1),
+            entry(new Action(PASS, C, M), 0.2),
+            entry(new Action(PASS, C, A), 0.7)
+    );
 
-    public static Map<PitchPosition, Double> getTargetsDistribution(PitchPosition source) {
-        Map<Pair<PitchPosition, PitchPosition>, Double> distributions = actionDistribution.entrySet().stream()
-                .filter(entry -> entry.getKey().getKey() == source)
+    public static Map<Action, Double> getActionDistribution(PitchPosition source) {
+        Map<Action, Double> distributions = actionDistribution.entrySet().stream()
+                .filter(entry -> entry.getKey().getSource() == source)
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
         return distributions.entrySet().stream()
-                .map(distEntry -> entry(distEntry.getKey().getValue(), distEntry.getValue()))
+                .map(distEntry -> entry(distEntry.getKey(), distEntry.getValue()))
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public static PitchPosition getTargetPosition(PitchPosition source, double decisionWeightIndex) {
-        Map<PitchPosition, Double> targetsDistribution = getTargetsDistribution(source);
-        TreeMap<PitchPosition, Double> sortedTargetsDistribution = new TreeMap<>(targetsDistribution);
+    public static Action getAction(PitchPosition source, double decisionWeightIndex) {
+        Map<Action, Double> actionsDistribution = getActionDistribution(source);
+        TreeMap<Action, Double> sortedTargetsDistribution = new TreeMap<>(actionsDistribution);
         AtomicReference<Double> sum = new AtomicReference<>(0.0);
-        for (Map.Entry<PitchPosition, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
+        for (Map.Entry<Action, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
             sum.updateAndGet(v -> v + targetEntry.getValue());
             if (decisionWeightIndex < sum.get()) {
                 return targetEntry.getKey();

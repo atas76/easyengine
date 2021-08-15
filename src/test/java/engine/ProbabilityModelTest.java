@@ -1,5 +1,6 @@
 package engine;
 
+import org.easyengine.engine.environment.Action;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.ShotOutcome;
 import org.easyengine.engine.space.PitchPosition;
@@ -7,26 +8,29 @@ import org.junit.Test;
 
 import java.util.Map;
 
+import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.space.PitchPosition.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class ProbabilityModelTest {
 
     @Test
-    public void testGetTargetDistributions() {
+    public void testGetActionDistributions() {
 
-        Map<PitchPosition, Double> targetDistributions = ProbabilityModel.getTargetsDistribution(Mw);
-        Double positionProbability = targetDistributions.get(A);
+        Map<Action, Double> actionDistributions = ProbabilityModel.getActionDistribution(Mw);
+        Double actionProbability = actionDistributions.get(new Action(PASS, Mw, A));
 
-        assertEquals(0.34, positionProbability, 0.01);
+        assertEquals(0.35, actionProbability, 0.01);
     }
 
     @Test
-    public void testGetPlayerDecision() {
+    public void testGetPlayerAction() {
 
-        PitchPosition targetPosition = ProbabilityModel.getTargetPosition(Mw, 0.71);
+        Action action = ProbabilityModel.getAction(Mw, 0.71);
 
-        assertEquals(A, targetPosition);
+        assert(action != null);
+        assertSame(A, action.getTarget());
+        assertSame(PASS, action.getType());
     }
 
     @Test

@@ -72,6 +72,9 @@ public class Player extends org.easyengine.engine.input.domain.Player {
             return new Action(SHOT);
         }
 
-        return new Action(PASS, ProbabilityModel.getTargetPosition(this.getPitchPosition(), new Random().nextDouble()));
+        Action nextAction = ProbabilityModel.getAction(this.getPitchPosition(), new Random().nextDouble());
+
+        assert nextAction != null;
+        return new Action(nextAction.getType(), nextAction.getTarget());
     }
 }

@@ -2,6 +2,8 @@ package org.easyengine.engine;
 
 import org.easyengine.engine.space.PitchPosition;
 
+import java.util.Objects;
+
 public class Action {
 
     private ActionType type;
@@ -22,5 +24,18 @@ public class Action {
 
     public PitchPosition getTarget() {
         return target;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Action action = (Action) o;
+        return type == action.type && target == action.target;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, target);
     }
 }
