@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
@@ -284,10 +285,10 @@ public class Match {
 
         switch(action.getType()) {
             case PASS:
-
                 Logger.debug("Target position: " + targetPosition);
                 Double cornerKickRate = ProbabilityModel.getCornerKickRate(initialPosition);
-                Double successRate = ProbabilityModel.getSuccessRate(initialPosition, targetPosition);
+                Double successRate = ProbabilityModel.getActionSuccessRate(
+                        new org.easyengine.engine.environment.Action(PASS, initialPosition, targetPosition));
                 if (nonNull(cornerKickRate) && rnd.nextDouble() < cornerKickRate) {
                     actionOutcome = ActionOutcome.CORNER_KICK;
                     Logger.debug("Corner kick won");

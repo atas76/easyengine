@@ -82,6 +82,38 @@ public class ProbabilityModel {
         return cornerKickRate.get(pitchPosition);
     }
 
+    static Map<Action, Double> actionSuccessRate = Map.ofEntries(
+            entry(new Action(PASS, Gk, Dw), 1.0),
+            entry(new Action(PASS, Gk, D), 1.0),
+            entry(new Action(PASS, Gk, Mw), 0.77),
+            entry(new Action(PASS, Gk, M), 0.67),
+            entry(new Action(PASS, Gk, A), 0.0),
+            entry(new Action(PASS, GK, Dw), 1.0),
+            entry(new Action(PASS, GK, D), 1.0),
+            entry(new Action(PASS, GK, M), 0.33),
+            entry(new Action(PASS, Dw, Gk), 0.86),
+            entry(new Action(PASS, Dw, D), 0.75),
+            entry(new Action(PASS, Dw, Mw), 0.67),
+            entry(new Action(PASS, Dw, M), 0.75),
+            entry(new Action(PASS, Dw, A), 0.00),
+            entry(new Action(PASS, D, Gk), 1.00),
+            entry(new Action(PASS, D, Dw), 1.00),
+            entry(new Action(PASS, D, Mw), 1.00),
+            entry(new Action(PASS, D, M), 0.71),
+            entry(new Action(PASS, D, A), 0.00),
+            entry(new Action(PASS, Mw, Dw), 1.0),
+            entry(new Action(PASS, Mw, D), 1.0),
+            entry(new Action(PASS, Mw, M), 0.95),
+            entry(new Action(PASS, Mw, A), 0.21),
+            entry(new Action(PASS, M, Dw), 1.0),
+            entry(new Action(PASS, M, D), 1.0),
+            entry(new Action(PASS, M, Mw), 0.87),
+            entry(new Action(PASS, M, A), 0.29),
+            entry(new Action(PASS, C, Gk), 1.0),
+            entry(new Action(PASS, C, M), 1.0),
+            entry(new Action(PASS, C, A), 0.86)
+    );
+
     static Map<Pair<PitchPosition, PitchPosition>, Double> successRate = Map.ofEntries(
             entry(new Pair<>(Gk, Dw), 1.0),
             entry(new Pair<>(Gk, D), 1.0),
@@ -114,13 +146,13 @@ public class ProbabilityModel {
             entry(new Pair<>(C, A), 0.86)
     );
 
-    public static Double getSuccessRate(PitchPosition sourcePosition, PitchPosition targetPosition) {
-        return successRate.get(new Pair<>(sourcePosition, targetPosition));
+    public static Double getActionSuccessRate(Action action) {
+        return actionSuccessRate.get(action);
     }
 
-    public static Map<PitchPosition, Double> getSuccessRates(PitchPosition initialPosition) {
-        return successRate.entrySet().stream().filter(successRateEntry -> successRateEntry.getKey().getKey() == initialPosition)
-                .map(successRateEntry -> entry(successRateEntry.getKey().getValue(), successRateEntry.getValue()))
+    public static Map<Action, Double> getActionSuccessRates(PitchPosition initialPosition) {
+        return actionSuccessRate.entrySet().stream().filter(successRateEntry -> successRateEntry.getKey().getSource() == initialPosition)
+                .map(successRateEntry -> entry(successRateEntry.getKey(), successRateEntry.getValue()))
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
@@ -130,16 +162,16 @@ public class ProbabilityModel {
             return 1.0;
         }
 
-        final var targetPositionsStream = successRate.keySet().stream()
-                .filter(passVector -> passVector.getKey() == pitchPosition);
-        final var targetPositions = targetPositionsStream.collect(Collectors.toList());
+        final var sourceActionsStream = actionSuccessRate.keySet().stream()
+                .filter(action -> action.getSource() == pitchPosition);
+        final var sourceActions = sourceActionsStream.collect(Collectors.toList());
 
-        List<Pair<PitchPosition, PitchPosition>> targetPassVector =
-                targetPositions.stream()
-                        .filter(targetPosition -> targetPosition.getValue() == A).collect(Collectors.toList());
+        List<Action> targetActions =
+                sourceActions.stream()
+                        .filter(targetAction -> targetAction.getTarget() == A).collect(Collectors.toList());
 
-        if (!targetPassVector.isEmpty()) {
-            return successRate.get(targetPassVector.get(0));
+        if (!targetActions.isEmpty()) {
+            return actionSuccessRate.get(targetActions.get(0));
         }
 
         return 0.0;

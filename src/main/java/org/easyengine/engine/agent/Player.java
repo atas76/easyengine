@@ -52,18 +52,18 @@ public class Player extends org.easyengine.engine.input.domain.Player {
             return new Action(SHOT);
         }
 
-        Map<PitchPosition, Double> successRates = ProbabilityModel.getSuccessRates(getPitchPosition());
-        Map<PitchPosition, Double> passTargetUtilityFunction = new HashMap<>();
+        Map<org.easyengine.engine.environment.Action, Double> successRates = ProbabilityModel.getActionSuccessRates(getPitchPosition());
+        Map<org.easyengine.engine.environment.Action, Double> actionTargetUtilityFunction = new HashMap<>();
 
-        successRates.forEach((position, successRate) ->
-                passTargetUtilityFunction.put(position, successRate * ProbabilityModel.getExpectedChance(position)));
+        successRates.forEach((action, successRate) ->
+                actionTargetUtilityFunction.put(action, successRate * ProbabilityModel.getExpectedChance(action.getTarget())));
 
-        PitchPosition targetPosition =
-                passTargetUtilityFunction.entrySet().stream()
+        Action targetAction =
+                actionTargetUtilityFunction.entrySet().stream()
                         .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                         .collect(Collectors.toList()).get(0).getKey();
 
-        return new Action(PASS, targetPosition);
+        return new Action(targetAction.getType(), targetAction.getTarget());
     }
 
     private Action decideActionDataDriven() {

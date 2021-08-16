@@ -3,7 +3,6 @@ package engine;
 import org.easyengine.engine.environment.Action;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.ShotOutcome;
-import org.easyengine.engine.space.PitchPosition;
 import org.junit.Test;
 
 import java.util.Map;
@@ -34,20 +33,17 @@ public class ProbabilityModelTest {
     }
 
     @Test
-    public void testGetSuccessRate() {
-
-        Double successRate = ProbabilityModel.getSuccessRate(M, A);
-
-        assertEquals(0.29, successRate, 0.01);
+    public void testGetActionSuccessRate() {
+        assertEquals(0.29, ProbabilityModel.getActionSuccessRate(new Action(PASS, M, A)), 0.01);
     }
 
     @Test
-    public void testGetSuccessRates() {
+    public void testGetActionSuccessRates() {
 
-        Map<PitchPosition, Double> successRates = ProbabilityModel.getSuccessRates(Mw);
+        Map<Action, Double> actionSuccessRates = ProbabilityModel.getActionSuccessRates(Mw);
 
-        assertEquals(4, successRates.size());
-        assertEquals(0.95, successRates.get(M), 0.01);
+        assertEquals(4, actionSuccessRates.size());
+        assertEquals(0.95, actionSuccessRates.get(new Action(PASS, Mw, M)), 0.01);
     }
 
     @Test
