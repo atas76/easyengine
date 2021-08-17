@@ -113,39 +113,7 @@ public class ProbabilityModel {
             entry(new Action(PASS, C, M), 1.0),
             entry(new Action(PASS, C, A), 0.86)
     );
-
-    static Map<Pair<PitchPosition, PitchPosition>, Double> successRate = Map.ofEntries(
-            entry(new Pair<>(Gk, Dw), 1.0),
-            entry(new Pair<>(Gk, D), 1.0),
-            entry(new Pair<>(Gk, Mw), 0.77),
-            entry(new Pair<>(Gk, M), 0.67),
-            entry(new Pair<>(Gk, A), 0.0),
-            entry(new Pair<>(GK, Dw), 1.0),
-            entry(new Pair<>(GK, D), 1.0),
-            entry(new Pair<>(GK, M), 0.33),
-            entry(new Pair<>(Dw, Gk), 0.86),
-            entry(new Pair<>(Dw, D), 0.75),
-            entry(new Pair<>(Dw, Mw), 0.67),
-            entry(new Pair<>(Dw, M), 0.75),
-            entry(new Pair<>(Dw, A), 0.00),
-            entry(new Pair<>(D, Gk), 1.00),
-            entry(new Pair<>(D, Dw), 1.00),
-            entry(new Pair<>(D, Mw), 1.00),
-            entry(new Pair<>(D, M), 0.71),
-            entry(new Pair<>(D, A), 0.00),
-            entry(new Pair<>(Mw, Dw), 1.0),
-            entry(new Pair<>(Mw, D), 1.0),
-            entry(new Pair<>(Mw, M), 0.95),
-            entry(new Pair<>(Mw, A), 0.21),
-            entry(new Pair<>(M, Dw), 1.0),
-            entry(new Pair<>(M, D), 1.0),
-            entry(new Pair<>(M, Mw), 0.87),
-            entry(new Pair<>(M, A), 0.29),
-            entry(new Pair<>(C, Gk), 1.0),
-            entry(new Pair<>(C, M), 1.0),
-            entry(new Pair<>(C, A), 0.86)
-    );
-
+    
     public static Double getActionSuccessRate(Action action) {
         return actionSuccessRate.get(action);
     }
