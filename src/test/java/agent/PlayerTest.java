@@ -7,10 +7,13 @@ import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.util.Config;
 import org.junit.Test;
 
+import static org.easyengine.engine.ActionType.MOVE;
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
 import static org.easyengine.engine.input.PlayerPosition.PositionY.R;
+import static org.easyengine.engine.space.PitchPosition.A;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
 
@@ -20,7 +23,7 @@ public class PlayerTest {
 
         Action action = player.decideAction();
 
-        assertEquals(action.getType(), PASS);
+        assertTrue(action.getType() == PASS || action.getType() == MOVE);
     }
 
     @Test
@@ -30,7 +33,7 @@ public class PlayerTest {
 
         Action action = player.decideAction();
 
-        assertEquals(action.getType(), PASS);
-        assertEquals(PitchPosition.M, action.getTarget());
+        assertEquals(action.getType(), MOVE);
+        assertTrue(action.getTarget() == PitchPosition.M || action.getTarget() == A); // Must be a 'tie' currently
     }
 }

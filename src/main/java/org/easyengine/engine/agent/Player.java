@@ -14,7 +14,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
-import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ActionType.SHOT;
 import static org.easyengine.engine.space.PitchPosition.A;
 
@@ -34,6 +33,7 @@ public class Player extends org.easyengine.engine.input.domain.Player {
         this.pitchPosition = pitchPosition;
     }
 
+
     public PitchPosition getPitchPosition() {
         return nonNull(this.pitchPosition) ? this.pitchPosition : Pitch.mapDefaultPitchPosition(playerPosition);
     }
@@ -52,7 +52,7 @@ public class Player extends org.easyengine.engine.input.domain.Player {
             return new Action(SHOT);
         }
 
-        Map<org.easyengine.engine.environment.Action, Double> successRates = ProbabilityModel.getActionSuccessRates(getPitchPosition());
+        Map<org.easyengine.engine.environment.Action, Double> successRates = ProbabilityModel.getActionOptionsSuccessRates(getPitchPosition());
         Map<org.easyengine.engine.environment.Action, Double> actionTargetUtilityFunction = new HashMap<>();
 
         successRates.forEach((action, successRate) ->

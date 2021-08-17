@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
+import static org.easyengine.engine.ActionType.MOVE;
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
@@ -195,6 +196,12 @@ public class Match {
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
                 break;
+            case MOVE:
+                // TODO Supporting only successful moves for now
+                if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
+                    this.possessionPlayer.setPitchPosition(actionOutcomeDetails.targetPosition);
+                }
+                break;
             case SHOT:
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
@@ -287,12 +294,26 @@ public class Match {
             case PASS:
                 Logger.debug("Target position: " + targetPosition);
                 Double cornerKickRate = ProbabilityModel.getCornerKickRate(initialPosition);
-                Double successRate = ProbabilityModel.getActionSuccessRate(
+                Double passSuccessRate = ProbabilityModel.getActionSuccessRate(
                         new org.easyengine.engine.environment.Action(PASS, initialPosition, targetPosition));
                 if (nonNull(cornerKickRate) && rnd.nextDouble() < cornerKickRate) {
                     actionOutcome = ActionOutcome.CORNER_KICK;
                     Logger.debug("Corner kick won");
-                } else if (rnd.nextDouble() < successRate) {
+                } else if (rnd.nextDouble() < passSuccessRate) {
+                    actionOutcome = SUCCESS;
+                    Logger.debug("SUCCESS");
+                } else {
+                    actionOutcome = FAIL;
+                    Logger.debug("FAIL");
+                }
+                Logger.debugEnd();
+                outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
+                this.possessionPlayer.setPitchPosition(null); // Reset to default
+                break;
+            case MOVE:
+                Double moveSuccessRate = ProbabilityModel.getActionSuccessRate(
+                        new org.easyengine.engine.environment.Action(MOVE, initialPosition, targetPosition));
+                if (rnd.nextDouble() < moveSuccessRate) {
                     actionOutcome = SUCCESS;
                     Logger.debug("SUCCESS");
                 } else {
@@ -310,7 +331,6 @@ public class Match {
                 outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, shotOutcome);
             default:
         }
-        this.possessionPlayer.setPitchPosition(null); // Reset to default
 
         return outcomeDetails;
     }

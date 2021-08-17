@@ -32,7 +32,6 @@ public class Action extends org.easyengine.engine.Action implements Comparable<A
         return Objects.hash(super.hashCode(), source);
     }
 
-
     @Override
     public int compareTo(Action a) {
         if (this.getType() != a.getType()) {

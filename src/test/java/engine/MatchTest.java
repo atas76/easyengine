@@ -14,13 +14,13 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
-import static org.easyengine.engine.ActionType.SHOT;
+import static org.easyengine.engine.ActionType.*;
 import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.Match.HALF_TIME_DURATION;
 import static org.easyengine.engine.ShotOutcome.GOAL;
+import static org.easyengine.engine.input.PlayerPosition.PositionY.C_L;
 import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
@@ -264,10 +264,25 @@ public class MatchTest {
         assertEquals(match.getPossessionTeam(), match.getHomeTeam());
         assertTrue(match.getPossessionPlayer().getShirtNumber() == 4
                 || match.getPossessionPlayer().getShirtNumber() == 6);
-        assertEquals(event.getActionType(), PASS);
-        assertEquals(event.getInitialPosition(), Mw);
-        assertEquals(event.getTargetPosition(), D);
-        assertEquals(event.getActionOutcome(), SUCCESS);
+        assertEquals(PASS, event.getActionType());
+        assertEquals(Mw, event.getInitialPosition());
+        assertEquals(D, event.getTargetPosition());
+        assertEquals(SUCCESS, event.getActionOutcome());
+    }
+
+    @Test
+    public void testPlayerSuccessfulMovementWithBall() {
+        match.setState(new MatchState(match.getHomeTeam(),
+                new Player(12, "Victor W", new PlayerPosition(M, C_L)), FREE_PLAY));
+
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(MOVE, PitchPosition.M, A, SUCCESS));
+
+        assertEquals(match.getPossessionTeam(), match.getHomeTeam());
+        assertEquals(12, match.getPossessionPlayer().getShirtNumber().intValue());
+        assertEquals(MOVE, event.getActionType());
+        assertEquals(PitchPosition.M, event.getInitialPosition());
+        assertEquals(A, event.getTargetPosition());
+        assertEquals(SUCCESS, event.getActionOutcome());
     }
 
     @Test

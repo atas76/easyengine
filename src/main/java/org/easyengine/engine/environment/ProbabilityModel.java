@@ -6,6 +6,7 @@ import org.easyengine.engine.space.PitchPosition;
 
 import static java.util.Map.entry;
 import static java.util.stream.Collectors.toMap;
+import static org.easyengine.engine.ActionType.MOVE;
 import static org.easyengine.engine.ActionType.PASS;
 import static org.easyengine.engine.ShotOutcome.*;
 import static org.easyengine.engine.space.PitchPosition.*;
@@ -28,24 +29,31 @@ public class ProbabilityModel {
             entry(new Action(PASS, GK, Dw), 0.125),
             entry(new Action(PASS, GK, D), 0.5),
             entry(new Action(PASS, GK, M), 0.375),
-            entry(new Action(PASS, Dw, Gk), 0.21),
-            entry(new Action(PASS, Dw, D), 0.12),
-            entry(new Action(PASS, Dw, Mw), 0.26),
-            entry(new Action(PASS, Dw, M), 0.35),
+            entry(new Action(PASS, Dw, Gk), 0.19),
+            entry(new Action(PASS, Dw, D), 0.11),
+            entry(new Action(MOVE, Dw, Mw), 0.06),
+            entry(new Action(PASS, Dw, Mw), 0.25),
+            entry(new Action(PASS, Dw, M), 0.33),
             entry(new Action(PASS, Dw, A), 0.06),
-            entry(new Action(PASS, D, Gk), 0.2),
-            entry(new Action(PASS, D, Dw), 0.24),
-            entry(new Action(PASS, D, Mw), 0.24),
-            entry(new Action(PASS, D, M), 0.28),
+            entry(new Action(PASS, D, Gk), 0.18),
+            entry(new Action(MOVE, D, Dw), 0.04),
+            entry(new Action(PASS, D, Dw), 0.22),
+            entry(new Action(PASS, D, Mw), 0.22),
+            entry(new Action(MOVE, D, M), 0.04),
+            entry(new Action(PASS, D, M), 0.26),
             entry(new Action(PASS, D, A), 0.04),
-            entry(new Action(PASS, Mw, Dw), 0.025),
-            entry(new Action(PASS, Mw, D), 0.075),
-            entry(new Action(PASS, Mw, M), 0.55),
-            entry(new Action(PASS, Mw, A), 0.35),
-            entry(new Action(PASS, M, Dw), 0.09),
-            entry(new Action(PASS, M, D), 0.07),
-            entry(new Action(PASS, M, Mw), 0.25),
-            entry(new Action(PASS, M, A), 0.59),
+            entry(new Action(PASS, Mw, Dw), 0.02),
+            entry(new Action(PASS, Mw, D), 0.07),
+            entry(new Action(MOVE, Mw, M), 0.09),
+            entry(new Action(PASS, Mw, M), 0.49),
+            entry(new Action(MOVE, Mw, A), 0.02),
+            entry(new Action(PASS, Mw, A), 0.31),
+            entry(new Action(PASS, M, Dw), 0.08),
+            entry(new Action(PASS, M, D), 0.06),
+            entry(new Action(MOVE, M, Mw), 0.02),
+            entry(new Action(PASS, M, Mw), 0.23),
+            entry(new Action(MOVE, M, A), 0.09),
+            entry(new Action(PASS, M, A), 0.52),
             entry(new Action(PASS, C, Gk), 0.1),
             entry(new Action(PASS, C, M), 0.2),
             entry(new Action(PASS, C, A), 0.7)
@@ -93,21 +101,28 @@ public class ProbabilityModel {
             entry(new Action(PASS, GK, M), 0.33),
             entry(new Action(PASS, Dw, Gk), 0.86),
             entry(new Action(PASS, Dw, D), 0.75),
+            entry(new Action(MOVE, Dw, Mw), 1.00),
             entry(new Action(PASS, Dw, Mw), 0.67),
             entry(new Action(PASS, Dw, M), 0.75),
             entry(new Action(PASS, Dw, A), 0.00),
             entry(new Action(PASS, D, Gk), 1.00),
+            entry(new Action(MOVE, D, Dw), 1.00),
             entry(new Action(PASS, D, Dw), 1.00),
             entry(new Action(PASS, D, Mw), 1.00),
+            entry(new Action(MOVE, D, M), 1.0),
             entry(new Action(PASS, D, M), 0.71),
             entry(new Action(PASS, D, A), 0.00),
             entry(new Action(PASS, Mw, Dw), 1.0),
             entry(new Action(PASS, Mw, D), 1.0),
             entry(new Action(PASS, Mw, M), 0.95),
+            entry(new Action(MOVE, Mw, M), 1.0),
+            entry(new Action(MOVE, Mw, A), 1.0),
             entry(new Action(PASS, Mw, A), 0.21),
             entry(new Action(PASS, M, Dw), 1.0),
             entry(new Action(PASS, M, D), 1.0),
+            entry(new Action(MOVE, M, Mw), 1.0),
             entry(new Action(PASS, M, Mw), 0.87),
+            entry(new Action(MOVE, M, A), 1.0),
             entry(new Action(PASS, M, A), 0.29),
             entry(new Action(PASS, C, Gk), 1.0),
             entry(new Action(PASS, C, M), 1.0),
@@ -118,7 +133,7 @@ public class ProbabilityModel {
         return actionSuccessRate.get(action);
     }
 
-    public static Map<Action, Double> getActionSuccessRates(PitchPosition initialPosition) {
+    public static Map<Action, Double> getActionOptionsSuccessRates(PitchPosition initialPosition) {
         return actionSuccessRate.entrySet().stream().filter(successRateEntry -> successRateEntry.getKey().getSource() == initialPosition)
                 .map(successRateEntry -> entry(successRateEntry.getKey(), successRateEntry.getValue()))
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -139,7 +154,9 @@ public class ProbabilityModel {
                         .filter(targetAction -> targetAction.getTarget() == A).collect(Collectors.toList());
 
         if (!targetActions.isEmpty()) {
-            return actionSuccessRate.get(targetActions.get(0));
+            return targetActions.stream().map(
+                    action -> actionSuccessRate.get(action)).sorted(Collections.reverseOrder())
+                    .collect(Collectors.toList()).get(0);
         }
 
         return 0.0;
