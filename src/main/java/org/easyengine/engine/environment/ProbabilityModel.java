@@ -113,7 +113,7 @@ public class ProbabilityModel {
             entry(new Action(PASS, C, M), 1.0),
             entry(new Action(PASS, C, A), 0.86)
     );
-    
+
     public static Double getActionSuccessRate(Action action) {
         return actionSuccessRate.get(action);
     }
@@ -146,7 +146,7 @@ public class ProbabilityModel {
     }
 
     // order: Gk, GK, D, Dw, M, Mw, A, C
-    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> failDistribution = Map.ofEntries(
+    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> passFailDistribution = Map.ofEntries(
             entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
             entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
             entry(new Pair<>(Gk, A), List.of(0.67, 0.0, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0)),
@@ -165,8 +165,8 @@ public class ProbabilityModel {
             entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 
-    public static PitchPosition getFailedOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions) {
-        List<Double> positionDistribution = failDistribution.get(originalPositions);
+    public static PitchPosition getFailedPassOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions) {
+        List<Double> positionDistribution = passFailDistribution.get(originalPositions);
         double outcomeWeightIndex = new Random().nextDouble();
         double sum = 0.0;
         int index = 0;

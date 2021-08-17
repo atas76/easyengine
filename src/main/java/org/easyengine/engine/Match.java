@@ -175,7 +175,7 @@ public class Match {
                     changePossession();
 
                     PitchPosition outcomePosition =
-                            ProbabilityModel.getFailedOutcomePosition(
+                            ProbabilityModel.getFailedPassOutcomePosition(
                                 new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
                     );
 
