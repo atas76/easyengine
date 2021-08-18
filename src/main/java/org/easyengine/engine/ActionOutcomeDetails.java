@@ -1,8 +1,5 @@
 package org.easyengine.engine;
 
-import org.easyengine.engine.ActionOutcome;
-import org.easyengine.engine.ActionType;
-import org.easyengine.engine.ShotOutcome;
 import org.easyengine.engine.space.PitchPosition;
 
 public class ActionOutcomeDetails {
