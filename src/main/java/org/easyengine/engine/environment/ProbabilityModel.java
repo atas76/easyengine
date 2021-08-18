@@ -1,6 +1,7 @@
 package org.easyengine.engine.environment;
 
 import javafx.util.Pair;
+import org.easyengine.engine.ActionType;
 import org.easyengine.engine.ShotOutcome;
 import org.easyengine.engine.space.PitchPosition;
 
@@ -122,7 +123,7 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, D), 1.0),
             entry(new Action(MOVE, M, Mw), 1.0),
             entry(new Action(PASS, M, Mw), 0.87),
-            entry(new Action(MOVE, M, A), 1.0),
+            entry(new Action(MOVE, M, A), 0.83),
             entry(new Action(PASS, M, A), 0.29),
             entry(new Action(PASS, C, Gk), 1.0),
             entry(new Action(PASS, C, M), 1.0),
@@ -182,8 +183,16 @@ public class ProbabilityModel {
             entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 
-    public static PitchPosition getFailedPassOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions) {
-        List<Double> positionDistribution = passFailDistribution.get(originalPositions);
+    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> moveFailDistribution = Map.ofEntries(
+            entry(new Pair<>(M, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+    );
+
+    public static PitchPosition getFailedOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions, ActionType actionType) {
+        Map<Pair<PitchPosition, PitchPosition>, List<Double>> failDistribution = passFailDistribution;
+        if (actionType == MOVE) {
+            failDistribution = moveFailDistribution;
+        }
+        List<Double> positionDistribution = failDistribution.get(originalPositions);
         double outcomeWeightIndex = new Random().nextDouble();
         double sum = 0.0;
         int index = 0;

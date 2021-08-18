@@ -313,6 +313,17 @@ public class MatchTest {
     }
 
     @Test
+    public void testMoveWithBallFailure() {
+        match.setState(new MatchState(match.getHomeTeam(),
+                new Player(12, "Victor W", new PlayerPosition(M, C_L)), FREE_PLAY));
+
+        match.applyOutcome(new ActionOutcomeDetails(MOVE, PitchPosition.M, A, FAIL));
+
+        assertEquals(match.getPossessionTeam(), match.getAwayTeam());
+        assertEquals(1, match.getPossessionPlayer().getShirtNumber().intValue());
+    }
+
+    @Test
     public void testPassFailure() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
 

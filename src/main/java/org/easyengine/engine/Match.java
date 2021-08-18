@@ -172,14 +172,11 @@ public class Match {
                             new Player(this.possessionTeam.getPlayerByPosition(
                                     Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition())));
                 } else {
-
                     changePossession();
-
                     PitchPosition outcomePosition =
-                            ProbabilityModel.getFailedPassOutcomePosition(
-                                new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition())
+                            ProbabilityModel.getFailedOutcomePosition(
+                                new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition()), PASS
                     );
-
                     if (PitchPosition.C == outcomePosition) {
                         this.possessionPlayer = new Player(this.possessionTeam.getRandomTaker(this.possessionTeam.getCornerKickTakers()));
                         this.possessionPlayer.setPitchPosition(PitchPosition.C);
@@ -197,10 +194,23 @@ public class Match {
                 event.setOutcomePlayer(this.possessionPlayer);
                 break;
             case MOVE:
-                // TODO Supporting only successful moves for now
                 if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
                     this.possessionPlayer.setPitchPosition(actionOutcomeDetails.targetPosition);
+                } else {
+                    changePossession();
+                    PitchPosition outcomePosition =
+                            ProbabilityModel.getFailedOutcomePosition(
+                                    new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition()), MOVE
+                            );
+                    if (PitchPosition.GK == outcomePosition) {
+                        this.ballPlayState = GOAL_KICK;
+                        event.setBallPlayState(GOAL_KICK);
+                        this.possessionPlayer =
+                                new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition)));
+                        this.possessionPlayer.setPitchPosition(PitchPosition.GK);
+                    }
                 }
+                event.setOutcomePlayer(this.possessionPlayer);
                 break;
             case SHOT:
                 switch(actionOutcomeDetails.getShotOutcome()) {

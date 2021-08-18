@@ -49,7 +49,7 @@ public class ProbabilityModelTest {
     @Test
     public void testExpectedChance() {
         assertEquals(1.0, ProbabilityModel.getExpectedChance(A), 0.01);
-        assertEquals(1.0, ProbabilityModel.getExpectedChance(M), 0.01);
+        assertEquals(0.83, ProbabilityModel.getExpectedChance(M), 0.01);
         assertEquals(1.0, ProbabilityModel.getExpectedChance(Mw), 0.01);
         assertEquals(0.0, ProbabilityModel.getExpectedChance(D), 0.01);
         assertEquals(0.0, ProbabilityModel.getExpectedChance(Dw), 0.01);
