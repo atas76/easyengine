@@ -329,6 +329,7 @@ public class Match {
                 Logger.debug("Shot outcome: " + shotOutcome);
                 Logger.debugEnd();
                 outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, shotOutcome);
+                this.possessionPlayer.setPitchPosition(null);
             default:
         }
 

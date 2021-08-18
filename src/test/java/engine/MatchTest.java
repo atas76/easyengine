@@ -286,6 +286,33 @@ public class MatchTest {
     }
 
     @Test
+    public void testPlayerMovementWithBallToAttackingPosition() {
+        match.setState(new MatchState(match.getHomeTeam(),
+                new Player(12, "Victor W", new PlayerPosition(M, C_L)), FREE_PLAY));
+
+        ActionOutcomeDetails movementOutcome = match.executeAction(new Action(MOVE, PitchPosition.A));
+        match.applyOutcome(movementOutcome);
+        Action nextAction = match.getPossessionPlayer().decideAction();
+
+        assertEquals(SUCCESS, movementOutcome.getActionOutcome());
+        assertEquals(A, match.getPossessionPlayer().getPitchPosition());
+        assertEquals(SHOT, nextAction.getType());
+    }
+
+    @Test
+    public void testOffBallPlayerReturningToTacticalPosition() {
+        Player player = new Player(12, "Victor W", new PlayerPosition(M, C_L));
+        match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));
+
+        ActionOutcomeDetails movementOutcome = match.executeAction(new Action(MOVE, PitchPosition.A));
+        match.applyOutcome(movementOutcome);
+        Action nextAction = match.getPossessionPlayer().decideAction();
+        match.applyOutcome(match.executeAction(nextAction));
+
+        assertEquals(PitchPosition.M, player.getPitchPosition());
+    }
+
+    @Test
     public void testPassFailure() {
         match.setState(new MatchState(match.getHomeTeam(), null, FREE_PLAY));
 
