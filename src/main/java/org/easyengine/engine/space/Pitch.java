@@ -46,6 +46,10 @@ public class Pitch {
             entry(PitchPosition.D, new ArrayList<>(List.of(new PlayerPosition(D, C_R), new PlayerPosition(D, C_L)))),
             entry(Mw, new ArrayList<>(List.of(new PlayerPosition(M, R), new PlayerPosition(M, L)))),
             entry(PitchPosition.M, new ArrayList<>(List.of(new PlayerPosition(M, C_R), new PlayerPosition(M, C_L)))),
+            entry(Aw, new ArrayList<>(List.of(
+                    new PlayerPosition(M, C_R), new PlayerPosition(M, C_L),
+                    new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)
+                    ))),
             entry(A, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L))))
     );
 
