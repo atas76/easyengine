@@ -21,6 +21,11 @@ public class MatchState {
         this.ballPlayState = ballPlayState;
     }
 
+    public MatchState(Team possessionTeam, Player possessionPlayer) {
+        this.possessionTeam = possessionTeam;
+        this.possessionPlayer = possessionPlayer;
+    }
+
     public int getTime() {
         return time;
     }

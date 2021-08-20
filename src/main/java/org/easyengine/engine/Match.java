@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionOutcome.FAIL;
 import static org.easyengine.engine.ActionOutcome.SUCCESS;
-import static org.easyengine.engine.ActionType.MOVE;
-import static org.easyengine.engine.ActionType.PASS;
+import static org.easyengine.engine.ActionType.*;
 import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
@@ -212,6 +211,20 @@ public class Match {
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
                 break;
+            case CROSS:
+                if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
+                    this.possessionPlayer.setPitchPosition(actionOutcomeDetails.targetPosition);
+                } else {
+                    changePossession();
+                    PitchPosition outcomePosition =
+                            ProbabilityModel.getFailedOutcomePosition(
+                                    new Pair<>(actionOutcomeDetails.getInitialPosition(), actionOutcomeDetails.getTargetPosition()), CROSS
+                            );
+                    this.possessionPlayer =
+                            new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition)));
+                    event.setOutcomePlayer(this.possessionPlayer);
+                }
+                break;
             case SHOT:
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
@@ -332,6 +345,20 @@ public class Match {
                 }
                 Logger.debugEnd();
                 outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
+                break;
+            case CROSS:
+                Double crossSuccessRate = ProbabilityModel.getActionSuccessRate(
+                        new org.easyengine.engine.environment.Action(CROSS, initialPosition, targetPosition));
+                if (rnd.nextDouble() < crossSuccessRate) {
+                    actionOutcome = SUCCESS;
+                    Logger.debug("SUCCESS");
+                } else {
+                    actionOutcome = FAIL;
+                    Logger.debug("FAIL");
+                }
+                Logger.debugEnd();
+                outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, targetPosition, actionOutcome);
+                this.possessionPlayer.setPitchPosition(null); // Reset to default
                 break;
             case SHOT:
                 Logger.debug("Shot at goal");

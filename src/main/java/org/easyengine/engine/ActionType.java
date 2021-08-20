@@ -1,5 +1,5 @@
 package org.easyengine.engine;
 
 public enum ActionType {
-    PASS, MOVE, SHOT
+    PASS, MOVE, CROSS, SHOT
 }

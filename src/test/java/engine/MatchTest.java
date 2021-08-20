@@ -20,11 +20,11 @@ import static org.easyengine.engine.ActionType.*;
 import static org.easyengine.engine.BallPlayState.*;
 import static org.easyengine.engine.Match.HALF_TIME_DURATION;
 import static org.easyengine.engine.ShotOutcome.GOAL;
-import static org.easyengine.engine.input.PlayerPosition.PositionY.C_L;
+import static org.easyengine.engine.input.PlayerPosition.PositionY.*;
 import static org.easyengine.engine.space.PitchPosition.*;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.F;
 import static org.easyengine.engine.input.PlayerPosition.PositionX.M;
-import static org.easyengine.engine.input.PlayerPosition.PositionY.C_R;
+import static org.easyengine.engine.space.PitchPosition.C;
 import static org.junit.Assert.*;
 
 public class MatchTest {
@@ -102,7 +102,6 @@ public class MatchTest {
 
     @Test
     public void testGoalKickExecution() {
-
         org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.Gk));
         match.setState(new MatchState(match.getHomeTeam(), new Player(taker), GOAL_KICK));
 
@@ -116,7 +115,6 @@ public class MatchTest {
 
     @Test
     public void testCornerKickExecution() {
-
         org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
         match.setState(new MatchState(match.getHomeTeam(), new Player(taker), CORNER_KICK));
 
@@ -124,6 +122,30 @@ public class MatchTest {
 
         assertNotSame(CORNER_KICK, match.getBallPlayState());
         assertNotSame(taker, match.getPossessionPlayer());
+    }
+
+    @Test
+    public void testSuccessfulCrossFromCornerKick() {
+        org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
+        match.setState(new MatchState(match.getHomeTeam(), new Player(taker), CORNER_KICK));
+
+        match.applyOutcome(match.executeAction(new Action(CROSS, A)));
+
+        assertNotSame(CORNER_KICK, match.getBallPlayState());
+        assertNotSame(taker, match.getPossessionPlayer());
+    }
+
+    @Test
+    public void testUnsuccessfulCrossFromCornerKick() {
+        org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
+        match.setState(new MatchState(match.getHomeTeam(), new Player(taker))); // Skipping ball play state check, checking directly the action outcome
+
+        match.applyOutcome(new ActionOutcomeDetails(CROSS, C, A, FAIL));
+
+        assertNotSame(taker, match.getPossessionPlayer());
+        assertEquals(match.getAwayTeam(), match.getPossessionTeam());
+        assertTrue(match.getPossessionPlayer().getShirtNumber() == 2
+                || match.getPossessionPlayer().getShirtNumber() == 21);
     }
 
     @Test
@@ -288,7 +310,7 @@ public class MatchTest {
     @Test
     public void testPlayerMovementWithBallToAttackingPosition() {
         match.setState(new MatchState(match.getHomeTeam(),
-                new Player(12, "Victor W", new PlayerPosition(M, C_L)), FREE_PLAY));
+                new Player(14, "Blaise M", new PlayerPosition(M, L))));
 
         ActionOutcomeDetails movementOutcome = match.executeAction(new Action(MOVE, PitchPosition.A));
         match.applyOutcome(movementOutcome);
