@@ -170,6 +170,7 @@ public class Match {
                     this.possessionPlayer =
                             new Player(this.possessionTeam.getPlayerByPosition(
                                     Pitch.mapDefaultTacticalPosition(actionOutcomeDetails.getTargetPosition())));
+                    this.possessionPlayer.setPitchPosition(actionOutcomeDetails.targetPosition);
                 } else {
                     changePossession();
                     PitchPosition outcomePosition =
@@ -213,6 +214,10 @@ public class Match {
                 break;
             case CROSS:
                 if (SUCCESS.equals(actionOutcomeDetails.getActionOutcome())) {
+                    this.possessionPlayer =
+                        new Player(this.possessionTeam.getPlayerByPosition(
+                                Pitch.mapDefaultTacticalPositionExcluding(actionOutcomeDetails.getTargetPosition(),
+                                        this.possessionPlayer.getPlayerPosition())));
                     this.possessionPlayer.setPitchPosition(actionOutcomeDetails.targetPosition);
                 } else {
                     changePossession();

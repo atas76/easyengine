@@ -54,11 +54,12 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, Mw), 0.23),
             entry(new Action(MOVE, M, A), 0.09),
             entry(new Action(PASS, M, A), 0.52),
+            entry(new Action(CROSS, Aw, A), 1.0),
             entry(new Action(CROSS, C, M), 0.14),
             entry(new Action(CROSS, C, Gk), 0.07),
-            entry(new Action(CROSS, C, A), 0.57),
-            // entry(new Action(CROSS, C, Aw), 0.07), // TODO uncomment when supporting Aw
-            entry(new Action(PASS, C, A), 0.22) // TODO to be converted to Aw
+            entry(new Action(CROSS, C, A), 0.5),
+            entry(new Action(CROSS, C, Aw), 0.07),
+            entry(new Action(PASS, C, Aw), 0.22)
     );
 
     public static Map<Action, Double> getActionDistribution(PitchPosition source) {
@@ -126,11 +127,12 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, Mw), 0.87),
             entry(new Action(MOVE, M, A), 0.83),
             entry(new Action(PASS, M, A), 0.29),
+            entry(new Action(CROSS, Aw, A), 0.69),
             entry(new Action(CROSS, C, M), 1.0),
             entry(new Action(CROSS, C, Gk), 1.0),
             entry(new Action(CROSS, C, A), 0.86),
-            // entry(new Action(CROSS, C, Aw), 1.0), TODO uncomment when supporting Aw
-            entry(new Action(PASS, C, A), 1.0) // TODO convert to Aw
+            entry(new Action(CROSS, C, Aw), 1.0),
+            entry(new Action(PASS, C, Aw), 1.0)
     );
 
     public static Double getActionSuccessRate(Action action) {
@@ -191,6 +193,7 @@ public class ProbabilityModel {
     );
 
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> crossFailDistribution = Map.ofEntries(
+            entry(new Pair<>(Aw, A), List.of(0.4, 0.4, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0)),
             entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 

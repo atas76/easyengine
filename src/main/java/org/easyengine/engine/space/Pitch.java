@@ -47,7 +47,7 @@ public class Pitch {
             entry(Mw, new ArrayList<>(List.of(new PlayerPosition(M, R), new PlayerPosition(M, L)))),
             entry(PitchPosition.M, new ArrayList<>(List.of(new PlayerPosition(M, C_R), new PlayerPosition(M, C_L)))),
             entry(Aw, new ArrayList<>(List.of(
-                    new PlayerPosition(M, C_R), new PlayerPosition(M, C_L),
+                    // new PlayerPosition(M, R), new PlayerPosition(M, L),
                     new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)
                     ))),
             entry(A, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L))))
@@ -66,5 +66,9 @@ public class Pitch {
             return new PlayerPosition(Gk);
         }
         return defaultTacticalPositionMap.get(pitchPosition).get(new Random().nextInt(2));
+    }
+
+    public static PlayerPosition mapDefaultTacticalPositionExcluding(PitchPosition pitchPosition, PlayerPosition playerPosition) {
+        return defaultTacticalPositionMap.get(pitchPosition).stream().filter(position -> !position.equals(playerPosition)).findAny().get();
     }
 }

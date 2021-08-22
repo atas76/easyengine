@@ -118,7 +118,7 @@ public class MatchTest {
         org.easyengine.engine.input.domain.Player taker = match.getHomeTeam().getRandomTaker(match.getHomeTeam().getCornerKickTakers());
         match.setState(new MatchState(match.getHomeTeam(), new Player(taker), CORNER_KICK));
 
-        match.applyOutcome(match.executeAction(new Action(PASS, A)));
+        match.applyOutcome(match.executeAction(new Action(PASS, Aw)));
 
         assertNotSame(CORNER_KICK, match.getBallPlayState());
         assertNotSame(taker, match.getPossessionPlayer());
@@ -289,6 +289,22 @@ public class MatchTest {
         assertEquals(PASS, event.getActionType());
         assertEquals(Mw, event.getInitialPosition());
         assertEquals(D, event.getTargetPosition());
+        assertEquals(SUCCESS, event.getActionOutcome());
+    }
+
+    @Test
+    public void testCrossSuccess() {
+        Player player = new Player(29, "Kingsley C", new PlayerPosition(F, C_L));
+        match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));
+        player.setPitchPosition(Aw);
+
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(CROSS, Aw, A, SUCCESS));
+
+        assertEquals(match.getPossessionTeam(), match.getHomeTeam());
+        assertEquals(9, (int) match.getPossessionPlayer().getShirtNumber());
+        assertEquals(CROSS, event.getActionType());
+        assertEquals(Aw, event.getInitialPosition());
+        assertEquals(A, event.getTargetPosition());
         assertEquals(SUCCESS, event.getActionOutcome());
     }
 
