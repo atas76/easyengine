@@ -324,6 +324,21 @@ public class MatchTest {
     }
 
     @Test
+    public void testPlayerMovementWithBallToAttackingWing() {
+        match.setState(new MatchState(match.getHomeTeam(),
+                new Player(14, "Blaise M", new PlayerPosition(M, L)), FREE_PLAY));
+
+        MatchEvent event = match.applyOutcome(new ActionOutcomeDetails(MOVE, Mw, Aw, SUCCESS));
+
+        assertEquals(match.getPossessionTeam(), match.getHomeTeam());
+        assertEquals(14, match.getPossessionPlayer().getShirtNumber().intValue());
+        assertEquals(MOVE, event.getActionType());
+        assertEquals(Mw, event.getInitialPosition());
+        assertEquals(Aw, event.getTargetPosition());
+        assertEquals(SUCCESS, event.getActionOutcome());
+    }
+
+    @Test
     public void testPlayerMovementWithBallToAttackingPosition() {
         match.setState(new MatchState(match.getHomeTeam(),
                 new Player(14, "Blaise M", new PlayerPosition(M, L))));
@@ -348,6 +363,19 @@ public class MatchTest {
         match.applyOutcome(match.executeAction(nextAction));
 
         assertEquals(PitchPosition.M, player.getPitchPosition());
+    }
+
+    @Test
+    public void testOffBallAttackingWingerPlayerReturningToTacticalPosition() {
+        Player player = new Player(14, "Blaise M", new PlayerPosition(M, L));
+        match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));
+
+        ActionOutcomeDetails movementOutcome = match.executeAction(new Action(MOVE, Aw));
+        match.applyOutcome(movementOutcome);
+        Action nextAction = match.getPossessionPlayer().decideAction();
+        match.applyOutcome(match.executeAction(nextAction));
+
+        assertEquals(Mw, player.getPitchPosition());
     }
 
     @Test

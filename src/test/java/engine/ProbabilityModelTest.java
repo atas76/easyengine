@@ -19,7 +19,7 @@ public class ProbabilityModelTest {
         Map<Action, Double> actionDistributions = ProbabilityModel.getActionDistribution(Mw);
         Double actionProbability = actionDistributions.get(new Action(PASS, Mw, A));
 
-        assertEquals(0.31, actionProbability, 0.01);
+        assertEquals(0.29, actionProbability, 0.01);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ProbabilityModelTest {
 
         Map<Action, Double> actionSuccessRates = ProbabilityModel.getActionOptionsSuccessRates(Mw);
 
-        assertEquals(6, actionSuccessRates.size());
+        assertEquals(7, actionSuccessRates.size());
         assertEquals(0.95, actionSuccessRates.get(new Action(PASS, Mw, M)), 0.01);
     }
 
