@@ -40,6 +40,17 @@ public class Logger {
         }
     }
 
+    public static void infoShotsOnTarget(String homeTeamName, int homeShotsOnTarget, String awayTeamName, int awayShotsOnTarget) {
+        if (info) {
+            System.out.println("Shots on target");
+            System.out.println(
+                    homeTeamName + " - " + awayTeamName + " " +
+                            homeShotsOnTarget + " - " + awayShotsOnTarget
+            );
+        }
+        // TODO total shots
+    }
+
     public static void debugEnd() {
         if (debug) {
             System.out.println();

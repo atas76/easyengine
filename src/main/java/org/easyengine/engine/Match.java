@@ -238,6 +238,7 @@ public class Match {
                         this.ballPlayState = KICK_OFF;
                         break;
                     case GK:
+                        this.possessionTeam.getMatchInfo().addShotOffTarget();
                         changePossession();
                         this.ballPlayState = GOAL_KICK;
                         this.possessionPlayer =
@@ -248,6 +249,7 @@ public class Match {
                         applyCornerKick();
                         break;
                     case SAVE_C: // Future differentiation on stats
+                        this.possessionTeam.getMatchInfo().addShotOnTarget();
                         applyCornerKick();
                         break;
                     case BLK_R_A:
@@ -260,9 +262,11 @@ public class Match {
                         applyRebound(M);
                         break;
                     case SAVE_R_A:
+                        this.possessionTeam.getMatchInfo().addShotOnTarget();
                         applyRebound(F);
                         break;
                     case SAVE:
+                        this.possessionTeam.getMatchInfo().addShotOnTarget();
                         applyGoalkeeperPossession();
                         break;
                 }

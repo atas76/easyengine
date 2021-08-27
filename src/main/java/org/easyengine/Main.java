@@ -43,6 +43,11 @@ public class Main {
         Logger.infoEnd();
         Logger.info(awayTeam.getName(), awayTeam.getMatchInfo().toString());
         Logger.infoEnd();
+        Logger.infoShotsOnTarget(
+                homeTeam.getName(), homeTeam.getMatchInfo().getTeamStats().getShotsOnTarget(),
+                awayTeam.getName(), awayTeam.getMatchInfo().getTeamStats().getShotsOnTarget()
+        );
+        Logger.infoEnd();
 
         Logger.report(match.getEventReport());
     }
