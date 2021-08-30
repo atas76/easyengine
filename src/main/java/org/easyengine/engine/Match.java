@@ -234,6 +234,7 @@ public class Match {
                 switch(actionOutcomeDetails.getShotOutcome()) {
                     case GOAL:
                         this.possessionTeam.score(this.currentTime, this.possessionPlayer);
+                        this.possessionTeam.getMatchInfo().addShotOnTarget();
                         changePossession();
                         this.ballPlayState = KICK_OFF;
                         break;
