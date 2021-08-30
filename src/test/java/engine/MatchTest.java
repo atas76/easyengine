@@ -8,7 +8,7 @@ import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.context.Context;
 import org.easyengine.engine.input.PlayerPosition;
 import org.easyengine.util.Config;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -31,16 +31,14 @@ public class MatchTest {
 
     private static Match match;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
         Context.load();
         match = new Match(Context.getTeam("A"), Context.getTeam("B"));
     }
 
     @Test
     public void testSuccessfulMatchEvents() {
-        Context.load();
-        Match match = new Match(Context.getTeam("A"), Context.getTeam("B"));
 
         match.play();
         List<MatchEvent> matchEvents = match.getMatchEvents();
@@ -57,7 +55,6 @@ public class MatchTest {
 
     @Test
     public void testAIOutcomes() {
-        Context.load();
         final int REPETITIONS = 30;
 
         int dataGoals = 0;
@@ -160,6 +157,7 @@ public class MatchTest {
         assertEquals(KICK_OFF, match.getBallPlayState());
         assertEquals(1, match.getHomeTeam().getMatchInfo().getGoalsScored().size());
         assertEquals(10, match.getHomeTeam().getMatchInfo().getGoalsScored().get(0).getTime());
+        assertEquals(1, match.getHomeTeam().getMatchInfo().getTeamStats().getShotsOnTarget());
         assertEquals(9,
                 match.getHomeTeam().getMatchInfo().getGoalsScored().get(0).getScorer().getShirtNumber().intValue());
     }
@@ -174,6 +172,7 @@ public class MatchTest {
         assertEquals(GOAL_KICK, match.getBallPlayState());
         assertEquals(1, match.getPossessionPlayer().getShirtNumber().intValue());
         assertEquals(PitchPosition.GK, match.getPossessionPlayer().getPitchPosition());
+        assertEquals(1, match.getHomeTeam().getMatchInfo().getTeamStats().getShotsOffTarget());
     }
 
     @Test
@@ -263,11 +262,11 @@ public class MatchTest {
         assertNotSame(match.getHomeTeam(), match.getPossessionTeam());
         assertEquals(FREE_PLAY, match.getBallPlayState());
         assertEquals(1, match.getPossessionPlayer().getShirtNumber().intValue());
+        assertEquals(1, match.getHomeTeam().getMatchInfo().getTeamStats().getShotsOnTarget());
     }
 
     @Test
     public void testShotDecision() {
-
         org.easyengine.engine.input.domain.Player player = match.getHomeTeam().getPlayerByPosition(new PlayerPosition(PlayerPosition.PositionX.F, PlayerPosition.PositionY.C_R));
         Player agent = new Player(player);
         match.setState(new MatchState(match.getHomeTeam(), agent, FREE_PLAY));
