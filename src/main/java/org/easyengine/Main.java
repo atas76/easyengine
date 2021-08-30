@@ -48,6 +48,11 @@ public class Main {
                 awayTeam.getName(), awayTeam.getMatchInfo().getTeamStats().getShotsOnTarget()
         );
         Logger.infoEnd();
+        Logger.infoH2HStat("Total shots",
+                homeTeam.getName(), homeTeam.getMatchInfo().getTeamStats().getTotalShots(),
+                awayTeam.getName(), awayTeam.getMatchInfo().getTeamStats().getTotalShots()
+        );
+        Logger.infoEnd();
 
         Logger.report(match.getEventReport());
     }

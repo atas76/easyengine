@@ -20,4 +20,8 @@ public class TeamStats {
     public int getShotsOffTarget() {
         return shotsOffTarget;
     }
+
+    public int getTotalShots() {
+        return shotsOnTarget + shotsOffTarget;
+    }
 }
