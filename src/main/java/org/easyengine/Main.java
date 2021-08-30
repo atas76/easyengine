@@ -37,7 +37,7 @@ public class Main {
         Match match = new Match(homeTeam, awayTeam);
         match.play();
         match.displayScore();
-        Logger.debugEnd();
+        Logger.infoEnd();
 
         Logger.info(homeTeam.getName(), homeTeam.getMatchInfo().toString());
         Logger.infoEnd();
