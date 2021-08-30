@@ -40,15 +40,14 @@ public class Logger {
         }
     }
 
-    public static void infoShotsOnTarget(String homeTeamName, int homeShotsOnTarget, String awayTeamName, int awayShotsOnTarget) {
+    public static void infoH2HStat(String title,String homeTeamName, int homeStat, String awayTeamName, int awayStat) {
         if (info) {
-            System.out.println("Shots on target");
+            System.out.println(title);
             System.out.println(
                     homeTeamName + " - " + awayTeamName + " " +
-                            homeShotsOnTarget + " - " + awayShotsOnTarget
+                            homeStat + " - " + awayStat
             );
         }
-        // TODO total shots
     }
 
     public static void debugEnd() {

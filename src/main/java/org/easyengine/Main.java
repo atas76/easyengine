@@ -43,7 +43,7 @@ public class Main {
         Logger.infoEnd();
         Logger.info(awayTeam.getName(), awayTeam.getMatchInfo().toString());
         Logger.infoEnd();
-        Logger.infoShotsOnTarget(
+        Logger.infoH2HStat("Shots on target",
                 homeTeam.getName(), homeTeam.getMatchInfo().getTeamStats().getShotsOnTarget(),
                 awayTeam.getName(), awayTeam.getMatchInfo().getTeamStats().getShotsOnTarget()
         );
