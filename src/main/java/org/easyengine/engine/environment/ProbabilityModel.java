@@ -55,7 +55,9 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, Mw), 0.23),
             entry(new Action(MOVE, M, A), 0.09),
             entry(new Action(PASS, M, A), 0.52),
-            entry(new Action(CROSS, Aw, A), 1.0),
+            entry(new Action(CROSS, Aw, A), 0.62),
+            entry(new Action(MOVE, Aw, A), 0.34),
+            entry(new Action(MOVE, Aw, Mw), 0.04),
             entry(new Action(CROSS, C, M), 0.14),
             entry(new Action(CROSS, C, Gk), 0.07),
             entry(new Action(CROSS, C, A), 0.5),
@@ -130,6 +132,8 @@ public class ProbabilityModel {
             entry(new Action(MOVE, M, A), 0.83),
             entry(new Action(PASS, M, A), 0.29),
             entry(new Action(CROSS, Aw, A), 0.69),
+            entry(new Action(MOVE, Aw, A), 0.78),
+            entry(new Action(MOVE, Aw, Mw), 1.0),
             entry(new Action(CROSS, C, M), 1.0),
             entry(new Action(CROSS, C, Gk), 1.0),
             entry(new Action(CROSS, C, A), 0.86),
@@ -190,8 +194,10 @@ public class ProbabilityModel {
             entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 
+    // order: Gk, GK, D, Dw, M, Mw, A, C
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> moveFailDistribution = Map.ofEntries(
-            entry(new Pair<>(M, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            entry(new Pair<>(M, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Aw, A), List.of(0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0))
     );
 
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> crossFailDistribution = Map.ofEntries(

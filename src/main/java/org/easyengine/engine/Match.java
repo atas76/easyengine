@@ -208,6 +208,9 @@ public class Match {
                         this.possessionPlayer =
                                 new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition)));
                         this.possessionPlayer.setPitchPosition(PitchPosition.GK);
+                    } else {
+                        this.possessionPlayer =
+                                new Player(this.possessionTeam.getPlayerByPosition(Pitch.mapDefaultTacticalPosition(outcomePosition)));
                     }
                 }
                 event.setOutcomePlayer(this.possessionPlayer);
