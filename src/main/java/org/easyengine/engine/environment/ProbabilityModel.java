@@ -55,46 +55,16 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, Mw), 0.23),
             entry(new Action(MOVE, M, A), 0.09),
             entry(new Action(PASS, M, A), 0.52),
-            entry(new Action(CROSS, Aw, A), 0.62),
-            entry(new Action(MOVE, Aw, A), 0.34),
-            entry(new Action(MOVE, Aw, Mw), 0.04),
+            entry(new Action(CROSS, Aw, A), 0.21),
+            entry(new Action(MOVE, Aw, Mw), 0.05),
+            entry(new Action(MOVE, Aw, A), 0.48),
+            entry(new Action(PASS, Aw, A), 0.26),
             entry(new Action(CROSS, C, M), 0.14),
             entry(new Action(CROSS, C, Gk), 0.07),
             entry(new Action(CROSS, C, A), 0.5),
             entry(new Action(CROSS, C, Aw), 0.07),
             entry(new Action(PASS, C, Aw), 0.22)
     );
-
-    public static Map<Action, Double> getActionDistribution(PitchPosition source) {
-        Map<Action, Double> distributions = actionDistribution.entrySet().stream()
-                .filter(entry -> entry.getKey().getSource() == source)
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return distributions.entrySet().stream()
-                .map(distEntry -> entry(distEntry.getKey(), distEntry.getValue()))
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
-    public static Action getAction(PitchPosition source, double decisionWeightIndex) {
-        Map<Action, Double> actionsDistribution = getActionDistribution(source);
-        TreeMap<Action, Double> sortedTargetsDistribution = new TreeMap<>(actionsDistribution);
-        AtomicReference<Double> sum = new AtomicReference<>(0.0);
-        for (Map.Entry<Action, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
-            sum.updateAndGet(v -> v + targetEntry.getValue());
-            if (decisionWeightIndex < sum.get()) {
-                return targetEntry.getKey();
-            }
-        }
-        return null; // This will be handled at the action execution layer
-    }
-
-    static Map<PitchPosition, Double> cornerKickRate = Map.ofEntries(
-            entry(D, 0.04),
-            entry(Mw, 0.02)
-    );
-
-    public static Double getCornerKickRate(PitchPosition pitchPosition) {
-        return cornerKickRate.get(pitchPosition);
-    }
 
     static Map<Action, Double> actionSuccessRate = Map.ofEntries(
             entry(new Action(PASS, Gk, Dw), 1.0),
@@ -131,7 +101,8 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, Mw), 0.87),
             entry(new Action(MOVE, M, A), 0.83),
             entry(new Action(PASS, M, A), 0.29),
-            entry(new Action(CROSS, Aw, A), 0.69),
+            entry(new Action(PASS, Aw, A), 0.8),
+            entry(new Action(CROSS, Aw, A), 0.25),
             entry(new Action(MOVE, Aw, A), 0.78),
             entry(new Action(MOVE, Aw, Mw), 1.0),
             entry(new Action(CROSS, C, M), 1.0),
@@ -140,6 +111,69 @@ public class ProbabilityModel {
             entry(new Action(CROSS, C, Aw), 1.0),
             entry(new Action(PASS, C, Aw), 1.0)
     );
+
+    // order: Gk, GK, D, Dw, M, Mw, A, C
+    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> passFailDistribution = Map.ofEntries(
+            entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
+            entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
+            entry(new Pair<>(Gk, A), List.of(0.67, 0.0, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(GK, M), List.of(0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Dw, Gk), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 1.0)),
+            entry(new Pair<>(Dw, D), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)),
+            entry(new Pair<>(Dw, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
+            entry(new Pair<>(Dw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Dw, A), List.of(0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(D, M), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0)),
+            entry(new Pair<>(D, A), List.of(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Mw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Mw, A), List.of(0.36, 0.1, 0.18, 0.36, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(M, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
+            entry(new Pair<>(M, A), List.of(0.17, 0.17, 0.21, 0.12, 0.29, 0.04, 0.0, 0.0)),
+            entry(new Pair<>(Aw, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+    );
+
+    // order: Gk, GK, D, Dw, M, Mw, A, C
+    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> moveFailDistribution = Map.ofEntries(
+            entry(new Pair<>(M, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Aw, A), List.of(0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0))
+    );
+
+    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> crossFailDistribution = Map.ofEntries(
+            entry(new Pair<>(Aw, A), List.of(0.4, 0.4, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+    );
+
+    public static Map<Action, Double> getActionDistribution(PitchPosition source) {
+        Map<Action, Double> distributions = actionDistribution.entrySet().stream()
+                .filter(entry -> entry.getKey().getSource() == source)
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return distributions.entrySet().stream()
+                .map(distEntry -> entry(distEntry.getKey(), distEntry.getValue()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public static Action getAction(PitchPosition source, double decisionWeightIndex) {
+        Map<Action, Double> actionsDistribution = getActionDistribution(source);
+        TreeMap<Action, Double> sortedTargetsDistribution = new TreeMap<>(actionsDistribution);
+        AtomicReference<Double> sum = new AtomicReference<>(0.0);
+        for (Map.Entry<Action, Double> targetEntry: sortedTargetsDistribution.entrySet()) {
+            sum.updateAndGet(v -> v + targetEntry.getValue());
+            if (decisionWeightIndex < sum.get()) {
+                return targetEntry.getKey();
+            }
+        }
+        return null; // This will be handled at the action execution layer
+    }
+
+    static Map<PitchPosition, Double> cornerKickRate = Map.ofEntries(
+            entry(D, 0.04),
+            entry(Mw, 0.02)
+    );
+
+    public static Double getCornerKickRate(PitchPosition pitchPosition) {
+        return cornerKickRate.get(pitchPosition);
+    }
 
     public static Double getActionSuccessRate(Action action) {
         return actionSuccessRate.get(action);
@@ -173,37 +207,6 @@ public class ProbabilityModel {
 
         return 0.0;
     }
-
-    // order: Gk, GK, D, Dw, M, Mw, A, C
-    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> passFailDistribution = Map.ofEntries(
-            entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
-            entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
-            entry(new Pair<>(Gk, A), List.of(0.67, 0.0, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(GK, M), List.of(0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Dw, Gk), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 1.0)),
-            entry(new Pair<>(Dw, D), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)),
-            entry(new Pair<>(Dw, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
-            entry(new Pair<>(Dw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Dw, A), List.of(0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(D, M), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0)),
-            entry(new Pair<>(D, A), List.of(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Mw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Mw, A), List.of(0.36, 0.1, 0.18, 0.36, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(M, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
-            entry(new Pair<>(M, A), List.of(0.17, 0.17, 0.21, 0.12, 0.29, 0.04, 0.0, 0.0)),
-            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-    );
-
-    // order: Gk, GK, D, Dw, M, Mw, A, C
-    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> moveFailDistribution = Map.ofEntries(
-            entry(new Pair<>(M, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Aw, A), List.of(0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0))
-    );
-
-    static Map<Pair<PitchPosition, PitchPosition>, List<Double>> crossFailDistribution = Map.ofEntries(
-            entry(new Pair<>(Aw, A), List.of(0.4, 0.4, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-    );
 
     public static PitchPosition getFailedOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions, ActionType actionType) {
         Map<Pair<PitchPosition, PitchPosition>, List<Double>> failDistribution = passFailDistribution;
