@@ -365,19 +365,6 @@ public class MatchTest {
     }
 
     @Test
-    public void testOffBallAttackingWingerPlayerReturningToTacticalPosition() {
-        Player player = new Player(14, "Blaise M", new PlayerPosition(M, L));
-        match.setState(new MatchState(match.getHomeTeam(), player, FREE_PLAY));
-
-        ActionOutcomeDetails movementOutcome = match.executeAction(new Action(MOVE, Aw));
-        match.applyOutcome(movementOutcome);
-        Action nextAction = match.getPossessionPlayer().decideAction();
-        match.applyOutcome(match.executeAction(nextAction));
-
-        assertEquals(Mw, player.getPitchPosition());
-    }
-
-    @Test
     public void testMoveWithBallFailure() {
         match.setState(new MatchState(match.getHomeTeam(),
                 new Player(12, "Victor W", new PlayerPosition(M, C_L)), FREE_PLAY));
