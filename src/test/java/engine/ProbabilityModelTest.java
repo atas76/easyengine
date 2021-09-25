@@ -19,13 +19,13 @@ public class ProbabilityModelTest {
         Map<Action, Double> actionDistributions = ProbabilityModel.getActionDistribution(Mw);
         Double actionProbability = actionDistributions.get(new Action(PASS, Mw, A));
 
-        assertEquals(0.29, actionProbability, 0.01);
+        assertEquals(0.21, actionProbability, 0.01);
     }
 
     @Test
     public void testGetPlayerAction() {
 
-        Action action = ProbabilityModel.getAction(Mw, 0.71);
+        Action action = ProbabilityModel.getAction(Mw, 0.65);
 
         assert(action != null);
         assertSame(A, action.getTarget());

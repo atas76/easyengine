@@ -21,49 +21,64 @@ import static org.easyengine.engine.space.PitchPosition.Gk;
 public class ProbabilityModel {
 
     static Map<Action, Double> actionDistribution = Map.ofEntries(
-            entry(new Action(PASS, Gk, Dw), 0.22),
-            entry(new Action(PASS, Gk, D), 0.16),
-            entry(new Action(PASS, Gk, Mw), 0.37),
-            entry(new Action(PASS, Gk, M), 0.16),
-            entry(new Action(PASS, Gk, A), 0.09),
-            entry(new Action(PASS, GK, Dw), 0.125),
-            entry(new Action(PASS, GK, D), 0.5),
-            entry(new Action(PASS, GK, M), 0.375),
-            entry(new Action(PASS, Dw, Gk), 0.19),
-            entry(new Action(PASS, Dw, D), 0.11),
-            entry(new Action(MOVE, Dw, Mw), 0.06),
-            entry(new Action(PASS, Dw, Mw), 0.25),
-            entry(new Action(PASS, Dw, M), 0.33),
-            entry(new Action(PASS, Dw, A), 0.06),
-            entry(new Action(PASS, D, Gk), 0.18),
+            // Goalkeeper
+            entry(new Action(PASS, Gk, Dw), 0.27),
+            entry(new Action(PASS, Gk, D), 0.27),
+            entry(new Action(PASS, Gk, Mw), 0.32),
+            entry(new Action(PASS, Gk, M), 0.14),
+            // Goalkick
+            entry(new Action(PASS, GK, Dw), 0.17),
+            entry(new Action(PASS, GK, D), 0.66),
+            entry(new Action(PASS, GK, M), 0.17),
+            // D W
+                // Pass
+            entry(new Action(PASS, Dw, Gk), 0.22),
+            entry(new Action(PASS, Dw, D), 0.09),
+            entry(new Action(PASS, Dw, Mw), 0.28),
+            entry(new Action(PASS, Dw, M), 0.28),
+            entry(new Action(PASS, Dw, A), 0.04),
+                // Move
+            entry(new Action(MOVE, Dw, Mw), 0.09),
+            // D C
+                // Pass
+            entry(new Action(PASS, D, Gk), 0.21),
+            entry(new Action(PASS, D, Dw), 0.25),
+            entry(new Action(PASS, D, Mw), 0.25),
+            entry(new Action(PASS, D, M), 0.21),
+                // Move
             entry(new Action(MOVE, D, Dw), 0.04),
-            entry(new Action(PASS, D, Dw), 0.22),
-            entry(new Action(PASS, D, Mw), 0.22),
             entry(new Action(MOVE, D, M), 0.04),
-            entry(new Action(PASS, D, M), 0.26),
-            entry(new Action(PASS, D, A), 0.04),
+            // M W
+                // Pass
             entry(new Action(PASS, Mw, Dw), 0.02),
             entry(new Action(PASS, Mw, D), 0.06),
-            entry(new Action(MOVE, Mw, M), 0.08),
-            entry(new Action(PASS, Mw, M), 0.45),
-            entry(new Action(MOVE, Mw, Aw), 0.08),
-            entry(new Action(MOVE, Mw, A), 0.02),
-            entry(new Action(PASS, Mw, A), 0.29),
-            entry(new Action(PASS, M, Dw), 0.08),
-            entry(new Action(PASS, M, D), 0.06),
+            entry(new Action(PASS, Mw, M), 0.41),
+            entry(new Action(PASS, Mw, A), 0.20),
+                // Move
+            entry(new Action(MOVE, Mw, M), 0.09),
+            entry(new Action(MOVE, Mw, Aw), 0.09),
+            entry(new Action(MOVE, Mw, A), 0.13),
+            // M C
+                // Pass
+            entry(new Action(PASS, M, Dw), 0.09),
+            entry(new Action(PASS, M, D), 0.07),
+            entry(new Action(PASS, M, Mw), 0.27),
+            entry(new Action(PASS, M, M), 0.02),
+            entry(new Action(PASS, M, A), 0.34),
+                // Move
             entry(new Action(MOVE, M, Mw), 0.02),
-            entry(new Action(PASS, M, Mw), 0.23),
-            entry(new Action(MOVE, M, A), 0.09),
-            entry(new Action(PASS, M, A), 0.52),
-            entry(new Action(CROSS, Aw, A), 0.21),
+            entry(new Action(MOVE, M, A), 0.19),
+            // A W
+            entry(new Action(PASS, Aw, A), 0.24),
             entry(new Action(MOVE, Aw, Mw), 0.05),
-            entry(new Action(MOVE, Aw, A), 0.48),
-            entry(new Action(PASS, Aw, A), 0.26),
-            entry(new Action(CROSS, C, M), 0.14),
-            entry(new Action(CROSS, C, Gk), 0.07),
-            entry(new Action(CROSS, C, A), 0.5),
-            entry(new Action(CROSS, C, Aw), 0.07),
-            entry(new Action(PASS, C, Aw), 0.22)
+            entry(new Action(MOVE, Aw, A), 0.47),
+            entry(new Action(CROSS, Aw, A), 0.24),
+            // Corner kick
+            // entry(new Action(CROSS, C, M), 0.14),
+            // entry(new Action(CROSS, C, Gk), 0.07),
+            entry(new Action(CROSS, C, A), 1.0)
+            // entry(new Action(CROSS, C, Aw), 0.07),
+            // entry(new Action(PASS, C, Aw), 0.22)
     );
 
     static Map<Action, Double> actionSuccessRate = Map.ofEntries(
@@ -99,6 +114,7 @@ public class ProbabilityModel {
             entry(new Action(PASS, M, D), 1.0),
             entry(new Action(MOVE, M, Mw), 1.0),
             entry(new Action(PASS, M, Mw), 0.87),
+            entry(new Action(PASS, M, M), 1.0),
             entry(new Action(MOVE, M, A), 0.83),
             entry(new Action(PASS, M, A), 0.29),
             entry(new Action(PASS, Aw, A), 0.8),
