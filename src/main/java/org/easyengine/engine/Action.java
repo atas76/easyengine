@@ -18,6 +18,11 @@ public class Action {
         this.target = target;
     }
 
+    @Override
+    public String toString() {
+        return "type = " + type + ", target = " + target;
+    }
+
     public ActionType getType() {
         return type;
     }

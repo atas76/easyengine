@@ -130,7 +130,9 @@ public class Match {
                 continue;
             }
             Action action = this.possessionPlayer.decideAction();
+            // System.out.println("Action: " + action);
             ActionOutcomeDetails actionOutcomeDetails = executeAction(action);
+            // System.out.println("Outcome: " + actionOutcomeDetails);
             MatchEvent event = applyOutcome(actionOutcomeDetails);
 
             ++currentTime;

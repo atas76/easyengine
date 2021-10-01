@@ -25,6 +25,11 @@ public class ActionOutcomeDetails {
         this.shotOutcome = shotOutcome;
     }
 
+    @Override
+    public String toString() {
+        return "Initial position = " + initialPosition + ", Target position = " + targetPosition + ", Outcome = " + actionOutcome;
+    }
+
     public ActionType getActionType() {
         return actionType;
     }
