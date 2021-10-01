@@ -34,7 +34,7 @@ public class ProbabilityModelTest {
 
     @Test
     public void testGetActionSuccessRate() {
-        assertEquals(0.29, ProbabilityModel.getActionSuccessRate(new Action(PASS, M, A)), 0.01);
+        assertEquals(0.47, ProbabilityModel.getActionSuccessRate(new Action(PASS, M, A)), 0.01);
     }
 
     @Test
@@ -43,13 +43,13 @@ public class ProbabilityModelTest {
         Map<Action, Double> actionSuccessRates = ProbabilityModel.getActionOptionsSuccessRates(Mw);
 
         assertEquals(7, actionSuccessRates.size());
-        assertEquals(0.95, actionSuccessRates.get(new Action(PASS, Mw, M)), 0.01);
+        assertEquals(1.0, actionSuccessRates.get(new Action(PASS, Mw, M)), 0.01);
     }
 
     @Test
     public void testExpectedChance() {
         assertEquals(1.0, ProbabilityModel.getExpectedChance(A), 0.01);
-        assertEquals(0.83, ProbabilityModel.getExpectedChance(M), 0.01);
+        assertEquals(0.91, ProbabilityModel.getExpectedChance(M), 0.01);
         assertEquals(1.0, ProbabilityModel.getExpectedChance(Mw), 0.01);
         assertEquals(0.0, ProbabilityModel.getExpectedChance(D), 0.01);
         assertEquals(0.0, ProbabilityModel.getExpectedChance(Dw), 0.01);

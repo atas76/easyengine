@@ -18,7 +18,7 @@ import static org.easyengine.engine.input.PlayerPosition.PositionY.*;
 public class Pitch {
 
     private static Map<PlayerPosition, PitchPosition> defaultPitchPositionMap = Map.ofEntries(
-            entry(new PlayerPosition(Gk), PitchPosition.Gk),
+            entry(new PlayerPosition(Gk), PitchPosition.Gkr),
             entry(new PlayerPosition(D, R), Dw),
             entry(new PlayerPosition(D, L), Dw),
             entry(new PlayerPosition(D, C_R), PitchPosition.D),
@@ -32,7 +32,7 @@ public class Pitch {
     );
 
     private static Map<PitchPosition, PitchPosition> reversePitchPositionMap = Map.ofEntries(
-            entry(PitchPosition.Gk, PitchPosition.A),
+            entry(PitchPosition.Gkr, PitchPosition.A),
             // entry(PitchPosition.Dw, PitchPosition.Aw),
             entry(PitchPosition.D, PitchPosition.A),
             entry(PitchPosition.Mw, PitchPosition.Mw),
@@ -41,7 +41,7 @@ public class Pitch {
     );
 
     private static Map<PitchPosition, List<PlayerPosition>> defaultTacticalPositionMap = Map.ofEntries(
-            entry(PitchPosition.Gk, new ArrayList<>(List.of(new PlayerPosition(Gk)))),
+            entry(PitchPosition.Gkr, new ArrayList<>(List.of(new PlayerPosition(Gk)))),
             entry(Dw, new ArrayList<>(List.of(new PlayerPosition(D, R), new PlayerPosition(D, L)))),
             entry(PitchPosition.D, new ArrayList<>(List.of(new PlayerPosition(D, C_R), new PlayerPosition(D, C_L)))),
             entry(Mw, new ArrayList<>(List.of(new PlayerPosition(M, R), new PlayerPosition(M, L)))),
@@ -62,7 +62,7 @@ public class Pitch {
     }
 
     public static PlayerPosition mapDefaultTacticalPosition(PitchPosition pitchPosition) {
-        if (PitchPosition.Gk == pitchPosition || PitchPosition.GK == pitchPosition) {
+        if (PitchPosition.Gkr == pitchPosition || PitchPosition.GK == pitchPosition) {
             return new PlayerPosition(Gk);
         }
         return defaultTacticalPositionMap.get(pitchPosition).get(new Random().nextInt(2));

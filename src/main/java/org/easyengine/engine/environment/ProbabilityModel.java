@@ -16,32 +16,32 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static org.easyengine.engine.space.PitchPosition.GK;
-import static org.easyengine.engine.space.PitchPosition.Gk;
+import static org.easyengine.engine.space.PitchPosition.Gkr;
 
 public class ProbabilityModel {
 
     static Map<Action, Double> actionDistribution = Map.ofEntries(
             // Goalkeeper
-            entry(new Action(PASS, Gk, Dw), 0.27),
-            entry(new Action(PASS, Gk, D), 0.27),
-            entry(new Action(PASS, Gk, Mw), 0.32),
-            entry(new Action(PASS, Gk, M), 0.14),
+            entry(new Action(PASS, Gkr, Dw), 0.27),
+            entry(new Action(PASS, Gkr, D), 0.27),
+            entry(new Action(PASS, Gkr, Mw), 0.32),
+            entry(new Action(PASS, Gkr, M), 0.14),
             // Goalkick
             entry(new Action(PASS, GK, Dw), 0.17),
             entry(new Action(PASS, GK, D), 0.66),
             entry(new Action(PASS, GK, M), 0.17),
             // D W
                 // Pass
-            entry(new Action(PASS, Dw, Gk), 0.22),
+            entry(new Action(PASS, Dw, Gkr), 0.22),
             entry(new Action(PASS, Dw, D), 0.09),
             entry(new Action(PASS, Dw, Mw), 0.28),
-            entry(new Action(PASS, Dw, M), 0.28),
-            entry(new Action(PASS, Dw, A), 0.04),
+            entry(new Action(PASS, Dw, M), 0.32),
+            // entry(new Action(PASS, Dw, A), 0.04),
                 // Move
             entry(new Action(MOVE, Dw, Mw), 0.09),
             // D C
                 // Pass
-            entry(new Action(PASS, D, Gk), 0.21),
+            entry(new Action(PASS, D, Gkr), 0.21),
             entry(new Action(PASS, D, Dw), 0.25),
             entry(new Action(PASS, D, Mw), 0.25),
             entry(new Action(PASS, D, M), 0.21),
@@ -82,82 +82,103 @@ public class ProbabilityModel {
     );
 
     static Map<Action, Double> actionSuccessRate = Map.ofEntries(
-            entry(new Action(PASS, Gk, Dw), 1.0),
-            entry(new Action(PASS, Gk, D), 1.0),
-            entry(new Action(PASS, Gk, Mw), 0.77),
-            entry(new Action(PASS, Gk, M), 0.67),
-            entry(new Action(PASS, Gk, A), 0.0),
+            // Gkr
+            entry(new Action(PASS, Gkr, Dw), 1.0),
+            entry(new Action(PASS, Gkr, D), 1.0),
+            entry(new Action(PASS, Gkr, Mw), 1.0),
+            entry(new Action(PASS, Gkr, M), 1.0),
+            // entry(new Action(PASS, Gkr, A), 0.0),
+            // GK
             entry(new Action(PASS, GK, Dw), 1.0),
             entry(new Action(PASS, GK, D), 1.0),
-            entry(new Action(PASS, GK, M), 0.33),
-            entry(new Action(PASS, Dw, Gk), 0.86),
-            entry(new Action(PASS, Dw, D), 0.75),
-            entry(new Action(MOVE, Dw, Mw), 1.00),
-            entry(new Action(PASS, Dw, Mw), 0.67),
-            entry(new Action(PASS, Dw, M), 0.75),
-            entry(new Action(PASS, Dw, A), 0.00),
-            entry(new Action(PASS, D, Gk), 1.00),
-            entry(new Action(MOVE, D, Dw), 1.00),
-            entry(new Action(PASS, D, Dw), 1.00),
-            entry(new Action(PASS, D, Mw), 1.00),
+            entry(new Action(PASS, GK, M), 1.0),
+            // Dw
+                // Pass
+            entry(new Action(PASS, Dw, Gkr), 0.86),
+            entry(new Action(PASS, Dw, D), 1.0),
+            entry(new Action(PASS, Dw, Mw), 0.78),
+            entry(new Action(PASS, Dw, M), 0.56),
+            entry(new Action(PASS, Dw, A), 0.0),
+                // Move
+            entry(new Action(MOVE, Dw, Mw), 1.0),
+            // D
+                // Pass
+            entry(new Action(PASS, D, Gkr), 1.0),
+            entry(new Action(PASS, D, Dw), 1.0),
+            entry(new Action(PASS, D, Mw), 1.0),
+            entry(new Action(PASS, D, M), 0.8),
+            // entry(new Action(PASS, D, A), 0.00),
+                // Move
+            entry(new Action(MOVE, D, Dw), 1.0),
             entry(new Action(MOVE, D, M), 1.0),
-            entry(new Action(PASS, D, M), 0.71),
-            entry(new Action(PASS, D, A), 0.00),
+            // Mw
+                // Pass
             entry(new Action(PASS, Mw, Dw), 1.0),
             entry(new Action(PASS, Mw, D), 1.0),
-            entry(new Action(PASS, Mw, M), 0.95),
+            entry(new Action(PASS, Mw, M), 1.0),
+            entry(new Action(PASS, Mw, A), 0.33),
+                // Move
             entry(new Action(MOVE, Mw, M), 1.0),
             entry(new Action(MOVE, Mw, Aw), 1.0),
             entry(new Action(MOVE, Mw, A), 1.0),
-            entry(new Action(PASS, Mw, A), 0.21),
+            // M
+                // Pass
             entry(new Action(PASS, M, Dw), 1.0),
             entry(new Action(PASS, M, D), 1.0),
-            entry(new Action(MOVE, M, Mw), 1.0),
             entry(new Action(PASS, M, Mw), 0.87),
             entry(new Action(PASS, M, M), 1.0),
-            entry(new Action(MOVE, M, A), 0.83),
-            entry(new Action(PASS, M, A), 0.29),
-            entry(new Action(PASS, Aw, A), 0.8),
-            entry(new Action(CROSS, Aw, A), 0.25),
-            entry(new Action(MOVE, Aw, A), 0.78),
+            entry(new Action(PASS, M, A), 0.47),
+                // Move
+            entry(new Action(MOVE, M, Mw), 1.0),
+            entry(new Action(MOVE, M, A), 0.91),
+            // Aw
+                // Pass
+            entry(new Action(PASS, Aw, A), 1.0),
+                // Move
             entry(new Action(MOVE, Aw, Mw), 1.0),
-            entry(new Action(CROSS, C, M), 1.0),
-            entry(new Action(CROSS, C, Gk), 1.0),
-            entry(new Action(CROSS, C, A), 0.86),
-            entry(new Action(CROSS, C, Aw), 1.0),
-            entry(new Action(PASS, C, Aw), 1.0)
+            entry(new Action(MOVE, Aw, A), 0.875),
+                // Cross
+            entry(new Action(CROSS, Aw, A), 0.25),
+            // Corner kick
+                // Pass
+            // entry(new Action(PASS, C, Aw), 1.0),
+                // Cross
+            // entry(new Action(CROSS, C, M), 1.0),
+            // entry(new Action(CROSS, C, Gkr), 1.0),
+            entry(new Action(CROSS, C, A), 0.5)
+            // entry(new Action(CROSS, C, Aw), 1.0)
     );
 
     // order: Gk, GK, D, Dw, M, Mw, A, C
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> passFailDistribution = Map.ofEntries(
-            entry(new Pair<>(Gk, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
-            entry(new Pair<>(Gk, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
-            entry(new Pair<>(Gk, A), List.of(0.67, 0.0, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(GK, M), List.of(0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Dw, Gk), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 1.0)),
-            entry(new Pair<>(Dw, D), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)),
+            // entry(new Pair<>(Gkr, Mw), List.of(0.0, 0.0, 0.0, 0.33, 0.33, 0.34, 0.0, 0.0)),
+            // entry(new Pair<>(Gkr, M), List.of(0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.0, 0.0)),
+            // entry(new Pair<>(Gkr, A), List.of(0.67, 0.0, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0)),
+            // entry(new Pair<>(GK, M), List.of(0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Dw, Gkr), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 1.0)),
+            // entry(new Pair<>(Dw, D), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)),
             entry(new Pair<>(Dw, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
-            entry(new Pair<>(Dw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Dw, A), List.of(0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(D, M), List.of(0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0)),
-            entry(new Pair<>(D, A), List.of(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Mw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Mw, A), List.of(0.36, 0.1, 0.18, 0.36, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Dw, M), List.of(0.0, 0.0, 0.0, 0.0, 0.75, 0.0, 0.25, 0.0)),
+            // entry(new Pair<>(Dw, A), List.of(0.5, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(D, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
+            // entry(new Pair<>(D, A), List.of(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0)),
+            // entry(new Pair<>(Mw, M), List.of(0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(Mw, A), List.of(0.67, 0.0, 0.33, 0.0, 0.0, 0.0, 0.0, 0.0)),
             entry(new Pair<>(M, Mw), List.of(0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)),
-            entry(new Pair<>(M, A), List.of(0.17, 0.17, 0.21, 0.12, 0.29, 0.04, 0.0, 0.0)),
-            entry(new Pair<>(Aw, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            entry(new Pair<>(M, A), List.of(0.3, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0))
+            // entry(new Pair<>(Aw, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
+            // entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 
     // order: Gk, GK, D, Dw, M, Mw, A, C
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> moveFailDistribution = Map.ofEntries(
             entry(new Pair<>(M, A), List.of(0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(Aw, A), List.of(0.0, 0.5, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0))
+            entry(new Pair<>(Aw, A), List.of(0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0))
     );
 
     static Map<Pair<PitchPosition, PitchPosition>, List<Double>> crossFailDistribution = Map.ofEntries(
-            entry(new Pair<>(Aw, A), List.of(0.4, 0.4, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0)),
-            entry(new Pair<>(C, A), List.of(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+            entry(new Pair<>(Aw, A), List.of(0.75, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0)),
+            entry(new Pair<>(C, A), List.of(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
     );
 
     public static Map<Action, Double> getActionDistribution(PitchPosition source) {
