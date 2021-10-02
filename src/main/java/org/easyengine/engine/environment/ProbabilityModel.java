@@ -69,10 +69,11 @@ public class ProbabilityModel {
             entry(new Action(MOVE, M, Mw), 0.02),
             entry(new Action(MOVE, M, A), 0.19),
             // A W
-            entry(new Action(PASS, Aw, A), 0.24),
-            entry(new Action(MOVE, Aw, Mw), 0.05),
-            entry(new Action(MOVE, Aw, A), 0.47),
-            entry(new Action(CROSS, Aw, A), 0.24),
+            entry(new Action(PASS, Aw, A), 0.22),
+            entry(new Action(MOVE, Aw, Mw), 0.06),
+            entry(new Action(MOVE, Aw, A), 0.44),
+            entry(new Action(CROSS, Aw, A), 0.22),
+            entry(new Action(SHOT, Aw, A), 0.06),
             // A
             entry(new Action(SHOT, A, A), 0.96), // using 'A' pitch position as conventional placeholder for target
             entry(new Action(MOVE, A, Aw), 0.04),
