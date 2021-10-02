@@ -68,10 +68,6 @@ public class Player extends org.easyengine.engine.input.domain.Player {
 
     private Action decideActionDataDriven() {
 
-        if (A == this.getPitchPosition()) {
-            return new Action(SHOT);
-        }
-
         Action nextAction = ProbabilityModel.getAction(this.getPitchPosition(), new Random().nextDouble());
 
         assert nextAction != null;
