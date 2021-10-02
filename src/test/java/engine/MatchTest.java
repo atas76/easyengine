@@ -275,7 +275,8 @@ public class MatchTest {
 
         Action action = agent.decideAction();
 
-        assertEquals(SHOT, action.getType());
+        assertTrue(action.getType() == SHOT
+                || (action.getType() == MOVE && action.getTarget() == Aw));
     }
 
     @Test

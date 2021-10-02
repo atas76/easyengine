@@ -74,7 +74,8 @@ public class ProbabilityModel {
             entry(new Action(MOVE, Aw, A), 0.47),
             entry(new Action(CROSS, Aw, A), 0.24),
             // A
-            entry(new Action(SHOT, A, A), 1.0), // total shots: 26; using 'A' pitch position as conventional placeholder for target
+            entry(new Action(SHOT, A, A), 0.96), // using 'A' pitch position as conventional placeholder for target
+            entry(new Action(MOVE, A, Aw), 0.04),
             // Corner kick
             // entry(new Action(CROSS, C, M), 0.14),
             // entry(new Action(CROSS, C, Gk), 0.07),
@@ -141,6 +142,8 @@ public class ProbabilityModel {
             entry(new Action(MOVE, Aw, A), 0.875),
                 // Cross
             entry(new Action(CROSS, Aw, A), 0.25),
+            // A
+            entry(new Action(MOVE, A, Aw), 1.0),
             // Corner kick
                 // Pass
             // entry(new Action(PASS, C, Aw), 1.0),
