@@ -272,24 +272,33 @@ public class ProbabilityModel {
         return PitchPosition.values()[index];
     }
 
-    static Map<ShotOutcome, Double> shotOutcomesDistribution = Map.ofEntries(
-            entry(GOAL, 0.09),
-            entry(ShotOutcome.GK, 0.26),
-            entry(BLK_C, 0.13),
-            entry(SAVE_C, 0.13),
-            entry(BLK_R_A, 0.1),
-            entry(BLK_Gkr, 0.04),
-            entry(BLK_R_M, 0.04),
-            entry(SAVE_R_A, 0.04),
-            entry(SAVE, 0.17)
+    static Map<PitchPosition, Map<ShotOutcome, Double>> shotOutcomesDistribution = Map.ofEntries(
+                entry(A, Map.ofEntries(
+                            entry(GOAL, 0.09),
+                            entry(ShotOutcome.GK, 0.26),
+                            entry(BLK_C, 0.13),
+                            entry(SAVE_C, 0.13),
+                            entry(BLK_R_A, 0.1),
+                            entry(BLK_Gkr, 0.04),
+                            entry(BLK_R_M, 0.04),
+                            entry(SAVE_R_A, 0.04),
+                            entry(SAVE, 0.17))
+                )
     );
 
     public static ShotOutcome getShotOutcome(Double outcomeWeightIndex) {
+        return getShotOutcome(A, outcomeWeightIndex);
+    }
+
+    public static ShotOutcome getShotOutcome(PitchPosition pitchPosition, Double outcomeWeightIndex) {
 
         double sum = 0.0;
 
+        Map<ShotOutcome, Double> shotPitchPositionOutcomesDistribution = shotOutcomesDistribution.get(pitchPosition);
+
+
         for (ShotOutcome shotOutcome: ShotOutcome.values()) {
-            sum += shotOutcomesDistribution.get(shotOutcome);
+            sum += shotPitchPositionOutcomesDistribution.get(shotOutcome);
             if (outcomeWeightIndex < sum) {
                 return shotOutcome;
             }
