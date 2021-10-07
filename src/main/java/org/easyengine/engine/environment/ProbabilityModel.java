@@ -274,15 +274,16 @@ public class ProbabilityModel {
 
     static Map<PitchPosition, Map<ShotOutcome, Double>> shotOutcomesDistribution = Map.ofEntries(
                 entry(A, Map.ofEntries(
-                            entry(GOAL, 0.09),
-                            entry(ShotOutcome.GK, 0.26),
-                            entry(BLK_C, 0.13),
-                            entry(SAVE_C, 0.13),
-                            entry(BLK_R_A, 0.1),
-                            entry(BLK_Gkr, 0.04),
-                            entry(BLK_R_M, 0.04),
-                            entry(SAVE_R_A, 0.04),
-                            entry(SAVE, 0.17))
+                            entry(GOAL, 0.00),
+                            entry(ShotOutcome.GK, 0.54),
+                            entry(BLK_C, 0.14),
+                            entry(SAVE_C, 0.08),
+                            entry(BLK_R_A, 0.08),
+                            entry(BLK_Gkr, 0.08),
+                            entry(SAVE_R_AD, 0.08),
+                            entry(BLK_R_M, 0.00),
+                            entry(SAVE_R_A, 0.00),
+                            entry(SAVE, 0.00))
                 )
     );
 
@@ -295,7 +296,6 @@ public class ProbabilityModel {
         double sum = 0.0;
 
         Map<ShotOutcome, Double> shotPitchPositionOutcomesDistribution = shotOutcomesDistribution.get(pitchPosition);
-
 
         for (ShotOutcome shotOutcome: ShotOutcome.values()) {
             sum += shotPitchPositionOutcomesDistribution.get(shotOutcome);

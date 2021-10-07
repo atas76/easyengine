@@ -268,6 +268,7 @@ public class Match {
                         applyRebound(M);
                         break;
                     case SAVE_R_A:
+                    case SAVE_R_AD:
                         this.possessionTeam.getMatchInfo().addShotOnTarget();
                         applyRebound(F);
                         break;
