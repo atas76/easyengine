@@ -12,6 +12,7 @@ public enum ShotOutcome {
     BLK_R_A("Attacking rebound after shot block"),
     BLK_Gkr("Goalkeeper recovery after shot block"),
     BLK_R_M("Distant attacking rebound after shot block"),
+    BLK_R_MW("Distant attacking rebound after shot block (Mw)"),
     SAVE_R_A("Attacking rebound after save"),
     SAVE_R_AD("Attacking rebound after save (Ad position)"),
     SAVE("Goalkeeper holds after save");

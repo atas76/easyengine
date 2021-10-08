@@ -274,17 +274,57 @@ public class ProbabilityModel {
 
     static Map<PitchPosition, Map<ShotOutcome, Double>> shotOutcomesDistribution = Map.ofEntries(
                 entry(A, Map.ofEntries(
-                            entry(GOAL, 0.00),
-                            entry(ShotOutcome.GK, 0.54),
-                            entry(BLK_C, 0.14),
-                            entry(SAVE_C, 0.08),
-                            entry(BLK_R_A, 0.08),
-                            entry(BLK_Gkr, 0.08),
-                            entry(SAVE_R_AD, 0.08),
-                            entry(BLK_R_M, 0.00),
-                            entry(SAVE_R_A, 0.00),
-                            entry(SAVE, 0.00))
-                )
+                    entry(GOAL, 0.0),
+                    entry(ShotOutcome.GK, 0.54),
+                    entry(BLK_C, 0.14),
+                    entry(SAVE_C, 0.08),
+                    entry(BLK_R_A, 0.08),
+                    entry(BLK_Gkr, 0.08),
+                    entry(SAVE_R_AD, 0.08),
+                    entry(BLK_R_M, 0.0),
+                    entry(BLK_R_MW, 0.0),
+                    entry(SAVE_R_A, 0.0),
+                    entry(SAVE, 0.0))
+                ),
+                entry(Aw, Map.ofEntries(
+                    entry(GOAL, 0.0),
+                    entry(ShotOutcome.GK, 0.0),
+                    entry(BLK_C, 0.0),
+                    entry(SAVE_C, 1.0),
+                    entry(BLK_R_A, 0.0),
+                    entry(BLK_Gkr, 0.0),
+                    entry(SAVE_R_AD, 0.0),
+                    entry(BLK_R_M, 0.0),
+                    entry(BLK_R_MW, 0.0),
+                    entry(SAVE_R_A, 0.0),
+                    entry(SAVE, 0.0))
+                ),
+                entry(Ad, Map.ofEntries(
+                    entry(GOAL, 0.0),
+                    entry(ShotOutcome.GK, 0.0),
+                    entry(BLK_C, 0.33),
+                    entry(SAVE_C, 0.34),
+                    entry(BLK_R_A, 0.0),
+                    entry(BLK_Gkr, 0.0),
+                    entry(SAVE_R_AD, 0.0),
+                    entry(BLK_R_M, 0.0),
+                    entry(BLK_R_MW, 0.0),
+                    entry(SAVE_R_A, 0.0),
+                    entry(SAVE, 0.33))
+                ),
+            entry(Ap, Map.ofEntries(
+                    entry(GOAL, 0.29),
+                    entry(ShotOutcome.GK, 0.29),
+                    entry(BLK_C, 0.0),
+                    entry(SAVE_C, 0.0),
+                    entry(BLK_R_A, 0.14),
+                    entry(BLK_Gkr, 0.0),
+                    entry(SAVE_R_AD, 0.0),
+                    entry(BLK_R_M, 0.0),
+                    entry(BLK_R_MW, 0.14),
+                    entry(SAVE_R_A, 0.0),
+                    entry(SAVE, 0.14))
+            )
     );
 
     public static ShotOutcome getShotOutcome(Double outcomeWeightIndex) {
