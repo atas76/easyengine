@@ -50,7 +50,12 @@ public class Pitch {
                     // new PlayerPosition(M, R), new PlayerPosition(M, L),
                     new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)
                     ))),
-            entry(A, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L))))
+            entry(A, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)))),
+            entry(Ap, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)))),
+            entry(Ag, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)))),
+            entry(Ad, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)))),
+            entry(Awd, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L)))),
+            entry(Apw, new ArrayList<>(List.of(new PlayerPosition(F, C_R), new PlayerPosition(F, C_L))))
     );
 
     public static PitchPosition mapDefaultPitchPosition(PlayerPosition playerPosition) {
