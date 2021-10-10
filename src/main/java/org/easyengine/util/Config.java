@@ -2,13 +2,13 @@ package org.easyengine.util;
 
 public class Config {
 
-    private static boolean playerArtificialIntelligence = false;
+    private static boolean playerAI = false;
 
     public static void setAI() {
-        playerArtificialIntelligence = true;
+        playerAI = true;
     }
 
     public static boolean isAI() {
-        return playerArtificialIntelligence;
+        return playerAI;
     }
 }
