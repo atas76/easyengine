@@ -378,7 +378,7 @@ public class Match {
                 break;
             case SHOT:
                 Logger.debug("Shot at goal");
-                ShotOutcome shotOutcome = ProbabilityModel.getShotOutcome(new Random().nextDouble());
+                ShotOutcome shotOutcome = ProbabilityModel.getShotOutcome(initialPosition, new Random().nextDouble());
                 Logger.debug("Shot outcome: " + shotOutcome);
                 Logger.debugEnd();
                 outcomeDetails = new ActionOutcomeDetails(action.getType(), initialPosition, shotOutcome);
