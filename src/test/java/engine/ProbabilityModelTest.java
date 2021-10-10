@@ -57,16 +57,13 @@ public class ProbabilityModelTest {
 
     @Test
     public void testShotOutcomes() {
-
-        // TODO Update test when shots probability model is complete
-
-        // Double goalOutcomeIndex = 0.05;
+        Double goalOutcomeIndex = 0.05;
         Double goalKickIndex = 0.2;
 
-        // ShotOutcome goalOutcome = ProbabilityModel.getShotOutcome(goalOutcomeIndex);
+        ShotOutcome goalOutcome = ProbabilityModel.getShotOutcome(Ap, goalOutcomeIndex);
         ShotOutcome goalKickOutcome = ProbabilityModel.getShotOutcome(goalKickIndex);
 
-        // assertEquals(ShotOutcome.GOAL, goalOutcome);
+        assertEquals(ShotOutcome.GOAL, goalOutcome);
         assertEquals(ShotOutcome.GK, goalKickOutcome);
     }
 }
