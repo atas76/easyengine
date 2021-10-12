@@ -276,6 +276,7 @@ public class ProbabilityModel {
             return 1.0;
         }
 
+        // TODO use a map for expected chances from pitch position to shot distribution
         final var sourceActionsStream = actionSuccessRate.keySet().stream()
                 .filter(action -> action.getSource() == pitchPosition);
         final var sourceActions = sourceActionsStream.collect(Collectors.toList());
@@ -291,6 +292,20 @@ public class ProbabilityModel {
         }
 
         return 0.0;
+    }
+
+    public static Map<PitchPosition, Double> getExpectedShotsDistribution() {
+        Map<PitchPosition, Double> shotDistribution =
+                actionDistribution.entrySet().stream()
+                    .filter(actionEntry -> actionEntry.getKey().getType() == SHOT)
+                    .map(actionEntry -> entry(actionEntry.getKey().getSource(), actionEntry.getValue()))
+                    .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        for (PitchPosition pitchPosition: PitchPosition.values()) {
+            shotDistribution.putIfAbsent(pitchPosition, 0.0);
+        }
+
+        return shotDistribution;
     }
 
     public static PitchPosition getFailedOutcomePosition(Pair<PitchPosition, PitchPosition> originalPositions, ActionType actionType) {

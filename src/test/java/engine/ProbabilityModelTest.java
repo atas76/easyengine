@@ -3,6 +3,7 @@ package engine;
 import org.easyengine.engine.environment.Action;
 import org.easyengine.engine.environment.ProbabilityModel;
 import org.easyengine.engine.ShotOutcome;
+import org.easyengine.engine.space.PitchPosition;
 import org.junit.Test;
 
 import java.util.Map;
@@ -65,5 +66,17 @@ public class ProbabilityModelTest {
 
         assertEquals(ShotOutcome.GOAL, goalOutcome);
         assertEquals(ShotOutcome.GK, goalKickOutcome);
+    }
+
+    @Test
+    public void testGetExpectedShotsDistribution() {
+
+        Map<PitchPosition, Double> expectedShotsDistribution = ProbabilityModel.getExpectedShotsDistribution();
+
+        assertEquals(1.0, expectedShotsDistribution.get(Ap), 0.1);
+        assertEquals(0.75, expectedShotsDistribution.get(Ad), 0.1);
+        assertEquals(0.96, expectedShotsDistribution.get(A), 0.1);
+        assertEquals(0.06, expectedShotsDistribution.get(Aw), 0.1);
+        assertEquals(0.0, expectedShotsDistribution.get(M), 0.1);
     }
 }
