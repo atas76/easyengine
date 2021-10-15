@@ -49,11 +49,10 @@ public class ProbabilityModelTest {
 
     @Test
     public void testExpectedChance() {
-        assertEquals(1.0, ProbabilityModel.getExpectedChance(A), 0.01);
-        assertEquals(0.9, ProbabilityModel.getExpectedChance(M), 0.01);
-        assertEquals(1.0, ProbabilityModel.getExpectedChance(Mw), 0.01);
-        assertEquals(0.0, ProbabilityModel.getExpectedChance(D), 0.01);
-        assertEquals(0.0, ProbabilityModel.getExpectedChance(Dw), 0.01);
+        assertEquals(0.96, ProbabilityModel.getExpectedChance(A), 0.01);
+        assertEquals(0.75, ProbabilityModel.getExpectedChance(Ad), 0.01);
+        assertEquals(0.06, ProbabilityModel.getExpectedChance(Aw), 0.01);
+        assertEquals(0.0, ProbabilityModel.getExpectedChance(M), 0.01);
     }
 
     @Test
@@ -66,17 +65,5 @@ public class ProbabilityModelTest {
 
         assertEquals(ShotOutcome.GOAL, goalOutcome);
         assertEquals(ShotOutcome.GK, goalKickOutcome);
-    }
-
-    @Test
-    public void testGetExpectedShotsDistribution() {
-
-        Map<PitchPosition, Double> expectedShotsDistribution = ProbabilityModel.getExpectedShotsDistribution();
-
-        assertEquals(1.0, expectedShotsDistribution.get(Ap), 0.1);
-        assertEquals(0.75, expectedShotsDistribution.get(Ad), 0.1);
-        assertEquals(0.96, expectedShotsDistribution.get(A), 0.1);
-        assertEquals(0.06, expectedShotsDistribution.get(Aw), 0.1);
-        assertEquals(0.0, expectedShotsDistribution.get(M), 0.1);
     }
 }

@@ -91,10 +91,10 @@ public class MatchTest {
         match.setState(new MatchState(match.getHomeTeam(), null, KICK_OFF));
 
         match.playTimePeriod(HALF_TIME_DURATION);
+        int eventsNumber = match.getMatchEvents().size() -
+                match.getHomeTeam().getGoalsScored() - match.getAwayTeam().getGoalsScored();
 
-        assertEquals(HALF_TIME_DURATION,
-                match.getMatchEvents().size() -
-                        match.getHomeTeam().getGoalsScored() - match.getAwayTeam().getGoalsScored() - 1);
+        assertTrue(eventsNumber - 1 <= HALF_TIME_DURATION && HALF_TIME_DURATION <= eventsNumber + 1);
     }
 
     @Test
@@ -362,9 +362,14 @@ public class MatchTest {
         ActionOutcomeDetails movementOutcome = match.executeAction(new Action(MOVE, PitchPosition.A));
         match.applyOutcome(movementOutcome);
         Action nextAction = match.getPossessionPlayer().decideAction();
+        // System.out.println(nextAction);
         match.applyOutcome(match.executeAction(nextAction));
 
-        assertEquals(PitchPosition.M, player.getPitchPosition());
+        if (nextAction.getType() != MOVE) {
+            assertEquals(PitchPosition.M, player.getPitchPosition());
+        } else {
+            assertEquals(nextAction.getTarget(), player.getPitchPosition());
+        }
     }
 
     @Test

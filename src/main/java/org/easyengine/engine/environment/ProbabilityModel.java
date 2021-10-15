@@ -6,6 +6,7 @@ import org.easyengine.engine.ShotOutcome;
 import org.easyengine.engine.space.PitchPosition;
 
 import static java.util.Map.entry;
+import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
 import static org.easyengine.engine.ActionType.*;
 import static org.easyengine.engine.ShotOutcome.*;
@@ -13,7 +14,6 @@ import static org.easyengine.engine.space.PitchPosition.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 import static org.easyengine.engine.space.PitchPosition.GK;
 import static org.easyengine.engine.space.PitchPosition.Gkr;
@@ -125,7 +125,7 @@ public class ProbabilityModel {
             entry(new Action(PASS, Dw, D), 1.0),
             entry(new Action(PASS, Dw, Mw), 0.78),
             entry(new Action(PASS, Dw, M), 0.56),
-            entry(new Action(PASS, Dw, A), 0.0),
+            // entry(new Action(PASS, Dw, A), 0.0),
                 // Move
             entry(new Action(MOVE, Dw, Mw), 1.0),
             // D
@@ -272,29 +272,13 @@ public class ProbabilityModel {
 
     public static Double getExpectedChance(PitchPosition pitchPosition) {
 
-        if (A == pitchPosition) {
-            return 1.0;
-        }
+        Map<PitchPosition, Double> expectedShots = getExpectedShotsDistribution();
+        Double expectedChance = expectedShots.get(pitchPosition);
 
-        // TODO use a map for expected chances from pitch position to shot distribution
-        final var sourceActionsStream = actionSuccessRate.keySet().stream()
-                .filter(action -> action.getSource() == pitchPosition);
-        final var sourceActions = sourceActionsStream.collect(Collectors.toList());
-
-        List<Action> targetActions =
-                sourceActions.stream()
-                        .filter(targetAction -> targetAction.getTarget() == A).collect(Collectors.toList());
-
-        if (!targetActions.isEmpty()) {
-            return targetActions.stream().map(
-                    action -> actionSuccessRate.get(action)).sorted(Collections.reverseOrder())
-                    .collect(Collectors.toList()).get(0);
-        }
-
-        return 0.0;
+        return nonNull(expectedChance) ? expectedChance : 0.0;
     }
 
-    public static Map<PitchPosition, Double> getExpectedShotsDistribution() {
+    private static Map<PitchPosition, Double> getExpectedShotsDistribution() {
         Map<PitchPosition, Double> shotDistribution =
                 actionDistribution.entrySet().stream()
                     .filter(actionEntry -> actionEntry.getKey().getType() == SHOT)

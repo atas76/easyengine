@@ -7,15 +7,12 @@ import org.easyengine.engine.space.Pitch;
 import org.easyengine.engine.space.PitchPosition;
 import org.easyengine.util.Config;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 import static org.easyengine.engine.ActionType.SHOT;
-import static org.easyengine.engine.space.PitchPosition.A;
+import static org.easyengine.engine.space.PitchPosition.Ap;
 
 public class Player extends org.easyengine.engine.input.domain.Player {
 
@@ -48,22 +45,33 @@ public class Player extends org.easyengine.engine.input.domain.Player {
 
     private Action decideActionAgentDriven() {
 
-        if (A == this.getPitchPosition()) {
+        PitchPosition currentPosition = getPitchPosition();
+        // System.out.println(currentPosition);
+
+        if (currentPosition == Ap) {
             return new Action(SHOT);
         }
 
-        Map<org.easyengine.engine.environment.Action, Double> successRates = ProbabilityModel.getActionOptionsSuccessRates(getPitchPosition());
+        Map<org.easyengine.engine.environment.Action, Double> successRates = ProbabilityModel.getActionOptionsSuccessRates(currentPosition);
         Map<org.easyengine.engine.environment.Action, Double> actionTargetUtilityFunction = new HashMap<>();
 
         successRates.forEach((action, successRate) ->
                 actionTargetUtilityFunction.put(action, successRate * ProbabilityModel.getExpectedChance(action.getTarget())));
 
-        Action targetAction =
-                actionTargetUtilityFunction.entrySet().stream()
-                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                        .collect(Collectors.toList()).get(0).getKey();
+        // System.out.println("Action target utility function size: " + actionTargetUtilityFunction.size());
 
-        return new Action(targetAction.getType(), targetAction.getTarget());
+        Map.Entry<org.easyengine.engine.environment.Action, Double> actionSuccess =
+                actionTargetUtilityFunction.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toList()).get(0);
+
+        if (actionSuccess.getValue() > 0.0) {
+            return actionSuccess.getKey();
+        } else {
+            List<Action> actionList = new ArrayList<>(actionTargetUtilityFunction.keySet());
+            Collections.shuffle(actionList);
+            return actionList.get(0);
+        }
     }
 
     private Action decideActionDataDriven() {
