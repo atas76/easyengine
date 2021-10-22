@@ -4,6 +4,6 @@ public enum PitchPosition {
     Gkr, GK,
     D, Dw,
     M, Mw,
-    A, Aw, Ap, Ag, Ad, Awd, Apw,
+    A, Aw, Ap, Ag, Apd, Awd, Apw,
     C
 }

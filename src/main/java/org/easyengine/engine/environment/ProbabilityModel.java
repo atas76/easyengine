@@ -70,7 +70,7 @@ public class ProbabilityModel {
                 // Move
             entry(new Action(MOVE, M, Mw), 0.02),
             entry(new Action(MOVE, M, A), 0.17),
-            entry(new Action(MOVE, M, Ad), 0.01),
+            entry(new Action(MOVE, M, Apd), 0.01),
             entry(new Action(MOVE, M, Apw), 0.01),
             // A W
                 // Pass
@@ -79,7 +79,7 @@ public class ProbabilityModel {
                 // Move
             entry(new Action(MOVE, Aw, Mw), 0.06),
             entry(new Action(MOVE, Aw, A), 0.23),
-            entry(new Action(MOVE, Aw, Ad), 0.11),
+            entry(new Action(MOVE, Aw, Apd), 0.11),
             entry(new Action(MOVE, Aw, Awd), 0.05),
             entry(new Action(MOVE, Aw, Apw), 0.05),
                 // Cross
@@ -92,12 +92,12 @@ public class ProbabilityModel {
             entry(new Action(SHOT, A, A), 0.96), // using 'A' pitch position as conventional placeholder for target
             entry(new Action(MOVE, A, Aw), 0.04),
             // Ad
-            entry(new Action(MOVE, Ad, Awd), 0.25),
-            entry(new Action(SHOT, Ad, A), 0.75),
+            entry(new Action(MOVE, Apd, Awd), 0.25),
+            entry(new Action(SHOT, Apd, A), 0.75),
             // Adw
             entry(new Action(MOVE, Awd, Ap), 1.0), // TODO added by convention - broken data sequence
             // Apw
-            entry(new Action(PASS, Apw, Ad), 1.0),
+            entry(new Action(PASS, Apw, Apd), 1.0),
             // Ap
             entry(new Action(SHOT, Ap, A), 1.0),
             // Corner kick
@@ -160,7 +160,7 @@ public class ProbabilityModel {
                 // Move
             entry(new Action(MOVE, M, Mw), 1.0),
             entry(new Action(MOVE, M, A), 0.9),
-            entry(new Action(MOVE, M, Ad), 1.0),
+            entry(new Action(MOVE, M, Apd), 1.0),
             entry(new Action(MOVE, M, Apw), 1.0),
             // Aw
                 // Pass
@@ -169,7 +169,7 @@ public class ProbabilityModel {
                 // Move
             entry(new Action(MOVE, Aw, Mw), 1.0),
             entry(new Action(MOVE, Aw, A), 0.75),
-            entry(new Action(MOVE, Aw, Ad), 1.0),
+            entry(new Action(MOVE, Aw, Apd), 1.0),
             entry(new Action(MOVE, Aw, Awd), 1.0),
             entry(new Action(MOVE, Aw, Apw), 1.0),
                 // Cross
@@ -188,11 +188,11 @@ public class ProbabilityModel {
             entry(new Action(CROSS, C, A), 0.5),
             // entry(new Action(CROSS, C, Aw), 1.0)
             // Ad
-            entry(new Action(MOVE, Ad, Awd), 1.0),
+            entry(new Action(MOVE, Apd, Awd), 1.0),
             // Awd
             entry(new Action(MOVE, Awd, Ap), 1.0), // TODO added by convention
             // Apw
-            entry(new Action(PASS, Apw, Ad), 1.0)
+            entry(new Action(PASS, Apw, Apd), 1.0)
     );
 
     // order: Gk, GK, D, Dw, M, Mw, A, C
@@ -340,7 +340,7 @@ public class ProbabilityModel {
                     entry(SAVE_R_A, 0.0),
                     entry(SAVE, 0.0))
                 ),
-                entry(Ad, Map.ofEntries(
+                entry(Apd, Map.ofEntries(
                     entry(GOAL, 0.0),
                     entry(ShotOutcome.GK, 0.0),
                     entry(BLK_C, 0.33),
